@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="741ee06c-369a-451e-a7a1-2fd88f3c7fa7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Controller.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Model.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Runner.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/View.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/apple.txt" afterPath="" />
-    </list>
+    <list default="true" id="741ee06c-369a-451e-a7a1-2fd88f3c7fa7" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,7 +26,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Model.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Model.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Model.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
@@ -63,7 +56,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="att.iml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="att.iml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/att.iml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -405,14 +398,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="3" column="18" lean-forward="false" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/View.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -433,6 +418,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="3" column="18" lean-forward="false" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
           <folding />
         </state>
       </provider>
