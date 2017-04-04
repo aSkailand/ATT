@@ -12,7 +12,8 @@ public class GameBoard extends JFrame{
 
     int numRow = 6;
     int numCol = 7;
-    JPanel[][] LIST = new JPanel[numRow][numCol];
+    GamePieceSlot[][] LIST = new GamePieceSlot[numRow][numCol];
+
 
     GameBoard(GameController GC){
         this.setSize(1000,1000);
@@ -56,16 +57,18 @@ public class GameBoard extends JFrame{
 
 
         // Put a pane for every grid square.
-        for (int i = 0; i < numRow; i++) {
-            for (int j = 0; j < numCol; j++) {
-                JPanel panelTemp = new JPanel();
-                panelTemp.setToolTipText("ROW:"+i+",COL:"+j);
-                panelTemp.setBackground(Color.gray);
+        for (int i = 0; i < numCol; i++) {
+            for (int j = 0; j < numRow; j++) {
+                GamePieceSlot gamePieceSlot = new GamePieceSlot();
+                gamePieceSlot.setToolTipText("COL:"+i+",ROW:"+j);
+                gamePieceSlot.setBackground(Color.gray);
 
-                panelBoard.add(panelTemp);
-                LIST[i][j] = panelTemp;
+                panelBoard.add(gamePieceSlot);
+                LIST[i][j] = gamePieceSlot;
             }
         }
+
+
 
 
         gbc.anchor = GridBagConstraints.CENTER;
