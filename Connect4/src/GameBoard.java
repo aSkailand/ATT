@@ -7,6 +7,9 @@ import java.util.ArrayList;
  */
 public class GameBoard extends JFrame{
 
+
+    // TEST HELLO
+
     int numRow = 6;
     int numCol = 7;
     JPanel[][] LIST = new JPanel[numRow][numCol];
