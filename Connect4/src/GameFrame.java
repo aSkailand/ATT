@@ -3,6 +3,7 @@ import java.awt.*;
 
 /**
  * Created by aslak on 03.04.17.
+ *
  */
 public class GameFrame extends JFrame {
 
