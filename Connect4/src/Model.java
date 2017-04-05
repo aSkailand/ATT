@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Model {
 
     // Number of Rows and Columns
-    static int numRow = 10;
-    static int numCol = 10;
+    static int numRow = 6;
+    static int numCol = 7;
 
     // Boolean list used to keep track of occupancy of the board.
     ArrayList<ArrayList<Boolean>> listBoolOccupiedSlots = new ArrayList<>();

@@ -16,7 +16,7 @@ public class Controller implements ActionListener{
         gameFrame = new GameFrame(this);
 
         // Initiating a GameGridPanel Object
-        gameGridPanel = new GameGridPanel(model.listJPanelGameBoardSlots,model.listBoolOccupiedSlots);
+        gameGridPanel = new GameGridPanel(model.listJPanelGameBoardSlots);
 
         // Adding it to gameFrame's centerPanel.
         gameFrame.centerPanel.add(gameGridPanel);
