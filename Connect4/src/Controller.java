@@ -6,35 +6,40 @@ import java.awt.event.ActionListener;
  * Created by aslak on 03.04.17.
  */
 public class Controller implements ActionListener{
-    GameFrame gameFrame;
 
+    Model model;
+    GameFrame gameFrame;
+    GameGridPanel gameGridPanel;
 
     public Controller(){
+        model = new Model();
         gameFrame = new GameFrame(this);
+
+        // Initiating a GameGridPanel Object
+        gameGridPanel = new GameGridPanel(model.listJPanelGameBoardSlots,model.listBoolOccupiedSlots);
+
+        // Adding it to gameFrame's centerPanel.
+        gameFrame.centerPanel.add(gameGridPanel);
+        gameFrame.centerPanel.repaint();
+        gameFrame.centerPanel.revalidate();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        int button_num = Integer.parseInt(e.getActionCommand());
+        // Check the number on the clicked button
+        int chosenCol = Integer.parseInt(e.getActionCommand());
 
-        int indexOfNotOccupied = gameFrame.OccupiedSlots.get(button_num).indexOf(false);
-        System.out.print(e.getActionCommand()+ " - ");
-        System.out.println(indexOfNotOccupied);
+        // Find first index of the slot that is not occupied in the chosen column
+        int indexOfNotOccupied = model.listBoolOccupiedSlots.get(chosenCol).indexOf(false);
 
-        JButton GamePiece = new JButton("ASD");
+        // Place a button (piece) on chosen column
+        model.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).removeAll();
+        model.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).add(new JButton("APP"));
+        model.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).repaint();
+        model.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).revalidate();
 
-//        gameFrame.LIST[indexOfNotOccupied][button_num].removeAll();
-//        gameFrame.LIST[indexOfNotOccupied][button_num].add(GamePiece);
-//        gameFrame.LIST[indexOfNotOccupied][button_num].repaint();
-//        gameFrame.LIST[indexOfNotOccupied][button_num].revalidate();
-
-        gameFrame.GameBoardSlots.get(button_num).get(indexOfNotOccupied).removeAll();
-        gameFrame.GameBoardSlots.get(button_num).get(indexOfNotOccupied).add(new JButton("APP"));
-        gameFrame.GameBoardSlots.get(button_num).get(indexOfNotOccupied).repaint();
-        gameFrame.GameBoardSlots.get(button_num).get(indexOfNotOccupied).revalidate();
-
-        gameFrame.OccupiedSlots.get(button_num).set(indexOfNotOccupied,true);
+        model.listBoolOccupiedSlots.get(chosenCol).set(indexOfNotOccupied,true);
 
 
 

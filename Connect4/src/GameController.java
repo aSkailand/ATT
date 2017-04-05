@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
  */
 public class GameController implements ActionListener{
 
-    GameBoard GB = new GameBoard(this);
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
