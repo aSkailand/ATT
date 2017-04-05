@@ -3,7 +3,15 @@
  */
 public class Runner {
     public static void main(String[] args) {
-        new Controller();
+
+
+        //new Controller();
         //Testing 123...
+
+        StartMenu SM = new StartMenu();
+
+
+
+
     }
 }
