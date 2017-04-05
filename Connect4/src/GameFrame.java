@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Created by aslak on 03.04.17.
@@ -23,7 +22,7 @@ public class GameFrame extends JFrame {
      * This is the Game Frame, which contains all in-game elements.
      * such as the game log/history, game grid (6x7), power-ups ect.
      */
-    public GameFrame(Controller C) {
+    public GameFrame(GameController C) {
 
         // JFrame setup
         this.setTitle("Connect4");
@@ -85,7 +84,7 @@ public class GameFrame extends JFrame {
 
         // todo: Make the amount of buttons here depend on common Col num!
         // Add buttons to top panel.
-        for (int i = 0; i < Model.numCol; i++) {
+        for (int i = 0; i < GameModel.numCol; i++) {
             gbc.fill = GridBagConstraints.BOTH;
             gbc.gridx = i;
             gbc.gridy = 0;

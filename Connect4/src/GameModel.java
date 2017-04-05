@@ -5,14 +5,14 @@ import java.util.ArrayList;
 /**
  * Created by aslak on 03.04.17.
  */
-public class Model {
+public class GameModel {
 
     // Number of Rows and Columns
     static int numRow = 6;
     static int numCol = 7;
 
     // Boolean list used to keep track of occupancy of the board.
-    ArrayList<ArrayList<Boolean>> listBoolOccupiedSlots = new ArrayList<>();
+    ArrayList<ArrayList<player>> listBoolOccupiedSlots = new ArrayList<>();
 
     // JPanel list holding all the JPanels on the board in sorted fashion.
     ArrayList<ArrayList<JPanel>> listJPanelGameBoardSlots = new ArrayList<>();
@@ -22,19 +22,19 @@ public class Model {
     Color colorPlayer2 = Color.BLUE;
 
     // An enumeration that hold two members (behaves like a boolean in this case)
-    public enum player{PLAYER_1, PLAYER_2}
+    public enum player{PLAYER_1, PLAYER_2, PLAYER_NONE}
 
     // The variable keeping track of current player
     player currentPlayer = player.PLAYER_1;
 
 
 
-    Model(){
+    GameModel(){
         // Fill Occupancy List with initial values.
         for (int i = 0; i < numCol; i++) {
             listBoolOccupiedSlots.add(new ArrayList<>());
             for (int j = 0; j < numRow; j++) {
-                listBoolOccupiedSlots.get(i).add(false);
+                listBoolOccupiedSlots.get(i).add(player.PLAYER_NONE);
             }
         }
     }
