@@ -43,8 +43,7 @@ public class GameController implements ActionListener {
         curPiece.setForeground(Color.WHITE);
         if (gameModel.currentPlayer.equals(GameModel.player.PLAYER_1)) {
             curPiece.setBackground(gameModel.colorPlayer1);
-        }
-        else{
+        } else {
             curPiece.setBackground(gameModel.colorPlayer2);
         }
 
@@ -62,12 +61,72 @@ public class GameController implements ActionListener {
             gameModel.currentPlayer = GameModel.player.PLAYER_2;
         } else gameModel.currentPlayer = GameModel.player.PLAYER_1;
 
+
         // Check 4-in-Row - Vertical
+        checkWinVertical();
+
+        // Check 4-in-Row - Horizontal
+        // Check through all Rows.
+        for (int i = 0; i < GameModel.numRow; i++) {
+
+            // Counter = 4 -> Player 1 wins, if Counter = -4 -> Player 2 wins
+            int counter = 0;
+
+            for (int j = 0; j < GameModel.numCol; j++) {
+                if (gameModel.listBoolOccupiedSlots.get(j).get(i).equals(GameModel.player.PLAYER_1)) {
+                    if (counter < 0) counter = 0;
+                    counter++;
+                    if (counter >= GameModel.winInRow) {
+                        System.out.println("Player 1 Won! - Vertically on COL: " + i);
+                        break;
+                    }
+                } else {
+                    if (counter > 0) counter = 0;
+                    counter--;
+                    if (counter <= -GameModel.winInRow) {
+                        System.out.println("Player 2 Won! - Vertically on COL: " + i);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    // TODO: Move this function over to model when done here with all win - conditions
+    // TODO: Consider change it from void -> GameModel.player. May open more flexibility.
+    void checkWinVertical() {
+
+        // Check through all columns.
         for (int i = 0; i < GameModel.numCol; i++) {
-            if(4 <= Collections.frequency(gameModel.listBoolOccupiedSlots.get(i),true)){
-                System.out.println("SHIET");
+
+            // Only check if there is low enough empty slots
+            if (GameModel.numRow - GameModel.winInRow >= Collections.frequency(gameModel.listBoolOccupiedSlots.get(i), GameModel.player.PLAYER_NONE)) {
+
+                // Counter = 4 -> Player 1 wins, if Counter = -4 -> Player 2 wins
+                int counter = 0;
+
+                for (int j = 0; j < GameModel.numRow; j++) {
+                    if (gameModel.listBoolOccupiedSlots.get(i).get(j).equals(GameModel.player.PLAYER_1)) {
+                        if (counter < 0) counter = 0;
+                        counter++;
+                        if (counter >= GameModel.winInRow) {
+                            System.out.println("Player 1 Won! - Vertically on COL: " + i);
+                            break;
+                        }
+                    } else {
+                        if (counter > 0) counter = 0;
+                        counter--;
+                        if (counter <= -GameModel.winInRow) {
+                            System.out.println("Player 2 Won! - Vertically on COL: " + i);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
     }
+
+
 }

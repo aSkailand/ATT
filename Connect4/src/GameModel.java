@@ -10,12 +10,14 @@ public class GameModel {
     // Number of Rows and Columns
     static int numRow = 6;
     static int numCol = 7;
+    static int winInRow = 4;
 
     // Boolean list used to keep track of occupancy of the board.
     ArrayList<ArrayList<player>> listBoolOccupiedSlots = new ArrayList<>();
 
     // JPanel list holding all the JPanels on the board in sorted fashion.
     ArrayList<ArrayList<JPanel>> listJPanelGameBoardSlots = new ArrayList<>();
+    ArrayList<ArrayList<Integer>> RowNumOrder = new ArrayList<>();
 
     // Player Color
     Color colorPlayer1 = Color.RED;
