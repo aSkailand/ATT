@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Created by aslak on 03.04.17.
- *
  */
 public class GameFrame extends JFrame {
-
 
 
     // Temporary text
@@ -18,6 +16,16 @@ public class GameFrame extends JFrame {
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
 
+    //JMenu items
+    JMenuBar menuBar = new JMenuBar();
+    JMenu fileMenu = new JMenu("File");
+    JMenuItem mainMenu = new JMenuItem("Main menu");
+    JMenuItem highscore = new JMenuItem("Highscore");
+    JMenuItem saveGame = new JMenuItem("Save game");
+    JMenuItem openGame = new JMenuItem("Open game");
+    JMenuItem pauseGame = new JMenuItem("Pause game");
+    JMenuItem restartGame = new JMenuItem("Restart game");
+
 
     /**
      * This is the Game Frame, which contains all in-game elements.
@@ -26,10 +34,24 @@ public class GameFrame extends JFrame {
     public GameFrame(Controller C) {
 
         // JFrame setup
+
         this.setTitle("Connect4");
         this.setSize(1280, 720);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setBackground(Color.blue);
+
+        //JMenu setup
+        this.setJMenuBar(menuBar);
+        menuBar.add(fileMenu);
+        fileMenu.add(mainMenu);
+        fileMenu.addSeparator();
+        fileMenu.add(highscore);
+        fileMenu.addSeparator();
+        fileMenu.add(saveGame);
+        fileMenu.add(openGame);
+        fileMenu.addSeparator();
+        fileMenu.add(pauseGame);
+        fileMenu.add(restartGame);
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -93,8 +115,8 @@ public class GameFrame extends JFrame {
             gbc.weighty = 1;
             gbc.gridheight = 1;
 
-            JButton button1 = new JButton("["+i+"]");
-            button1.setActionCommand(""+i);
+            JButton button1 = new JButton("[" + i + "]");
+            button1.setActionCommand("" + i);
             button1.addActionListener(C);
             topPanel.add(button1, gbc);
         }
