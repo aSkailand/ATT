@@ -1,14 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 /**
  * Created by aslak on 03.04.17.
  */
 public class GameFrame extends JFrame {
-
 
     // Temporary text
     JLabel labelCurrentPlayerText = new JLabel();
@@ -17,6 +13,7 @@ public class GameFrame extends JFrame {
     JPanel rightPanel = new JPanel();
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
+    JPanel playersPanel = new JPanel();
 
     //JMenu items
     JMenuBar menuBar = new JMenuBar();
@@ -28,6 +25,7 @@ public class GameFrame extends JFrame {
     JMenuItem pauseGame = new JMenuItem("Pause game");
     JMenuItem restartGame = new JMenuItem("Restart game");
 
+    GridBagConstraints gbc = new GridBagConstraints();
 
     /**
      * This is the Game Frame, which contains all in-game elements.
@@ -36,12 +34,10 @@ public class GameFrame extends JFrame {
     public GameFrame(Controller C) {
 
         // JFrame setup
-
         this.setTitle("Connect4");
         this.setSize(1280, 720);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setBackground(Color.blue);
-
 
         //JMenu setup
         this.setJMenuBar(menuBar);
@@ -56,85 +52,165 @@ public class GameFrame extends JFrame {
         fileMenu.add(pauseGame);
         fileMenu.add(restartGame);
 
+        //The main GUI look setup
         this.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
 
         // Left panel
         leftPanel.setLayout(new GridBagLayout());
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0.3;
-        gbc.weighty = 1;
-        gbc.gridheight = 2;
-        leftPanel.setBackground(Color.blue);
-
-        labelCurrentPlayerText.setText("Hello");
+        gbcLeftPanel();
+        leftPanel.setBackground(Color.lightGray);
         leftPanel.add(labelCurrentPlayerText);
-
-
         this.add(leftPanel, gbc);
-
 
         //Right panel
         rightPanel.setLayout(new GridBagLayout());
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.weightx = 0.3;
-        gbc.weighty = 1;
-        gbc.gridheight = 2;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        rightPanel.setBackground(Color.YELLOW);
+        gbcRightPanel();
+        rightPanel.setBackground(Color.lightGray);
         this.add(rightPanel, gbc);
-
 
         // Center panel
         centerPanel.setLayout(new GridLayout(1, 1));
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.weightx = 0.8;
-        gbc.weighty = 0.8;
-        gbc.gridheight = 1;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        centerPanel.setBackground(Color.orange);
+        gbcCenterPanel();
+        centerPanel.setBackground(Color.white);
         this.add(centerPanel, gbc);
 
+        // Players panel
+        playersPanel.setLayout(new GridBagLayout());
+        gbcPlayersPanel();
+        playersPanel.setBackground(Color.lightGray);
+        this.add(playersPanel, gbc);
 
         // Top panel
-
         topPanel.setLayout(new GridBagLayout());
-        topPanel.setBackground(Color.cyan);
+        topPanel.setBackground(Color.white);
+        gbcAddButtonsToPanel(C);
+        gbcTopPanel();
+        this.add(topPanel, gbc);
 
+        this.setVisible(true);
+    }
 
+    void gbcAddButtonsToPanel(Controller C){
         // todo: Make the amount of buttons here depend on common Col num!
         // Add buttons to top panel.
         for (int i = 0; i < Model.numCol; i++) {
-            gbc.fill = GridBagConstraints.BOTH;
+
             gbc.gridx = i;
             gbc.gridy = 0;
-            gbc.weightx = 1;
-            gbc.weighty = 1;
+
+            gbc.gridwidth = 1;
             gbc.gridheight = 1;
+
+            gbc.weightx = 0.05;
+            gbc.weighty = 0.05;
+
+            gbc.insets = new Insets(0, 0, 0, 0);
+            gbc.ipadx = 0;
+            gbc.ipady = 0;
+
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.anchor = GridBagConstraints.PAGE_END;
 
             JButton button1 = new JButton("[" + i + "]");
             button1.setActionCommand("" + i);
             button1.addActionListener(C);
             topPanel.add(button1, gbc);
         }
+    }
+
+    void gbcLeftPanel() {
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 3;
+
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
 
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcRightPanel() {
+
+        gbc.gridx = 2;
         gbc.gridy = 0;
-        gbc.weightx = 0.8;
-        gbc.weighty = 0.05;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 3;
+
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcCenterPanel() {
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+
+        gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        this.add(topPanel, gbc);
+        gbc.weightx = 0.05;
+        gbc.weighty = 0.2;
 
-        this.setVisible(true);
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
 
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
 
+    }
+
+    void gbcPlayersPanel() {
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 0.05;
+        gbc.weighty = 0.9;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcTopPanel() {
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 0.05;
+        gbc.weighty = 0.005;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
     }
 }
