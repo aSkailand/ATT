@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Created by aslak on 03.04.17.
@@ -31,6 +33,35 @@ public class Controller implements ActionListener {
         gameFrame.restartGame.addActionListener(this);
         gameFrame.highscore.addActionListener(this);
 
+
+        //Window listener
+        gameFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int option = 0;
+
+                //Promts a JOptionPane, "Yes" = 1, "No" = 0
+                Object[] options = {"No", "Yes"};
+                option = JOptionPane.showOptionDialog(
+                        null,
+                        "Quit game?",
+                        "Quit game?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[1]);
+
+                //If yes close game, else continue game
+                if (option == 1) {
+                    System.out.println("Yes, closing game...");
+                    gameFrame.dispose();
+                } else {
+                    System.out.println("No, continue game... ");
+                }
+
+            }
+        });
     }
 
     @Override

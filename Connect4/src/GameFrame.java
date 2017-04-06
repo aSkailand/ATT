@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
@@ -37,8 +39,9 @@ public class GameFrame extends JFrame {
 
         this.setTitle("Connect4");
         this.setSize(1280, 720);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setBackground(Color.blue);
+
 
         //JMenu setup
         this.setJMenuBar(menuBar);
