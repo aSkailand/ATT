@@ -4,7 +4,7 @@ import java.awt.*;
 /**
  * Created by aslak on 03.04.17.
  */
-public class GameFrame extends JFrame {
+public class GameBodyFrame extends JFrame {
 
     // Temporary text
     JLabel labelCurrentPlayerText = new JLabel();
@@ -31,7 +31,7 @@ public class GameFrame extends JFrame {
      * This is the Game Frame, which contains all in-game elements.
      * such as the game log/history, game grid (6x7), power-ups ect.
      */
-    public GameFrame(Controller C) {
+    public GameBodyFrame(GameBoardController Gcontroller) {
 
         // JFrame setup
         this.setTitle("Connect4");
@@ -57,44 +57,46 @@ public class GameFrame extends JFrame {
 
         // Left panel
         leftPanel.setLayout(new GridBagLayout());
-        gbcLeftPanel();
-        leftPanel.setBackground(Color.lightGray);
+        leftPanel.setBackground(Color.darkGray);
         leftPanel.add(labelCurrentPlayerText);
+        gbcLeftPanel();
         this.add(leftPanel, gbc);
 
         //Right panel
         rightPanel.setLayout(new GridBagLayout());
+        rightPanel.setBackground(Color.gray);
         gbcRightPanel();
-        rightPanel.setBackground(Color.lightGray);
         this.add(rightPanel, gbc);
 
         // Center panel
         centerPanel.setLayout(new GridLayout(1, 1));
-        gbcCenterPanel();
         centerPanel.setBackground(Color.white);
+        gbcCenterPanel();
         this.add(centerPanel, gbc);
 
         // Players panel
         playersPanel.setLayout(new GridBagLayout());
-        gbcPlayersPanel();
         playersPanel.setBackground(Color.lightGray);
+        gbcPlayersPanel();
         this.add(playersPanel, gbc);
 
         // Top panel
         topPanel.setLayout(new GridBagLayout());
         topPanel.setBackground(Color.white);
-        gbcAddButtonsToPanel(C);
+        gbcAddButtonsToPanel(Gcontroller);
         gbcTopPanel();
         this.add(topPanel, gbc);
 
+        // Set visibility
         this.setVisible(true);
     }
 
-    void gbcAddButtonsToPanel(Controller C){
+    void gbcAddButtonsToPanel(GameBoardController C){
         // todo: Make the amount of buttons here depend on common Col num!
         // Add buttons to top panel.
-        for (int i = 0; i < Model.numCol; i++) {
 
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            gbc.fill = GridBagConstraints.BOTH;
             gbc.gridx = i;
             gbc.gridy = 0;
 
@@ -114,6 +116,7 @@ public class GameFrame extends JFrame {
             JButton button1 = new JButton("[" + i + "]");
             button1.setActionCommand("" + i);
             button1.addActionListener(C);
+
             topPanel.add(button1, gbc);
         }
     }

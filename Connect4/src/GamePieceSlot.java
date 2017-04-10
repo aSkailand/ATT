@@ -1,16 +1,45 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 /**
  * Created by TrongDT on 04/04/2017.
  */
+
+/**
+ *  ROLE:
+ *      View + Controller
+ *  WHAT:
+ *      GamePieceSlot is a JPanel that has additional information linked to it.
+ *      In each grid-slot in GameBoard resides a GamePieceSlot.
+ *  USAGE:
+ *      Used for simplifying accessing the slot's content.
+ */
 public class GamePieceSlot extends JPanel{
-    boolean occupied = false;
 
-    public void setOccupied(boolean occupied) {
-        this.occupied = occupied;
+    // Owner of this slot
+    GameBoardModel.player owner = GameBoardModel.player.PLAYER_NONE;
+
+    // A JButton will behave as the slot piece for now
+    JButton piece;
+
+    GamePieceSlot(){
+
+        // JPanel Setup
+        this.setLayout(new BorderLayout());
+        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        // JButton Setup
+        piece = new JButton();
+        piece.setBorderPainted(false);
+        piece.setForeground(Color.WHITE);
+        piece.setText("Hey");
+
+        this.add(piece);
     }
 
-    public boolean getOccupied(boolean occupied) {
-        return occupied;
+    public GameBoardModel.player getOwner(){
+        return owner;
     }
+
 }
