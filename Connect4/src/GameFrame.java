@@ -22,7 +22,7 @@ public class GameFrame extends JFrame {
      * This is the Game Frame, which contains all in-game elements.
      * such as the game log/history, game grid (6x7), power-ups ect.
      */
-    public GameFrame(GameController C) {
+    public GameFrame(GameController controller) {
 
         // JFrame setup
         this.setTitle("Connect4");
@@ -84,7 +84,7 @@ public class GameFrame extends JFrame {
 
         // todo: Make the amount of buttons here depend on common Col num!
         // Add buttons to top panel.
-        for (int i = 0; i < GameModel.numCol; i++) {
+        for (int i = 0; i < GameGridModel.numCol; i++) {
             gbc.fill = GridBagConstraints.BOTH;
             gbc.gridx = i;
             gbc.gridy = 0;
@@ -94,7 +94,7 @@ public class GameFrame extends JFrame {
 
             JButton button1 = new JButton("["+i+"]");
             button1.setActionCommand(""+i);
-            button1.addActionListener(C);
+            button1.addActionListener(controller);
             topPanel.add(button1, gbc);
         }
 

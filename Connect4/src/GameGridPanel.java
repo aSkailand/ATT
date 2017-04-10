@@ -9,44 +9,44 @@ import java.util.ArrayList;
 
 /**
  * This Class creates a JPanel, acting as a frame for a grid system making up the in-game board.
+ *
+ * Parameter:   Model
+ * Output:      Sorted ArrayList of GamePieceSlot
+ *
  */
-// todo: Decide what should go to GameModel or not. (Note: Possibility to move all over, should we or not?)
-public class GameGridPanel extends JPanel{
 
-    GameGridPanel(ArrayList<ArrayList<JPanel>> listJPanelGameBoardSlots){
+public class GameGridPanel extends JPanel {
+
+    GameGridPanel(GameGridModel M) {
 
         // JPanel Setup
-        this.setLayout(new GridLayout(GameModel.numRow, GameModel.numCol));
+        this.setLayout(new GridLayout(GameGridModel.numRow, GameGridModel.numCol));
 
-        // Filling temporary ArrayLists with JPanels
-        ArrayList<JPanel> tempListPanels = new ArrayList<>();
-        for (int i = 0; i < GameModel.numRow* GameModel.numCol; i++) {
-            JPanel panelTemp = new JPanel();
-//            panelTemp.setLayout(new GridLayout(1,1));
-            panelTemp.setLayout(new BorderLayout());
-            panelTemp.setBorder(new EmptyBorder(10, 10, 10, 10));
-            tempListPanels.add(panelTemp);
+
+        // Add JPanels to ArrayList
+        ArrayList<GamePieceSlot> tempListPanels = new ArrayList<>();
+        for (int i = 0; i < GameGridModel.numCol * GameGridModel.numRow; i++) {
+            tempListPanels.add(new GamePieceSlot());
+        }
+
+
+        // Add JPanels from ArrayList to Grid
+        for (int i = 0; i < GameGridModel.numCol * GameGridModel.numRow; i++) {
             this.add(tempListPanels.get(i));
         }
 
-        // Creating the ArrayLists for ArrayList of panels, in a sorted fashion
-        for (int i = 0; i < GameModel.numCol; i++) {
 
-            // Making a subArrayList for the main ArrayList
-            listJPanelGameBoardSlots.add(new ArrayList<>());
+        // Add ArrayList of JPanels to a common ArrayList
+        for (int i = 0; i < GameGridModel.numCol; i++) {
+            M.listJPanelGameBoardSlots.add(new ArrayList<>());
+            for (int j = 0; j < GameGridModel.numRow; j++) {
 
-            for (int j = 0; j < GameModel.numRow; j++) {
+                int currentSquareIndex = (((GameGridModel.numRow - 1) * GameGridModel.numCol) + i) - (GameGridModel.numCol * j);
 
-                // Find the corresponding index from the temporary list
-                int currentSquareIndex = ((GameModel.numRow-1)* GameModel.numCol)+i-(GameModel.numCol*j);
+                tempListPanels.get(currentSquareIndex).picture.setText("( " + i + " , " + j + " )");
+                tempListPanels.get(currentSquareIndex).picture.setEnabled(false);
 
-                // Add the current JPanel to corresponding slot
-                listJPanelGameBoardSlots.get(i).add(tempListPanels.get(currentSquareIndex));
-
-                // Adding a button to the current JPanel
-                JButton tempButton = new JButton("( "+i+" , "+j+" )");
-                tempButton.setEnabled(false);
-                listJPanelGameBoardSlots.get(i).get(j).add(tempButton);
+                M.listJPanelGameBoardSlots.get(i).add(tempListPanels.get(currentSquareIndex));
 
             }
         }

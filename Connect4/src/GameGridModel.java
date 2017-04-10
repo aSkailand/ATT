@@ -1,11 +1,12 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
 /**
  * Created by aslak on 03.04.17.
  */
-public class GameModel {
+public class GameGridModel {
 
     // Number of Rows and Columns
     static int numRow = 6;
@@ -16,8 +17,8 @@ public class GameModel {
     ArrayList<ArrayList<player>> listBoolOccupiedSlots = new ArrayList<>();
 
     // JPanel list holding all the JPanels on the board in sorted fashion.
-    ArrayList<ArrayList<JPanel>> listJPanelGameBoardSlots = new ArrayList<>();
-    ArrayList<ArrayList<Integer>> RowNumOrder = new ArrayList<>();
+    ArrayList<ArrayList<GamePieceSlot>> listJPanelGameBoardSlots = new ArrayList<>();
+
 
     // Player Color
     Color colorPlayer1 = Color.RED;
@@ -31,7 +32,17 @@ public class GameModel {
 
 
 
-    GameModel(){
+    GameGridModel(){
+
+        fillOccupancy();
+
+    }
+
+    GamePieceSlot getSlot(int x, int y){
+        return listJPanelGameBoardSlots.get(x).get(y);
+    }
+
+    void fillOccupancy(){
         // Fill Occupancy List with initial values.
         for (int i = 0; i < numCol; i++) {
             listBoolOccupiedSlots.add(new ArrayList<>());
