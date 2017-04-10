@@ -43,43 +43,8 @@ public class GameController implements ActionListener {
         checkWinAscendingDiagonal(GameGridModel.player.PLAYER_2);
 
         // Check 4-in-Row - Descending Diagonal
-        // todo: fix this shiet
-        int max_y = GameGridModel.numRow - GameGridModel.winInRow;
-        int max_x = GameGridModel.numCol - GameGridModel.winInRow;
-
-        // PHASE 1: Check upwards starting on (0,0)
-        for (int i = 0; i <= max_y; i++) {
-
-            int counter = 0;
-
-            for (int j = 0; (j+i) < GameGridModel.numRow; j++) {
-                if (gameGridModel.listJPanelGameBoardSlots.get(j).get(j+i).getOwner().equals(player)) {
-                    counter++;
-                    if (counter >= GameGridModel.winInRow) {
-                        System.out.println(player + " Won! - Ascending Diagonally starting on (0,"+i+")");
-                        break;
-                    }
-                } else counter = 0;
-
-            }
-        }
-
-        // PHASE 2: Check rightward starting on (1,0)
-        for (int i = 1; i <= max_x; i++) {
-
-            int counter = 0;
-
-            for (int j = 0; (j+i) < GameGridModel.numCol; j++) {
-                if (gameGridModel.listJPanelGameBoardSlots.get(j+i).get(j).getOwner().equals(player)) {
-                    counter++;
-                    if (counter >= GameGridModel.winInRow) {
-                        System.out.println(player + " Won! - Ascending Diagonally starting on ("+i+",0)");
-                        break;
-                    }
-                } else counter = 0;
-
-            }
-        }
+        checkWinDescendingDiagonal(GameGridModel.player.PLAYER_1);
+        checkWinDescendingDiagonal(GameGridModel.player.PLAYER_2);
 
     }
 
@@ -181,8 +146,51 @@ public class GameController implements ActionListener {
         }
     }
 
+    void checkWinDescendingDiagonal(GameGridModel.player player){
+        // todo: fix this shiet
+        int min_y = GameGridModel.winInRow-1;
+        int max_x = GameGridModel.winInRow-1;
+
+        // PHASE 1: Check Downwards starting on (0,5)
+
+        // int i = y-coordinate
+        for (int i = GameGridModel.numRow - 1; i >= min_y; i--) {
+
+            int counter = 0;
+
+            // int j loops to lowest row (0)
+            for (int j = 0; (i-j) >= 0; j++) {
+                if (gameGridModel.listJPanelGameBoardSlots.get(j).get(i-j).getOwner().equals(player)) {
+                    counter++;
+                    if (counter >= GameGridModel.winInRow) {
+                        System.out.println(player + " Won! - Descending Diagonally starting on (0,"+i+")");
+                        break;
+                    }
+                } else counter = 0;
+
+            }
+        }
+
+        // PHASE 2: Check rightward starting on (1,5)
+        for (int i = 1; i <= max_x; i++) {
+
+            int counter = 0;
+
+            for (int j = 0; (j+i) < GameGridModel.numCol; j++) {
+                if (gameGridModel.listJPanelGameBoardSlots.get(j+i).get(GameGridModel.numRow-1-j).getOwner().equals(player)) {
+                    counter++;
+                    if (counter >= GameGridModel.winInRow) {
+                        System.out.println(player + " Won! - Ascending Diagonally starting on ("+i+","+(GameGridModel.numRow-1)+")");
+                        break;
+                    }
+                } else counter = 0;
+
+            }
+        }
+    }
 
     // todo: make current player as parameter, so it doesn't need to check every time the current player.
+    // todo: make the chosen column as a parameter, so that the ActionEvent e is not needed as a parameter.
     void placePiece(ActionEvent e) {
 
         // Check the number on the clicked button
@@ -195,28 +203,24 @@ public class GameController implements ActionListener {
         int indexOfNotOccupied = -1;
 
         for (int i = 0; i < GameGridModel.numRow; i++) {
-            if (!gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(i).getOccupied()) {
+            if (gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(i).getOwner().equals(GameGridModel.player.PLAYER_NONE)) {
                 indexOfNotOccupied = i;
                 break;
             }
         }
 
         // Set current player name on piece
-        gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).picture.setText("" + gameGridModel.currentPlayer);
+        gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).piece.setText("" + gameGridModel.currentPlayer);
 
         // Set current player color on piece
         if (gameGridModel.currentPlayer.equals(GameGridModel.player.PLAYER_1)) {
-            gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).picture.setBackground(gameGridModel.colorPlayer1);
+            gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).piece.setBackground(gameGridModel.colorPlayer1);
         } else {
-            gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).picture.setBackground(gameGridModel.colorPlayer2);
+            gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).piece.setBackground(gameGridModel.colorPlayer2);
         }
 
         // Set enabled on piece
-        gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).picture.setEnabled(true);
-
-        // Tick on the occupancy status
-//        gameGridModel.listBoolOccupiedSlots.get(chosenCol).set(indexOfNotOccupied, gameGridModel.currentPlayer);
-        gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).setOccupied(true);
+        gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).piece.setEnabled(true);
 
         // Set owner on piece
         gameGridModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).owner = gameGridModel.currentPlayer;

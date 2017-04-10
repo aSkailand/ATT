@@ -7,13 +7,16 @@ import java.awt.*;
  */
 
 /**
- * NOTE FROM TRONG: UNUSED AT THE MOMENT, MAY BE USED IN FUTURE OR NOT!
+ *  WHAT:
+ *      GamePieceSlot is a JPanel that has additional information linked to it.
+ *      In each grid-slot in GameBoard resides a GamePieceSlot.
+ *  USAGE:
+ *      Used for simplifying accessing the slot's content.
  */
 public class GamePieceSlot extends JPanel{
-    boolean occupied = false;
     GameGridModel.player owner = GameGridModel.player.PLAYER_NONE;
 
-    JButton picture;
+    JButton piece;
 
     GamePieceSlot(){
 
@@ -21,26 +24,16 @@ public class GamePieceSlot extends JPanel{
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        picture = new JButton();
-//        picture.setBorderPainted(false);
-        picture.setForeground(Color.WHITE);
-        picture.setText("Hey");
+        piece = new JButton();
+//        piece.setBorderPainted(false);
+        piece.setForeground(Color.WHITE);
+        piece.setText("Hey");
 
-        this.add(picture);
-
-
-
+        this.add(piece);
     }
 
     public GameGridModel.player getOwner(){
         return owner;
     }
 
-    public void setOccupied(boolean occupied) {
-        this.occupied = occupied;
-    }
-
-    public boolean getOccupied() {
-        return occupied;
-    }
 }

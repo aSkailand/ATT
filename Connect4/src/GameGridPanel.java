@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -43,8 +42,8 @@ public class GameGridPanel extends JPanel {
 
                 int currentSquareIndex = (((GameGridModel.numRow - 1) * GameGridModel.numCol) + i) - (GameGridModel.numCol * j);
 
-                tempListPanels.get(currentSquareIndex).picture.setText("( " + i + " , " + j + " )");
-                tempListPanels.get(currentSquareIndex).picture.setEnabled(false);
+                tempListPanels.get(currentSquareIndex).piece.setText("( " + i + " , " + j + " )");
+                tempListPanels.get(currentSquareIndex).piece.setEnabled(false);
 
                 M.listJPanelGameBoardSlots.get(i).add(tempListPanels.get(currentSquareIndex));
 
