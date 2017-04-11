@@ -19,6 +19,9 @@ public class GameBoardModel {
     // Player Color
     Color colorPlayer1 = Color.RED;
     Color colorPlayer2 = Color.BLUE;
+    Color colorWin1 = new Color(255, 119, 134);
+    Color colorWin2 = new Color(127, 167, 255);
+
 
     // An enumeration that hold two members (behaves like a boolean in this case)
     public enum player{PLAYER_1, PLAYER_2, PLAYER_NONE}

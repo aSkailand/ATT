@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -89,8 +90,8 @@ public class GameBoardController implements ActionListener {
         checkWinAscendingDiagonal(GameBoardModel.player.PLAYER_2);
 
         // Check 4-in-Row - Descending Diagonal
-        //checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_1);
-        //checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_2);
+        checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_1);
+        checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_2);
 
 
     }
@@ -110,6 +111,7 @@ public class GameBoardController implements ActionListener {
                     counter++;
                     if (counter >= GameBoardModel.winInRow) {
                         System.out.println(player + " Won! - Vertically on COL: " + i);
+
                         break;
                     }
                 } else counter = 0;
@@ -150,8 +152,8 @@ public class GameBoardController implements ActionListener {
 
             // Reset variables
             int counter = 0;
-            int cur_y = init_y;
             int cur_x = init_x;
+            int cur_y = init_y;
 
             // check if x or y hit their max limit
             while (cur_x <= GameBoardModel.numCol - 1 && cur_y <= GameBoardModel.numRow - 1) {
@@ -172,52 +174,68 @@ public class GameBoardController implements ActionListener {
 
             // Moving one step further
             if (init_y != last_y) init_y--;
-            else                  init_x++;
+            else init_x++;
 
         }
     }
-    
+
     void checkWinDescendingDiagonal(GameBoardModel.player player) {
-        // todo: fix this shiet
-        int min_y = GameBoardModel.winInRow - 1;
-        int max_x = GameBoardModel.winInRow - 1;
 
-        // PHASE 1: Check Downwards starting on (0,5)
+        // Declare early variables
+        int init_x = 0;
+        int init_y = GameBoardModel.winInRow - 1;
 
-        // int i = y-coordinate
-        for (int i = GameBoardModel.numRow - 1; i >= min_y; i--) {
+        int last_x = GameBoardModel.numCol - GameBoardModel.winInRow;
+        int last_y = GameBoardModel.numRow - 1;
 
+        // Run until x has reached its end
+        while (init_x <= last_x) {
+
+            // Reset variables
             int counter = 0;
+            int cur_x = init_x;
+            int cur_y = init_y;
 
-            // int j loops to lowest row (0)
-            for (int j = 0; (i - j) >= 0; j++) {
-                if (gameBoardModel.listJPanelGameBoardSlots.get(j).get(i - j).getOwner().equals(player)) {
+            // check if x or y hit their max limit
+            while (cur_x < GameBoardModel.numCol && cur_y >= 0) {
+
+                // Check current tile's owner
+                if (gameBoardModel.listJPanelGameBoardSlots.get(cur_x).get(cur_y).getOwner().equals(player)) {
                     counter++;
                     if (counter >= GameBoardModel.winInRow) {
-                        System.out.println(player + " Won! - Descending Diagonally starting on (0," + i + ")");
+                        System.out.println(player + " Won! - Descending Diagonally starting on (" + init_x + "," + init_y + ")");
                         break;
                     }
                 } else counter = 0;
 
+                // increments both, simulating descending rightwards.
+                cur_x++;
+                cur_y--;
             }
+
+            // Moving one step further
+            if (init_y != last_y) init_y++;
+            else init_x++;
+
+        }
+    }
+
+    void colorWinningRow(int init_x, int init_y, int increment_x, int increment_y, int count, GameBoardModel.player player) {
+
+        int x = init_x;
+        int y = init_y;
+
+        Color WinColor;
+
+        if (player.equals(GameBoardModel.player.PLAYER_1)) WinColor = gameBoardModel.colorWin1;
+        else WinColor = gameBoardModel.colorWin2;
+
+        for (int i = 0; i < count; i++) {
+            gameBoardModel.listJPanelGameBoardSlots.get(x).get(y).piece.setBackground(WinColor);
+            x += increment_x;
+            y += increment_y;
         }
 
-        // PHASE 2: Check rightward starting on (1,5)
-        for (int i = 1; i <= max_x; i++) {
-
-            int counter = 0;
-
-            for (int j = 0; (j + i) < GameBoardModel.numCol; j++) {
-                if (gameBoardModel.listJPanelGameBoardSlots.get(j + i).get(GameBoardModel.numRow - 1 - j).getOwner().equals(player)) {
-                    counter++;
-                    if (counter >= GameBoardModel.winInRow) {
-                        System.out.println(player + " Won! - Ascending Diagonally starting on (" + i + "," + (GameBoardModel.numRow - 1) + ")");
-                        break;
-                    }
-                } else counter = 0;
-
-            }
-        }
     }
 
     // todo: make current player as parameter, so it doesn't need to check every time the current player.
