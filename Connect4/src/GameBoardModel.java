@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public class GameBoardModel {
 
     // Number of Rows and Columns
-    static int numRow = 6;
-    static int numCol = 7;
-    static int winInRow = 4;
+    static int numRow = 6;      // Default: 6
+    static int numCol = 7;      // Default: 7
+    static int winInRow = 4;    // Default: 4
 
 
     // JPanel list holding all the JPanels on the board in sorted fashion.

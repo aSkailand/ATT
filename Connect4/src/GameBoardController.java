@@ -89,9 +89,8 @@ public class GameBoardController implements ActionListener {
         checkWinAscendingDiagonal(GameBoardModel.player.PLAYER_2);
 
         // Check 4-in-Row - Descending Diagonal
-        checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_1);
-        checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_2);
-
+        //checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_1);
+        //checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_2);
 
 
     }
@@ -136,68 +135,52 @@ public class GameBoardController implements ActionListener {
         }
     }
 
-    /**
-     *      Ascending Diagonal - Order of Check:
-     *
-     *      - Phase 1: step 0,1,2
-     *      - Phase 2: step 3,4,5
-     *
-     *                            max_x
-     *                              |
-     *                              v
-     *              5   | == == ==  2  1  0  3 |
-     *              4   | == ==  2  1  0  3  4 |
-     *              3   | ==  2  1  0  3  4  5 |
-     *              2   |  2  1  0  3  4  5 == | <- max_y
-     *              1   |  1  0  3  4  5 == == |
-     *              0   |  0  3  4  5 == == == |
-     *
-     *                    0  1  2  3  4  5  6
-     * @param player
-     */
-    void checkWinAscendingDiagonal(GameBoardModel.player player){
-        int max_y = GameBoardModel.numRow - GameBoardModel.winInRow;
-        int max_x = GameBoardModel.numCol - GameBoardModel.winInRow;
 
-        // PHASE 1: Check upwards starting on (0,0)
-        for (int i = 0; i <= max_y; i++) {
+    void checkWinAscendingDiagonal(GameBoardModel.player player) {
 
+        // Declare early variables
+        int init_x = 0;
+        int init_y = GameBoardModel.numRow - GameBoardModel.winInRow;
+
+        int last_x = GameBoardModel.numCol - GameBoardModel.winInRow;
+        int last_y = 0;
+
+        // Run until x has reached its end
+        while (init_x <= last_x) {
+
+            // Reset variables
             int counter = 0;
+            int cur_y = init_y;
+            int cur_x = init_x;
 
-            for (int j = 0; (j+i) < GameBoardModel.numRow; j++) {
-                if (gameBoardModel.listJPanelGameBoardSlots.get(j).get(j+i).getOwner().equals(player)) {
+            // check if x or y hit their max limit
+            while (cur_x <= GameBoardModel.numCol - 1 && cur_y <= GameBoardModel.numRow - 1) {
+
+                // Check current tile's owner
+                if (gameBoardModel.listJPanelGameBoardSlots.get(cur_x).get(cur_y).getOwner().equals(player)) {
                     counter++;
                     if (counter >= GameBoardModel.winInRow) {
-                        System.out.println(player + " Won! - Ascending Diagonally starting on (0,"+i+")");
+                        System.out.println(player + " Won! - Ascending Diagonally starting on (" + init_x + "," + init_y + ")");
                         break;
                     }
                 } else counter = 0;
 
+                // increments both, simulating ascending rightwards.
+                cur_x++;
+                cur_y++;
             }
-        }
 
-        // PHASE 2: Check rightward starting on (1,0)
-        for (int i = 1; i <= max_x; i++) {
+            // Moving one step further
+            if (init_y != last_y) init_y--;
+            else                  init_x++;
 
-            int counter = 0;
-
-            for (int j = 0; (j+i) < GameBoardModel.numCol; j++) {
-                if (gameBoardModel.listJPanelGameBoardSlots.get(j+i).get(j).getOwner().equals(player)) {
-                    counter++;
-                    if (counter >= GameBoardModel.winInRow) {
-                        System.out.println(player + " Won! - Ascending Diagonally starting on ("+i+",0)");
-                        break;
-                    }
-                } else counter = 0;
-
-            }
         }
     }
-
-    void checkWinDescendingDiagonal(GameBoardModel.player player){
+    
+    void checkWinDescendingDiagonal(GameBoardModel.player player) {
         // todo: fix this shiet
-        int min_y = GameBoardModel.winInRow-1;
-        int max_x = GameBoardModel.winInRow-1;
+        int min_y = GameBoardModel.winInRow - 1;
+        int max_x = GameBoardModel.winInRow - 1;
 
         // PHASE 1: Check Downwards starting on (0,5)
 
@@ -207,11 +190,11 @@ public class GameBoardController implements ActionListener {
             int counter = 0;
 
             // int j loops to lowest row (0)
-            for (int j = 0; (i-j) >= 0; j++) {
-                if (gameBoardModel.listJPanelGameBoardSlots.get(j).get(i-j).getOwner().equals(player)) {
+            for (int j = 0; (i - j) >= 0; j++) {
+                if (gameBoardModel.listJPanelGameBoardSlots.get(j).get(i - j).getOwner().equals(player)) {
                     counter++;
                     if (counter >= GameBoardModel.winInRow) {
-                        System.out.println(player + " Won! - Descending Diagonally starting on (0,"+i+")");
+                        System.out.println(player + " Won! - Descending Diagonally starting on (0," + i + ")");
                         break;
                     }
                 } else counter = 0;
@@ -224,11 +207,11 @@ public class GameBoardController implements ActionListener {
 
             int counter = 0;
 
-            for (int j = 0; (j+i) < GameBoardModel.numCol; j++) {
-                if (gameBoardModel.listJPanelGameBoardSlots.get(j+i).get(GameBoardModel.numRow-1-j).getOwner().equals(player)) {
+            for (int j = 0; (j + i) < GameBoardModel.numCol; j++) {
+                if (gameBoardModel.listJPanelGameBoardSlots.get(j + i).get(GameBoardModel.numRow - 1 - j).getOwner().equals(player)) {
                     counter++;
                     if (counter >= GameBoardModel.winInRow) {
-                        System.out.println(player + " Won! - Ascending Diagonally starting on ("+i+","+(GameBoardModel.numRow-1)+")");
+                        System.out.println(player + " Won! - Ascending Diagonally starting on (" + i + "," + (GameBoardModel.numRow - 1) + ")");
                         break;
                     }
                 } else counter = 0;
