@@ -81,9 +81,8 @@ public class GameBodyFrame extends JFrame {
         this.add(playersPanel, gbc);
 
         // Top panel
-        topPanel.setLayout(new GridBagLayout());
+        topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(Color.white);
-        gbcAddButtonsToPanel(Gcontroller);
         gbcTopPanel();
         this.add(topPanel, gbc);
 

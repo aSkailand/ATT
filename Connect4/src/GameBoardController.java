@@ -14,6 +14,7 @@ public class GameBoardController implements ActionListener {
     GameBodyController gameBodyController;
     GameBodyFrame gameBodyFrame;
     GameBoardPanel gameBoardPanel;
+    GameOptionPanel gameOptionPanel;
 
     public GameBoardController() {
 
@@ -22,11 +23,13 @@ public class GameBoardController implements ActionListener {
         gameBodyController = new GameBodyController(gameBodyFrame);
         // Initiating a GameBoardPanel Object
         gameBoardPanel = new GameBoardPanel(gameBoardModel);
+        gameOptionPanel = new GameOptionPanel(this);
 
         // Adding the GameBoardPanel to gameBodyFrame's centerPanel.
         gameBodyFrame.centerPanel.add(gameBoardPanel);
-        gameBodyFrame.centerPanel.revalidate();
-        gameBodyFrame.centerPanel.repaint();
+        gameBodyFrame.topPanel.add(gameOptionPanel);
+        gameBodyFrame.revalidate();
+        gameBodyFrame.repaint();
 
 
         // todo: add this to GameBodyFrame
