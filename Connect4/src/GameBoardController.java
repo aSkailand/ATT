@@ -10,67 +10,26 @@ import java.awt.event.WindowEvent;
  */
 public class GameBoardController implements ActionListener {
 
-    GameBoardModel gameBoardModel;
-    GameBodyController gameBodyController;
     GameBodyFrame gameBodyFrame;
+
+    GameBoardModel gameBoardModel;
     GameBoardPanel gameBoardPanel;
     GameOptionPanel gameOptionPanel;
 
-    public GameBoardController() {
+    public GameBoardController(GameBodyFrame gbFrame) {
+
+        gameBodyFrame = gbFrame;
 
         gameBoardModel = new GameBoardModel();
-        gameBodyFrame = new GameBodyFrame(this);
-        gameBodyController = new GameBodyController(gameBodyFrame);
-        // Initiating a GameBoardPanel Object
         gameBoardPanel = new GameBoardPanel(gameBoardModel);
         gameOptionPanel = new GameOptionPanel(this);
 
-        // Adding the GameBoardPanel to gameBodyFrame's centerPanel.
         gameBodyFrame.centerPanel.add(gameBoardPanel);
         gameBodyFrame.topPanel.add(gameOptionPanel);
+
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
 
-
-        // todo: add this to GameBodyFrame
-        //JMenu action listeners
-        gameBodyFrame.mainMenu.addActionListener(gameBodyController);
-        gameBodyFrame.saveGame.addActionListener(gameBodyController);
-        gameBodyFrame.openGame.addActionListener(gameBodyController);
-        gameBodyFrame.pauseGame.addActionListener(gameBodyController);
-        gameBodyFrame.restartGame.addActionListener(gameBodyController);
-        gameBodyFrame.highscore.addActionListener(gameBodyController);
-
-        // todo: add this to GameBodyFrame
-        //Window listener
-        gameBodyFrame.addWindowListener(
-                new WindowAdapter() {
-                    @Override
-                    public void windowClosing(WindowEvent e) {
-                        int option = 0;
-
-                        //Promts a JOptionPane, "Yes" = 1, "No" = 0
-                        Object[] options = {"No", "Yes"};
-                        option = JOptionPane.showOptionDialog(
-                                null,
-                                "Quit game?",
-                                "Quit game?",
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE,
-                                null,
-                                options,
-                                options[1]);
-
-                        //If yes close game, else continue game
-                        if (option == 1) {
-                            System.out.println("Yes, closing game...");
-                            gameBodyFrame.dispose();
-                        } else {
-                            System.out.println("No, continue game... ");
-                        }
-
-                    }
-                });
     }
 
     @Override
@@ -139,7 +98,6 @@ public class GameBoardController implements ActionListener {
             }
         }
     }
-
 
     void checkWinAscendingDiagonal(GameBoardModel.player player) {
 
@@ -223,6 +181,7 @@ public class GameBoardController implements ActionListener {
         }
     }
 
+    // todo: finish this when got time.
     void colorWinningRow(int init_x, int init_y, int increment_x, int increment_y, int count, GameBoardModel.player player) {
 
         int x = init_x;
@@ -247,9 +206,6 @@ public class GameBoardController implements ActionListener {
 
         // Check the number on the clicked button
         int chosenCol = Integer.parseInt(e.getActionCommand());
-
-        // Find first index of the slot that is not occupied in the chosen column
-//        int indexOfNotOccupied = gameBoardModel.listBoolOccupiedSlots.get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
 
         // Find first index of the slot that is not occupied in the chosen column
         int indexOfNotOccupied = -1;

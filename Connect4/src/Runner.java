@@ -3,6 +3,7 @@
  */
 public class Runner {
     public static void main(String[] args) {
-        new GameBoardController();
+//        new GameBoardController();
+        new GameBodyController();
     }
 }

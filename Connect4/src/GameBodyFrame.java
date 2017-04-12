@@ -31,13 +31,14 @@ public class GameBodyFrame extends JFrame {
      * This is the Game Frame, which contains all in-game elements.
      * such as the game log/history, game grid (6x7), power-ups ect.
      */
-    public GameBodyFrame(GameBoardController Gcontroller) {
+    public GameBodyFrame() {
 
         // JFrame setup
         this.setTitle("Connect4");
         this.setSize(1280, 720);
-        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        this.setLayout(new GridBagLayout());
         this.setBackground(Color.blue);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
         //JMenu setup
         this.setJMenuBar(menuBar);
@@ -52,9 +53,6 @@ public class GameBodyFrame extends JFrame {
         fileMenu.add(pauseGame);
         fileMenu.add(restartGame);
 
-        //The main GUI look setup
-        this.setLayout(new GridBagLayout());
-
         // Left panel
         leftPanel.setLayout(new GridBagLayout());
         leftPanel.setBackground(Color.darkGray);
@@ -62,21 +60,21 @@ public class GameBodyFrame extends JFrame {
         gbcLeftPanel();
         this.add(leftPanel, gbc);
 
-        //Right panel
+        // Right panel
         rightPanel.setLayout(new GridBagLayout());
         rightPanel.setBackground(Color.gray);
         gbcRightPanel();
         this.add(rightPanel, gbc);
 
         // Center panel
-        centerPanel.setLayout(new GridLayout(1, 1));
+        centerPanel.setLayout(new BorderLayout());
         centerPanel.setBackground(Color.white);
         gbcCenterPanel();
         this.add(centerPanel, gbc);
 
         // Players panel
         playersPanel.setLayout(new GridBagLayout());
-        playersPanel.setBackground(Color.lightGray);
+        playersPanel.setBackground(Color.green);
         gbcPlayersPanel();
         this.add(playersPanel, gbc);
 
@@ -88,36 +86,6 @@ public class GameBodyFrame extends JFrame {
 
         // Set visibility
         this.setVisible(true);
-    }
-
-    void gbcAddButtonsToPanel(GameBoardController C){
-        // todo: Make the amount of buttons here depend on common Col num!
-        // Add buttons to top panel.
-
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.gridx = i;
-            gbc.gridy = 0;
-
-            gbc.gridwidth = 1;
-            gbc.gridheight = 1;
-
-            gbc.weightx = 0.05;
-            gbc.weighty = 0.05;
-
-            gbc.insets = new Insets(0, 0, 0, 0);
-            gbc.ipadx = 0;
-            gbc.ipady = 0;
-
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.anchor = GridBagConstraints.PAGE_END;
-
-            JButton button1 = new JButton("[" + i + "]");
-            button1.setActionCommand("" + i);
-            button1.addActionListener(C);
-
-            topPanel.add(button1, gbc);
-        }
     }
 
     void gbcLeftPanel() {
