@@ -16,7 +16,10 @@ import java.util.ArrayList;
  */
 public class GameBoardPanel extends JPanel {
 
-    GameBoardPanel(GameBoardModel M) {
+    // JPanel list holding all the JPanels on the board in sorted fashion.
+    ArrayList<ArrayList<GamePieceSlot>> listJPanelGameBoardSlots = new ArrayList<>();
+
+    GameBoardPanel() {
 
         // JPanel Setup
         this.setLayout(new GridLayout(GameBoardModel.numRow, GameBoardModel.numCol));
@@ -37,7 +40,7 @@ public class GameBoardPanel extends JPanel {
 
         // Add ArrayList of JPanels to a common ArrayList
         for (int i = 0; i < GameBoardModel.numCol; i++) {
-            M.listJPanelGameBoardSlots.add(new ArrayList<>());
+            listJPanelGameBoardSlots.add(new ArrayList<>());
             for (int j = 0; j < GameBoardModel.numRow; j++) {
 
                 int currentSquareIndex = (((GameBoardModel.numRow - 1) * GameBoardModel.numCol) + i) - (GameBoardModel.numCol * j);
@@ -45,7 +48,7 @@ public class GameBoardPanel extends JPanel {
                 tempListPanels.get(currentSquareIndex).piece.setText("( " + i + " , " + j + " )");
                 tempListPanels.get(currentSquareIndex).piece.setEnabled(false);
 
-                M.listJPanelGameBoardSlots.get(i).add(tempListPanels.get(currentSquareIndex));
+                listJPanelGameBoardSlots.get(i).add(tempListPanels.get(currentSquareIndex));
 
             }
         }

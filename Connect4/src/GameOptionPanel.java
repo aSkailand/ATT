@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by Trong on 12/04/2017.
@@ -9,6 +10,8 @@ import java.awt.*;
  *  Temporary Description: Adding buttons to a JPanel, which is placed on Top Panel of GameBodyFrame
  */
 public class GameOptionPanel extends JPanel{
+
+    ArrayList<JButton> optionList = new ArrayList<>();
 
     GameOptionPanel(GameBoardController controller){
 
@@ -22,6 +25,7 @@ public class GameOptionPanel extends JPanel{
             tempButton.setActionCommand(""+i);
             tempButton.addActionListener(controller);
 
+            optionList.add(tempButton);
             this.add(tempButton);
         }
     }

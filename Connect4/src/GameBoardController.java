@@ -1,9 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 /**
  * Created by aslak on 03.04.17.
@@ -14,6 +11,7 @@ public class GameBoardController implements ActionListener {
 
     GameBoardModel gameBoardModel;
     GameBoardPanel gameBoardPanel;
+
     GameOptionPanel gameOptionPanel;
 
     public GameBoardController(GameBodyFrame gbFrame) {
@@ -21,7 +19,7 @@ public class GameBoardController implements ActionListener {
         gameBodyFrame = gbFrame;
 
         gameBoardModel = new GameBoardModel();
-        gameBoardPanel = new GameBoardPanel(gameBoardModel);
+        gameBoardPanel = new GameBoardPanel();
         gameOptionPanel = new GameOptionPanel(this);
 
         gameBodyFrame.centerPanel.add(gameBoardPanel);
@@ -30,55 +28,42 @@ public class GameBoardController implements ActionListener {
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
 
+        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.currentPlayer));
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
 
+        // Check the number on the clicked button
+        int chosenCol = Integer.parseInt(e.getActionCommand());
+
         // Place piece
-        placePiece(e);
+        placePiece(chosenCol);
 
-        // Check 4-in-Row - Vertical
-        checkWinVertical(GameBoardModel.player.PLAYER_1);
-        checkWinVertical(GameBoardModel.player.PLAYER_2);
+        // Check if there's any winners
+        checkWinAllConditions(gameBoardModel.currentPlayer);
+        checkWinAllConditions(gameBoardModel.waitingPlayer);
 
-        // Check 4-in-Row - Horizontal
-        checkWinHorizontal(GameBoardModel.player.PLAYER_1);
-        checkWinHorizontal(GameBoardModel.player.PLAYER_2);
+        // Swap player
+        swapPlayer();
 
-        // Check 4-in-Row - Ascending Diagonal
-        checkWinAscendingDiagonal(GameBoardModel.player.PLAYER_1);
-        checkWinAscendingDiagonal(GameBoardModel.player.PLAYER_2);
+        // Change option buttons' color to current player
+        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.currentPlayer));
 
-        // Check 4-in-Row - Descending Diagonal
-        checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_1);
-        checkWinDescendingDiagonal(GameBoardModel.player.PLAYER_2);
-
-
+        // Check if any columns are full
+        disableFullColumns();
     }
-
 
     // TODO: Move this function over to model when done here with all win - conditions
     // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
-    void checkWinVertical(GameBoardModel.player player) {
-
-        // Check through all columns.
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
-
-            int counter = 0;
-
-            for (int j = 0; j < GameBoardModel.numRow; j++) {
-                if (gameBoardModel.listJPanelGameBoardSlots.get(i).get(j).getOwner().equals(player)) {
-                    counter++;
-                    if (counter >= GameBoardModel.winInRow) {
-                        System.out.println(player + " Won! - Vertically on COL: " + i);
-
-                        break;
-                    }
-                } else counter = 0;
-            }
-        }
+    // CHECK WIN CONDITIONS
+    void checkWinAllConditions(GameBoardModel.player player){
+        checkWinHorizontal(player);
+        checkWinVertical(player);
+        checkWinDescendingDiagonal(player);
+        checkWinAscendingDiagonal(player);
     }
 
     void checkWinHorizontal(GameBoardModel.player player) {
@@ -88,10 +73,30 @@ public class GameBoardController implements ActionListener {
             int counter = 0;
 
             for (int j = 0; j < GameBoardModel.numCol; j++) {
-                if (gameBoardModel.listJPanelGameBoardSlots.get(j).get(i).getOwner().equals(player)) {
+                if (getSlot(j,i).getOwner().equals(player)) {
                     counter++;
                     if (counter >= GameBoardModel.winInRow) {
                         System.out.println(player + " Won! - Horizontal on Row: " + i);
+                        break;
+                    }
+                } else counter = 0;
+            }
+        }
+    }
+
+    void checkWinVertical(GameBoardModel.player player) {
+
+        // Check through all columns.
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+
+            int counter = 0;
+
+            for (int j = 0; j < GameBoardModel.numRow; j++) {
+                if (getSlot(i,j).getOwner().equals(player)) {
+                    counter++;
+                    if (counter >= GameBoardModel.winInRow) {
+                        System.out.println(player + " Won! - Vertically on COL: " + i);
+
                         break;
                     }
                 } else counter = 0;
@@ -120,7 +125,7 @@ public class GameBoardController implements ActionListener {
             while (cur_x <= GameBoardModel.numCol - 1 && cur_y <= GameBoardModel.numRow - 1) {
 
                 // Check current tile's owner
-                if (gameBoardModel.listJPanelGameBoardSlots.get(cur_x).get(cur_y).getOwner().equals(player)) {
+                if (getSlot(cur_x,cur_y).getOwner().equals(player)) {
                     counter++;
                     if (counter >= GameBoardModel.winInRow) {
                         System.out.println(player + " Won! - Ascending Diagonally starting on (" + init_x + "," + init_y + ")");
@@ -161,7 +166,7 @@ public class GameBoardController implements ActionListener {
             while (cur_x < GameBoardModel.numCol && cur_y >= 0) {
 
                 // Check current tile's owner
-                if (gameBoardModel.listJPanelGameBoardSlots.get(cur_x).get(cur_y).getOwner().equals(player)) {
+                if (getSlot(cur_x,cur_y).getOwner().equals(player)) {
                     counter++;
                     if (counter >= GameBoardModel.winInRow) {
                         System.out.println(player + " Won! - Descending Diagonally starting on (" + init_x + "," + init_y + ")");
@@ -193,52 +198,74 @@ public class GameBoardController implements ActionListener {
         else WinColor = gameBoardModel.colorWin2;
 
         for (int i = 0; i < count; i++) {
-            gameBoardModel.listJPanelGameBoardSlots.get(x).get(y).piece.setBackground(WinColor);
+            gameBoardPanel.listJPanelGameBoardSlots.get(x).get(y).piece.setBackground(WinColor);
             x += increment_x;
             y += increment_y;
         }
 
     }
 
-    // todo: make current player as parameter, so it doesn't need to check every time the current player.
-    // todo: make the chosen column as a parameter, so that the ActionEvent e is not needed as a parameter.
-    void placePiece(ActionEvent e) {
 
-        // Check the number on the clicked button
-        int chosenCol = Integer.parseInt(e.getActionCommand());
 
-        // Find first index of the slot that is not occupied in the chosen column
-        int indexOfNotOccupied = -1;
+    // BOARD ACTIONS
 
-        for (int i = 0; i < GameBoardModel.numRow; i++) {
-            if (gameBoardModel.listJPanelGameBoardSlots.get(chosenCol).get(i).getOwner().equals(GameBoardModel.player.PLAYER_NONE)) {
-                indexOfNotOccupied = i;
-                break;
-            }
+    // Place piece at chosen column
+    void placePiece(int chosenCol) {
+
+        // Find available slot in chosen column
+        int indexOfNotOccupied = gameBoardModel.listOccupancyGameBoardSlots.get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
+
+        // Abort if not found
+        if (indexOfNotOccupied == -1) {
+            System.out.println("No empty slots in this column, terminating method.");
+            return; // Never supposed to happen. If it happens, we got a bug somewhere.
         }
-
-        // todo: activate this again or delete in the future!
-        // Set current player name on piece
-//        gameBoardModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).piece.setText("" + gameBoardModel.currentPlayer);
 
         // Set current player color on piece
-        if (gameBoardModel.currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
-            gameBoardModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).piece.setBackground(gameBoardModel.colorPlayer1);
-        } else {
-            gameBoardModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).piece.setBackground(gameBoardModel.colorPlayer2);
-        }
+        getSlot(chosenCol,indexOfNotOccupied).piece.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.currentPlayer));
 
         // Set enabled on piece
-        gameBoardModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).piece.setEnabled(true);
+        getSlot(chosenCol,indexOfNotOccupied).piece.setEnabled(true);
 
         // Set owner on piece
-        gameBoardModel.listJPanelGameBoardSlots.get(chosenCol).get(indexOfNotOccupied).owner = gameBoardModel.currentPlayer;
+        getSlot(chosenCol,indexOfNotOccupied).owner = gameBoardModel.currentPlayer;
 
-        // Switch Current Player
-        if (gameBoardModel.currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
-            gameBoardModel.currentPlayer = GameBoardModel.player.PLAYER_2;
-        } else gameBoardModel.currentPlayer = GameBoardModel.player.PLAYER_1;
+        // Tick occupancy list
+        gameBoardModel.listOccupancyGameBoardSlots.get(chosenCol).set(indexOfNotOccupied, gameBoardModel.currentPlayer);
 
     }
 
+    // Make it impossible to place piece in full columns
+    void disableFullColumns(){
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            if (gameBoardModel.listOccupancyGameBoardSlots.get(i).indexOf(GameBoardModel.player.PLAYER_NONE) == -1) {
+                gameOptionPanel.optionList.get(i).setEnabled(false);
+            }
+        }
+    }
+
+    // Colorize the option button colors
+    void colorOptionButtons(Color playerColor){
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            gameOptionPanel.optionList.get(i).setBackground(playerColor);
+            gameOptionPanel.optionList.get(i).setForeground(Color.white);
+        }
+    }
+
+    // Switch current player with waiting player, and vice versa
+    void swapPlayer() {
+        // Swap Current Player
+        GameBoardModel.player tempPlayer = gameBoardModel.currentPlayer;
+        gameBoardModel.currentPlayer = gameBoardModel.waitingPlayer;
+        gameBoardModel.waitingPlayer = tempPlayer;
+    }
+
+
+
+    // GETTERS
+
+    // Getter-Wrapper for the slots inside GameBoardPanel
+    GamePieceSlot getSlot(int x, int y){
+        return gameBoardPanel.listJPanelGameBoardSlots.get(x).get(y);
+    }
 }

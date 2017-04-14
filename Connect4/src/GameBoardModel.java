@@ -11,10 +11,8 @@ public class GameBoardModel {
     static int numCol = 7;      // Default: 7
     static int winInRow = 4;    // Default: 4
 
-
-    // JPanel list holding all the JPanels on the board in sorted fashion.
-    ArrayList<ArrayList<GamePieceSlot>> listJPanelGameBoardSlots = new ArrayList<>();
-
+    // A list that keeps track on which slots belong to whom
+    ArrayList<ArrayList<player>> listOccupancyGameBoardSlots = new ArrayList<>();
 
     // Player Color
     Color colorPlayer1 = Color.RED;
@@ -28,16 +26,27 @@ public class GameBoardModel {
 
     // The variable keeping track of current player
     player currentPlayer = player.PLAYER_1;
-
-
+    player waitingPlayer = player.PLAYER_2;
 
     GameBoardModel(){
 
+        // Instantiate list of occupancy
+        for (int i = 0; i < numCol; i++) {
+            listOccupancyGameBoardSlots.add(new ArrayList<>());
+            for (int j = 0; j < numRow; j++) {
+                listOccupancyGameBoardSlots.get(i).add(player.PLAYER_NONE);
+            }
+        }
     }
 
-    GamePieceSlot getSlot(int x, int y){
-        return listJPanelGameBoardSlots.get(x).get(y);
-    }
 
+
+    // Get color of given parameter
+    Color getPlayerColor(player checkPlayer){
+        if(checkPlayer.equals(player.PLAYER_1)){
+            return colorPlayer1;
+        }
+        else return colorPlayer2;
+    }
 
 }
