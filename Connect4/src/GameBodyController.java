@@ -31,7 +31,7 @@ public class GameBodyController implements ActionListener {
         gameBodyFrame.highscore.addActionListener(this);
 
         // todo: add this to GameBodyFrame?
-        //Window listener
+        // Window listener
         gameBodyFrame.addWindowListener(
                 new WindowAdapter() {
                     @Override
