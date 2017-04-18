@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class GameBoardPanel extends JPanel {
 
     // JPanel list holding all the JPanels on the board in sorted fashion.
-    ArrayList<ArrayList<GamePieceSlot>> listJPanelGameBoardSlots = new ArrayList<>();
+    private ArrayList<ArrayList<GamePieceSlot>> listJPanelGameBoardSlots = new ArrayList<>();
 
     GameBoardPanel() {
 
@@ -53,5 +53,10 @@ public class GameBoardPanel extends JPanel {
             }
         }
 
+    }
+
+    // Getter-Wrapper for the slots inside GameBoardPanel
+    GamePieceSlot getSlot(int x, int y) {
+        return listJPanelGameBoardSlots.get(x).get(y);
     }
 }

@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by aslak on 03.04.17.
@@ -30,13 +30,15 @@ public class GameBoardController implements ActionListener {
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
 
-        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.currentPlayer));
+        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        System.out.println("\nTURN: "+ gameBoardModel.getTurn());
+        System.out.println("**********");
 
         // Check the number on the clicked button
         int chosenCol = Integer.parseInt(e.getActionCommand());
@@ -45,14 +47,17 @@ public class GameBoardController implements ActionListener {
         placePiece(chosenCol);
 
         // Check if there's any winners
-        checkWinAllConditions(gameBoardModel.currentPlayer);
-        checkWinAllConditions(gameBoardModel.waitingPlayer);
+        checkWinAllConditions(gameBoardModel.getCurrentPlayer());
+        checkWinAllConditions(gameBoardModel.getWaitingPlayer());
 
         // Swap player
-        swapPlayer();
+        alternatePlayers();
+
+        // Proceed turn
+        gameBoardModel.proceedTurn();
 
         // Change option buttons' color to current player
-        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.currentPlayer));
+        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
         // Check if any columns are full
         disableFullColumns();
@@ -88,7 +93,7 @@ public class GameBoardController implements ActionListener {
             ArrayList<Integer> lister = new ArrayList<>();  // 1D binary list of current row
 
             for (int j = 0; j < GameBoardModel.numCol; j++) {
-                if (getSlot(j, i).getOwner().equals(player)) lister.add(1);
+                if (gameBoardPanel.getSlot(j, i).getOwner().equals(player)) lister.add(1);
                 else lister.add(0);
             }
 
@@ -107,7 +112,7 @@ public class GameBoardController implements ActionListener {
             ArrayList<Integer> lister = new ArrayList<>();  // 1D binary list of current row
 
             for (int j = 0; j < GameBoardModel.numRow; j++) {
-                if (getSlot(i, j).getOwner().equals(player)) lister.add(1);
+                if (gameBoardPanel.getSlot(i, j).getOwner().equals(player)) lister.add(1);
                 else lister.add(0);
             }
 
@@ -140,7 +145,7 @@ public class GameBoardController implements ActionListener {
             while (cur_x < GameBoardModel.numCol && cur_y < GameBoardModel.numRow) {
 
                 // Check current tile's owner
-                if (getSlot(cur_x, cur_y).getOwner().equals(player)) lister.add(1);
+                if (gameBoardPanel.getSlot(cur_x, cur_y).getOwner().equals(player)) lister.add(1);
                 else lister.add(0);
 
                 // Increments both, simulating ascending rightwards.
@@ -181,7 +186,7 @@ public class GameBoardController implements ActionListener {
             while (cur_x < GameBoardModel.numCol && cur_y >= 0) {
 
                 // Check current tile's owner
-                if (getSlot(cur_x, cur_y).getOwner().equals(player)) lister.add(1);
+                if (gameBoardPanel.getSlot(cur_x, cur_y).getOwner().equals(player)) lister.add(1);
                 else lister.add(0);
 
                 // Increments both, simulating ascending rightwards.
@@ -200,19 +205,20 @@ public class GameBoardController implements ActionListener {
         }
     }
 
-    // todo: finish this when got time.
     void colorWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister, GameBoardModel.player player) {
+
+        // Prematurely return if not enough same pieces
+        if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)){
+            return;
+        }
 
         int x = init_x;
         int y = init_y;
 
-        Color WinColor;
+        // Pick correct color
+        Color WinColor = gameBoardModel.getPlayerWinColor(player);
 
         int counter = 0;
-
-        // Pick correct color
-        if (player.equals(GameBoardModel.player.PLAYER_1)) WinColor = gameBoardModel.colorWin1;
-        else WinColor = gameBoardModel.colorWin2;
 
         // Check given list
         for (int i = 0; i < lister.size(); i++) {
@@ -234,7 +240,7 @@ public class GameBoardController implements ActionListener {
                     System.out.println("\t\t> x: " + x + ", y: " + y + ", length: " + counter);
 
                     for (int j = 0; j < counter; j++) {
-                        gameBoardPanel.listJPanelGameBoardSlots.get(x).get(y).piece.setBackground(WinColor);
+                        gameBoardPanel.getSlot(x,y).piece.setBackground(WinColor);
                         x += increment_x;
                         y += increment_y;
                     }
@@ -256,7 +262,7 @@ public class GameBoardController implements ActionListener {
     void placePiece(int chosenCol) {
 
         // Find available slot in chosen column
-        int indexOfNotOccupied = gameBoardModel.listOccupancyGameBoardSlots.get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
+        int indexOfNotOccupied = gameBoardModel.getListOccupancy().get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
 
         // Abort if not found
         if (indexOfNotOccupied == -1) {
@@ -265,23 +271,23 @@ public class GameBoardController implements ActionListener {
         }
 
         // Set current player color on piece
-        getSlot(chosenCol, indexOfNotOccupied).piece.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.currentPlayer));
+        gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).piece.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
         // Set enabled on piece
-        getSlot(chosenCol, indexOfNotOccupied).piece.setEnabled(true);
+        gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).piece.setEnabled(true);
 
         // Set owner on piece
-        getSlot(chosenCol, indexOfNotOccupied).owner = gameBoardModel.currentPlayer;
+        gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).owner = gameBoardModel.getCurrentPlayer();
 
         // Tick occupancy list
-        gameBoardModel.listOccupancyGameBoardSlots.get(chosenCol).set(indexOfNotOccupied, gameBoardModel.currentPlayer);
+        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, gameBoardModel.getCurrentPlayer());
 
     }
 
     // Make it impossible to place piece in full columns
     void disableFullColumns() {
         for (int i = 0; i < GameBoardModel.numCol; i++) {
-            if (gameBoardModel.listOccupancyGameBoardSlots.get(i).indexOf(GameBoardModel.player.PLAYER_NONE) == -1) {
+            if (gameBoardModel.getListOccupancy().get(i).indexOf(GameBoardModel.player.PLAYER_NONE) == -1) {
                 gameOptionPanel.optionList.get(i).setEnabled(false);
             }
         }
@@ -296,18 +302,15 @@ public class GameBoardController implements ActionListener {
     }
 
     // Switch current player with waiting player, and vice versa
-    void swapPlayer() {
+    void alternatePlayers() {
         // Swap Current Player
-        GameBoardModel.player tempPlayer = gameBoardModel.currentPlayer;
-        gameBoardModel.currentPlayer = gameBoardModel.waitingPlayer;
-        gameBoardModel.waitingPlayer = tempPlayer;
+        GameBoardModel.player tempPlayer = gameBoardModel.getCurrentPlayer();
+        gameBoardModel.setCurrentPlayer(gameBoardModel.getWaitingPlayer());
+        gameBoardModel.setWaitingPlayer(tempPlayer);
     }
 
 
     // GETTERS
 
-    // Getter-Wrapper for the slots inside GameBoardPanel
-    GamePieceSlot getSlot(int x, int y) {
-        return gameBoardPanel.listJPanelGameBoardSlots.get(x).get(y);
-    }
+
 }
