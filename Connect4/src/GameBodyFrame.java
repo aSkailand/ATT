@@ -15,16 +15,6 @@ public class GameBodyFrame extends JFrame {
     JPanel topPanel = new JPanel();
     JPanel playersPanel = new JPanel();
 
-    //JMenu items
-    JMenuBar menuBar = new JMenuBar();
-    JMenu fileMenu = new JMenu("File");
-    JMenuItem mainMenu = new JMenuItem("Main menu");
-    JMenuItem highscore = new JMenuItem("Highscore");
-    JMenuItem saveGame = new JMenuItem("Save game");
-    JMenuItem openGame = new JMenuItem("Open game");
-    JMenuItem pauseGame = new JMenuItem("Pause game");
-    JMenuItem restartGame = new JMenuItem("Restart game");
-
     GridBagConstraints gbc = new GridBagConstraints();
 
     /**
@@ -39,19 +29,6 @@ public class GameBodyFrame extends JFrame {
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.blue);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        //JMenu setup
-        this.setJMenuBar(menuBar);
-        menuBar.add(fileMenu);
-        fileMenu.add(mainMenu);
-        fileMenu.addSeparator();
-        fileMenu.add(highscore);
-        fileMenu.addSeparator();
-        fileMenu.add(saveGame);
-        fileMenu.add(openGame);
-        fileMenu.addSeparator();
-        fileMenu.add(pauseGame);
-        fileMenu.add(restartGame);
 
         // Left panel
         leftPanel.setLayout(new GridBagLayout());

@@ -7,7 +7,7 @@ import java.awt.event.WindowEvent;
 /**
  * Created by aslak on 03.04.17.
  */
-public class GameBodyController implements ActionListener {
+public class GameBodyController {
 
     // todo: Convert to local: Possible if in actionPerformed: e.getSource -> e.getActionCommand
     // todo: if changing to e.getActionCommand,
@@ -15,20 +15,13 @@ public class GameBodyController implements ActionListener {
 
     // todo: Convert over to local?
     GameBoardController gameBoardController;
+    GameJMenuController gameJMenuController;
 
     public GameBodyController() {
 
         gameBodyFrame = new GameBodyFrame();
         gameBoardController = new GameBoardController(gameBodyFrame);
-
-        // todo: add this to own class or GameBoardFrame?
-        //JMenu action listeners
-        gameBodyFrame.mainMenu.addActionListener(this);
-        gameBodyFrame.saveGame.addActionListener(this);
-        gameBodyFrame.openGame.addActionListener(this);
-        gameBodyFrame.pauseGame.addActionListener(this);
-        gameBodyFrame.restartGame.addActionListener(this);
-        gameBodyFrame.highscore.addActionListener(this);
+        gameJMenuController = new GameJMenuController(gameBodyFrame);
 
         // todo: add this to GameBodyFrame?
         //Window listener
@@ -63,41 +56,5 @@ public class GameBodyController implements ActionListener {
 
                     }
                 });
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        //Main menu action listener
-        if (e.getSource().equals(gameBodyFrame.mainMenu)) {
-            System.out.println("Main menu...");
-        }
-
-        //Save game action listener
-        if (e.getSource().equals(gameBodyFrame.saveGame)) {
-            System.out.println("Saved game...");
-        }
-
-        //Open game action listener
-        if (e.getSource().equals(gameBodyFrame.openGame)) {
-            System.out.println("Open game...");
-        }
-
-        //Pause game action listener
-        if (e.getSource().equals(gameBodyFrame.pauseGame)) {
-            System.out.println("Paused game...");
-        }
-
-        //Restart game action listener
-        if (e.getSource().equals(gameBodyFrame.restartGame)) {
-            System.out.println("Restart game...");
-        }
-
-        //Highscore action listener
-        if (e.getSource().equals(gameBodyFrame.highscore)) {
-            System.out.println("Highscore");
-        }
-
-
     }
 }
