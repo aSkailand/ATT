@@ -13,6 +13,7 @@ public class GameJMenu extends JMenuBar {
     JMenuItem openGame = new JMenuItem("Open game");
     JMenuItem pauseGame = new JMenuItem("Pause game");
     JMenuItem restartGame = new JMenuItem("Restart game");
+    JMenuItem startTimer = new JMenuItem("Start timer");
 
     /**
      * This is the JMenuBar
@@ -27,6 +28,7 @@ public class GameJMenu extends JMenuBar {
         fileMenu.addSeparator();
         fileMenu.add(highscore);
         fileMenu.addSeparator();
+        fileMenu.add(startTimer);
         fileMenu.add(saveGame);
         fileMenu.add(openGame);
         fileMenu.addSeparator();
@@ -40,6 +42,7 @@ public class GameJMenu extends JMenuBar {
         openGame.addActionListener(controller);
         pauseGame.addActionListener(controller);
         restartGame.addActionListener(controller);
+        startTimer.addActionListener(controller);
 
         mainMenu.setActionCommand("mainMenu");
         highscore.setActionCommand("highscore");
@@ -47,5 +50,6 @@ public class GameJMenu extends JMenuBar {
         openGame.setActionCommand("openGame");
         pauseGame.setActionCommand("pauseGame");
         restartGame.setActionCommand("restartGame");
+        startTimer.setActionCommand("startTimer");
     }
 }

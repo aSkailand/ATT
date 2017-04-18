@@ -1,15 +1,21 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
 
 /**
  * Created by aslak on 18.04.17.
  */
 public class GameJMenuController implements ActionListener {
 
+
+
     GameJMenu gameJMenu;
     GameBodyFrame gameBodyFrame;
+    Timer roundTimer;
+
 
     public GameJMenuController(GameBodyFrame gbFrame) {
+
 
         gameJMenu = new GameJMenu(this);
         gameBodyFrame = gbFrame;
@@ -21,6 +27,10 @@ public class GameJMenuController implements ActionListener {
     // ActionListener for the JMenuBar
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(roundTimer)) {
+
+        }
+
         switch (e.getActionCommand()) {
             case "mainMenu": {
                 System.out.println("Main menu...");
@@ -44,6 +54,9 @@ public class GameJMenuController implements ActionListener {
             }
             case "restartGame": {
                 System.out.println("Restarted game...");
+            }
+            case "startTimer": {
+                System.out.println("Started timer");
             }
         }
     }

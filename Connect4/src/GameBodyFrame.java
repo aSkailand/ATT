@@ -1,10 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * Created by aslak on 03.04.17.
  */
 public class GameBodyFrame extends JFrame {
+
+
+
+
 
     // Temporary text
     JLabel labelCurrentPlayerText = new JLabel();
