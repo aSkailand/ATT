@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
  */
 public class GameBodyController {
 
-    int roundTime = 3;
 
     // todo: Convert to local: Possible if in actionPerformed: e.getSource -> e.getActionCommand
     // todo: if changing to e.getActionCommand,

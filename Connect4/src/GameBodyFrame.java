@@ -7,10 +7,6 @@ import java.awt.event.ActionListener;
  */
 public class GameBodyFrame extends JFrame {
 
-
-
-
-
     // Temporary text
     JLabel labelCurrentPlayerText = new JLabel();
 
@@ -19,6 +15,9 @@ public class GameBodyFrame extends JFrame {
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
     JPanel playersPanel = new JPanel();
+    JPanel timerPanel = new JPanel();
+
+    JLabel timer = new JLabel("Time: ");
 
     GridBagConstraints gbc = new GridBagConstraints();
 
@@ -27,6 +26,7 @@ public class GameBodyFrame extends JFrame {
      * such as the game log/history, game grid (6x7), power-ups ect.
      */
     public GameBodyFrame() {
+
 
         // JFrame setup
         this.setTitle("Connect4");
@@ -60,11 +60,16 @@ public class GameBodyFrame extends JFrame {
         gbcPlayersPanel();
         this.add(playersPanel, gbc);
 
+        playersPanel.add(timerPanel);
+        timerPanel.add(timer);
+
+
         // Top panel
         topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(Color.white);
         gbcTopPanel();
         this.add(topPanel, gbc);
+
 
         // Set visibility
         this.setVisible(true);
