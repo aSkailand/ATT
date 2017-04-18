@@ -24,7 +24,7 @@ public class GameBodyController {
         gameJMenuController = new GameJMenuController(gameBodyFrame);
 
         // todo: add this to GameBodyFrame?
-        //Window listener
+        // Window listener
         gameBodyFrame.addWindowListener(
                 new WindowAdapter() {
                     @Override
