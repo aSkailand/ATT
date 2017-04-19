@@ -11,7 +11,8 @@ public class GameJMenuController implements ActionListener {
 
     GameJMenu gameJMenu;
     GameBodyFrame gameBodyFrame;
-    GameTimer gameTimer;
+    GameTimerController gameTimerController;
+
 
 
     public GameJMenuController(GameBodyFrame gbFrame) {
@@ -54,7 +55,7 @@ public class GameJMenuController implements ActionListener {
             }
             case "startTimer": {
                 System.out.println("Started timer");
-                gameTimer = new GameTimer();
+                gameTimerController.currentTime = 30;
 
             }
         }

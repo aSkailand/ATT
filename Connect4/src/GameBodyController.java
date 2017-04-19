@@ -17,12 +17,14 @@ public class GameBodyController {
     // todo: Convert over to local?
     GameBoardController gameBoardController;
     GameJMenuController gameJMenuController;
+    GameTimerController gameTimerController;
 
     public GameBodyController() {
 
         gameBodyFrame = new GameBodyFrame();
         gameBoardController = new GameBoardController(gameBodyFrame);
         gameJMenuController = new GameJMenuController(gameBodyFrame);
+        gameTimerController = new GameTimerController(gameBodyFrame);
 
         // todo: add this to GameBodyFrame?
         // Window listener

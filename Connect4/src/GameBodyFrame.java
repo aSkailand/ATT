@@ -17,7 +17,7 @@ public class GameBodyFrame extends JFrame {
     JPanel playersPanel = new JPanel();
     JPanel timerPanel = new JPanel();
 
-    JLabel timer = new JLabel("Time: ");
+    JLabel timer = new JLabel("");
 
     GridBagConstraints gbc = new GridBagConstraints();
 
@@ -59,6 +59,9 @@ public class GameBodyFrame extends JFrame {
         playersPanel.setBackground(Color.green);
         gbcPlayersPanel();
         this.add(playersPanel, gbc);
+
+        // Timer panel
+        timerPanel.setLayout(new FlowLayout());
 
         playersPanel.add(timerPanel);
         timerPanel.add(timer);
@@ -170,4 +173,6 @@ public class GameBodyFrame extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_END;
     }
+
+
 }
