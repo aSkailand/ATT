@@ -7,13 +7,8 @@ import java.util.Timer;
  */
 public class GameJMenuController implements ActionListener {
 
-
-
     GameJMenu gameJMenu;
     GameBodyFrame gameBodyFrame;
-    GameTimerController gameTimerController;
-
-
 
     public GameJMenuController(GameBodyFrame gbFrame) {
 
@@ -55,8 +50,6 @@ public class GameJMenuController implements ActionListener {
             }
             case "startTimer": {
                 System.out.println("Started timer");
-                gameTimerController.currentTime = 30;
-
             }
         }
     }

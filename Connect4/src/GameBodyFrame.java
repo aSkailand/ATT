@@ -17,7 +17,7 @@ public class GameBodyFrame extends JFrame {
     JPanel playersPanel = new JPanel();
     JPanel timerPanel = new JPanel();
 
-    JLabel timer = new JLabel("");
+    JLabel timer = new JLabel("Starting game...");
 
     GridBagConstraints gbc = new GridBagConstraints();
 
