@@ -9,14 +9,20 @@ public class GameJMenuController implements ActionListener {
 
     GameJMenu gameJMenu;
     GameBodyFrame gameBodyFrame;
+    GameTimerController gameTimerController;
+
+    //This boolean is for the pause/unpause button, when its true its unpaused, if its false its paused
+    boolean pauseBoolean = true;
+
 
     public GameJMenuController(GameBodyFrame gbFrame) {
 
-
+        gameTimerController = new GameTimerController(gbFrame);
 
         gameJMenu = new GameJMenu(this);
         gameBodyFrame = gbFrame;
         gameBodyFrame.setJMenuBar(gameJMenu);
+
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
     }
@@ -43,13 +49,33 @@ public class GameJMenuController implements ActionListener {
             }
             case "pauseGame": {
                 System.out.println("Paused game...");
+                if(pauseBoolean==true) {
+                    gameTimerController.playerTurnTimer.stop();
+                    pauseBoolean = false;
+                }
+                else{
+                    gameTimerController.playerTurnTimer.start();
+                    pauseBoolean = true;
+                }
+                break;
+            }
+            case "startTimer": {
+                System.out.println("Started timer");
+                gameTimerController.playerTurnTimer.start();
+                pauseBoolean = true;
+                break;
+            }
+            case "resetTimer": {
+                System.out.println("Timer reset...");
+                gameTimerController.playerTurnTimer.stop();
+                gameTimerController.currentTime = 29;
+                gameBodyFrame.timer.setText("Time left: 30 Seconds...");
+                pauseBoolean = true;
                 break;
             }
             case "restartGame": {
                 System.out.println("Restarted game...");
-            }
-            case "startTimer": {
-                System.out.println("Started timer");
+                break;
             }
         }
     }
