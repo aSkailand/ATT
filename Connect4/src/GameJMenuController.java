@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
 
 /**
  * Created by aslak on 18.04.17.
@@ -10,6 +11,8 @@ public class GameJMenuController implements ActionListener {
     GameBodyFrame gameBodyFrame;
 
     public GameJMenuController(GameBodyFrame gbFrame) {
+
+
 
         gameJMenu = new GameJMenu(this);
         gameBodyFrame = gbFrame;
@@ -44,6 +47,9 @@ public class GameJMenuController implements ActionListener {
             }
             case "restartGame": {
                 System.out.println("Restarted game...");
+            }
+            case "startTimer": {
+                System.out.println("Started timer");
             }
         }
     }

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * Created by aslak on 03.04.17.
@@ -14,6 +15,9 @@ public class GameBodyFrame extends JFrame {
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
     JPanel playersPanel = new JPanel();
+    JPanel timerPanel = new JPanel();
+
+    JLabel timer = new JLabel("Starting game...");
 
     GridBagConstraints gbc = new GridBagConstraints();
 
@@ -22,6 +26,7 @@ public class GameBodyFrame extends JFrame {
      * such as the game log/history, game grid (6x7), power-ups ect.
      */
     public GameBodyFrame() {
+
 
         // JFrame setup
         this.setTitle("Connect4");
@@ -55,11 +60,19 @@ public class GameBodyFrame extends JFrame {
         gbcPlayersPanel();
         this.add(playersPanel, gbc);
 
+        // Timer panel
+        timerPanel.setLayout(new FlowLayout());
+
+        playersPanel.add(timerPanel);
+        timerPanel.add(timer);
+
+
         // Top panel
         topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(Color.white);
         gbcTopPanel();
         this.add(topPanel, gbc);
+
 
         // Set visibility
         this.setVisible(true);
@@ -160,4 +173,6 @@ public class GameBodyFrame extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_END;
     }
+
+
 }
