@@ -11,9 +11,11 @@ public class GameJMenu extends JMenuBar {
     JMenuItem highscore = new JMenuItem("Highscore");
     JMenuItem saveGame = new JMenuItem("Save game");
     JMenuItem openGame = new JMenuItem("Open game");
-    JMenuItem pauseGame = new JMenuItem("Pause game");
     JMenuItem restartGame = new JMenuItem("Restart game");
+    JMenuItem pauseGame = new JMenuItem("Pause/Unpause game");
+    JMenuItem resetTimer = new JMenuItem("Reset timer");
     JMenuItem startTimer = new JMenuItem("Start timer");
+
 
     /**
      * This is the JMenuBar
@@ -28,11 +30,14 @@ public class GameJMenu extends JMenuBar {
         fileMenu.addSeparator();
         fileMenu.add(highscore);
         fileMenu.addSeparator();
-        fileMenu.add(startTimer);
+
         fileMenu.add(saveGame);
         fileMenu.add(openGame);
         fileMenu.addSeparator();
+        fileMenu.add(startTimer);
         fileMenu.add(pauseGame);
+        fileMenu.add(resetTimer);
+        fileMenu.addSeparator();
         fileMenu.add(restartGame);
 
         // addActionListener and setActionListener setup
@@ -43,6 +48,7 @@ public class GameJMenu extends JMenuBar {
         pauseGame.addActionListener(controller);
         restartGame.addActionListener(controller);
         startTimer.addActionListener(controller);
+        resetTimer.addActionListener(controller);
 
         mainMenu.setActionCommand("mainMenu");
         highscore.setActionCommand("highscore");
@@ -51,5 +57,6 @@ public class GameJMenu extends JMenuBar {
         pauseGame.setActionCommand("pauseGame");
         restartGame.setActionCommand("restartGame");
         startTimer.setActionCommand("startTimer");
+        resetTimer.setActionCommand("resetTimer");
     }
 }

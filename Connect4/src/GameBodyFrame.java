@@ -15,7 +15,7 @@ public class GameBodyFrame extends JFrame {
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
     JPanel playersPanel = new JPanel();
-    JPanel timerPanel = new JPanel();
+
 
     JLabel timer = new JLabel("Starting game...");
 
@@ -61,10 +61,7 @@ public class GameBodyFrame extends JFrame {
         this.add(playersPanel, gbc);
 
         // Timer panel
-        timerPanel.setLayout(new FlowLayout());
-
-        playersPanel.add(timerPanel);
-        timerPanel.add(timer);
+        playersPanel.add(timer);
 
 
         // Top panel

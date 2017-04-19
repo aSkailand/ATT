@@ -32,6 +32,10 @@ public class GameTimerController implements ActionListener {
                 if (currentTime < 0) {
                     currentTime = 30;
                 }
+                break;
+            }
+            case "resetTimer": {
+
             }
         }
     }
