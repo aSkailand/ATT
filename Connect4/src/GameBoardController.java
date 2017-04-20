@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,11 +16,7 @@ public class GameBoardController implements ActionListener {
 
     GameOptionPanel gameOptionPanel;
 
-
-
     public GameBoardController(GameBodyFrame gbFrame) {
-
-
 
         gameBodyFrame = gbFrame;
 
@@ -37,12 +32,14 @@ public class GameBoardController implements ActionListener {
 
         colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
+        System.out.println("");
+        gameBoardModel.printOccupancyList();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        System.out.println("\nTURN: "+ gameBoardModel.getTurn());
+        System.out.println("\nTURN: "+ gameBoardModel.getNumMove());
         System.out.println("**********");
 
         // Check the number on the clicked button
@@ -58,14 +55,22 @@ public class GameBoardController implements ActionListener {
         // Swap player
         alternatePlayers();
 
-        // Proceed turn
-        gameBoardModel.proceedTurn();
+        // add PLAYER_1 move
+        gameBoardModel.addMove();
+
+        // Check if Draw
+        if(gameBoardModel.getNumMove() == GameBoardModel.numRow*GameBoardModel.numCol) System.out.println("DRAW?");
 
         // Change option buttons' color to current player
         colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
         // Check if any columns are full
         disableFullColumns();
+
+        // Print OccupancyList
+        gameBoardModel.printOccupancyList();
+
+
     }
 
     // TODO: Move this function over to model when done here with all win - conditions
@@ -161,7 +166,7 @@ public class GameBoardController implements ActionListener {
             // Find win
             colorWinningRow(init_x, init_y, 1, 1, lister, player);
 
-            // Moving one step further
+            // Moving PLAYER_1 step further
             if (init_y != last_y) init_y--;
             else init_x++;
 
@@ -202,7 +207,7 @@ public class GameBoardController implements ActionListener {
             // Find win
             colorWinningRow(init_x, init_y, 1, -1, lister, player);
 
-            // Moving one step further
+            // Moving PLAYER_1 step further
             if (init_y != last_y) init_y++;
             else init_x++;
 
@@ -210,13 +215,18 @@ public class GameBoardController implements ActionListener {
         }
     }
 
-    void colorWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister, GameBoardModel.player player) {
+    boolean colorWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister, GameBoardModel.player player) {
+
 
         // Prematurely return if not enough same pieces
         if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)){
-            return;
+            return false;
         }
 
+        // Return value
+        boolean winInSight = false;
+
+        // Initial values
         int x = init_x;
         int y = init_y;
 
@@ -237,13 +247,15 @@ public class GameBoardController implements ActionListener {
                 // Check if long enough row exist
                 if (counter >= GameBoardModel.winInRow) {
 
-                    // Add win-events here (things that happens if one user wins)
-                    // HERE
-                    // HERE
-                    // HERE
+                    // Add win-events here (things that happens if PLAYER_1 user wins)
 
+                    // Tick win
+                    winInSight = true;
+
+                    // Print out win message
                     System.out.println("\t\t> x: " + x + ", y: " + y + ", length: " + counter);
 
+                    // Color win
                     for (int j = 0; j < counter; j++) {
                         gameBoardPanel.getSlot(x,y).piece.setBackground(WinColor);
                         x += increment_x;
@@ -257,6 +269,9 @@ public class GameBoardController implements ActionListener {
             }
 
         }
+
+        System.out.println("winInSight: "+winInSight);
+        return winInSight;
 
     }
 
@@ -289,10 +304,15 @@ public class GameBoardController implements ActionListener {
 
     }
 
-    // Make it impossible to place piece in full columns
+    // Check if given column is playable
+    boolean playableCol(int chosenCol){
+        return gameBoardModel.getListOccupancy().get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE) != -1;
+    }
+
+    // Disable all unplayable columns
     void disableFullColumns() {
         for (int i = 0; i < GameBoardModel.numCol; i++) {
-            if (gameBoardModel.getListOccupancy().get(i).indexOf(GameBoardModel.player.PLAYER_NONE) == -1) {
+            if (!playableCol(i)) {
                 gameOptionPanel.optionList.get(i).setEnabled(false);
             }
         }

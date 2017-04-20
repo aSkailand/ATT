@@ -12,15 +12,26 @@ public class GameBoardModel {
     static int winInRow = 4;    // Default: 4
 
     // GAME OPTIONS
-    private int numTurn = 0;
+    private int numMove = 0;
 
-    // A list that keeps track on which slots belong to whom
+    // PLAYER_1 list that keeps track on which slots belong to whom
     private ArrayList<ArrayList<player>> listOccupancyGameBoardSlots = new ArrayList<>();
 
     // PLAYER VARIABLES
-    // An enumeration that hold two members (behaves like a boolean in this case)
+    // An enumeration that hold player states (behaves like a boolean in this case)
     public enum player{
-        PLAYER_1, PLAYER_2, PLAYER_NONE
+
+        PLAYER_1(1), PLAYER_2(2), PLAYER_NONE(0);
+
+        private int numVal;
+
+        player(int numVal) {
+            this.numVal = numVal;
+        }
+
+        public int getNumVal() {
+            return numVal;
+        }
     }
 
     private player firstPlayer = player.PLAYER_NONE;
@@ -75,6 +86,20 @@ public class GameBoardModel {
 
     // GETTERS AND SETTERS
 
+    // Prints out OccupancyList in terminal
+    void printOccupancyList(){
+        for (int i = GameBoardModel.numRow-1; i >= 0; i--) {
+            System.out.print("[");
+            for (int j = 0; j < GameBoardModel.numCol; j++) {
+                if (this.getListOccupancy().get(j).get(i).equals(GameBoardModel.player.PLAYER_NONE))
+                    System.out.print(" - ");
+                else
+                    System.out.print(" "+this.getListOccupancy().get(j).get(i).getNumVal()+" ");
+            }
+            System.out.print("]\n");
+        }
+    }
+
     player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -112,12 +137,12 @@ public class GameBoardModel {
         return this.listOccupancyGameBoardSlots;
     }
 
-    int getTurn() {
-        return numTurn;
+    int getNumMove() {
+        return numMove;
     }
 
-    void proceedTurn() {
-        this.numTurn++;
+    void addMove() {
+        this.numMove++;
     }
 
 

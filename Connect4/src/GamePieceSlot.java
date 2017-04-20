@@ -20,7 +20,7 @@ public class GamePieceSlot extends JPanel{
     // Owner of this slot
     GameBoardModel.player owner = GameBoardModel.player.PLAYER_NONE;
 
-    // A JButton will behave as the slot piece for now
+    // PLAYER_1 JButton will behave as the slot piece for now
     JButton piece;
 
     GamePieceSlot(){
