@@ -103,7 +103,7 @@ public class GameBoardController implements ActionListener {
             ArrayList<Integer> lister = new ArrayList<>();  // 1D binary list of current row
 
             for (int j = 0; j < GameBoardModel.numCol; j++) {
-                if (gameBoardPanel.getSlot(j, i).getOwner().equals(player)) lister.add(1);
+                if (gameBoardModel.getSlotOccupancy(j,i).equals(player)) lister.add(1);
                 else lister.add(0);
             }
 
@@ -122,7 +122,7 @@ public class GameBoardController implements ActionListener {
             ArrayList<Integer> lister = new ArrayList<>();  // 1D binary list of current row
 
             for (int j = 0; j < GameBoardModel.numRow; j++) {
-                if (gameBoardPanel.getSlot(i, j).getOwner().equals(player)) lister.add(1);
+                if (gameBoardModel.getSlotOccupancy(i,j).equals(player)) lister.add(1);
                 else lister.add(0);
             }
 
@@ -155,7 +155,7 @@ public class GameBoardController implements ActionListener {
             while (cur_x < GameBoardModel.numCol && cur_y < GameBoardModel.numRow) {
 
                 // Check current tile's owner
-                if (gameBoardPanel.getSlot(cur_x, cur_y).getOwner().equals(player)) lister.add(1);
+                if (gameBoardModel.getSlotOccupancy(cur_x, cur_y).equals(player)) lister.add(1);
                 else lister.add(0);
 
                 // Increments both, simulating ascending rightwards.
@@ -196,7 +196,7 @@ public class GameBoardController implements ActionListener {
             while (cur_x < GameBoardModel.numCol && cur_y >= 0) {
 
                 // Check current tile's owner
-                if (gameBoardPanel.getSlot(cur_x, cur_y).getOwner().equals(player)) lister.add(1);
+                if (gameBoardModel.getSlotOccupancy(cur_x, cur_y).equals(player)) lister.add(1);
                 else lister.add(0);
 
                 // Increments both, simulating ascending rightwards.
@@ -295,9 +295,6 @@ public class GameBoardController implements ActionListener {
 
         // Set enabled on piece
         gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).piece.setEnabled(true);
-
-        // Set owner on piece
-        gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).owner = gameBoardModel.getCurrentPlayer();
 
         // Tick occupancy list
         gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, gameBoardModel.getCurrentPlayer());

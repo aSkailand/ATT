@@ -17,10 +17,7 @@ import java.awt.*;
  */
 public class GamePieceSlot extends JPanel{
 
-    // Owner of this slot
-    GameBoardModel.player owner = GameBoardModel.player.PLAYER_NONE;
-
-    // PLAYER_1 JButton will behave as the slot piece for now
+    // A JButton will behave as the slot piece for now
     JButton piece;
 
     GamePieceSlot(){
@@ -37,10 +34,6 @@ public class GamePieceSlot extends JPanel{
         piece.setPreferredSize(new Dimension(50,50));
 
         this.add(piece);
-    }
-
-    public GameBoardModel.player getOwner(){
-        return owner;
     }
 
 }

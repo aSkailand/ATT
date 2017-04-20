@@ -137,10 +137,15 @@ public class GameBoardModel {
         return this.listOccupancyGameBoardSlots;
     }
 
+
     int getNumMove() {
         return numMove;
     }
 
+    player getSlotOccupancy(int x, int y){
+        return this.listOccupancyGameBoardSlots.get(x).get(y);
+    }
+    
     void addMove() {
         this.numMove++;
     }
