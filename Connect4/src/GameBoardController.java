@@ -323,15 +323,19 @@ public class GameBoardController implements ActionListener {
                 // Check if long enough row exist
                 if (counter >= GameBoardModel.winInRow) {
 
+
+
                     // Add win-events here (things that happens if PLAYER_1 user wins)
 
                     // Tick win
                     winInSight = true;
 
-                    System.out.println(lister);
 
-                    // Print out win message
-                    System.out.println("\t\t> x: " + x + ", y: " + y + ", length: " + counter);
+
+
+
+                    int anchor_x = x;
+                    int anchor_y = y;
 
                     // Color win
                     for (int j = 0; j < counter; j++) {
@@ -339,6 +343,15 @@ public class GameBoardController implements ActionListener {
                         x += increment_x;
                         y += increment_y;
                     }
+
+                    // Print out win message
+                    System.out.println(
+                            "\t\t> from (" + anchor_x + "," + anchor_y + ") " +
+                            "to ("+(x - increment_x)+","+(y - increment_y)+"), " +
+                            "length: "+counter);
+
+
+
                 }
                 else {
                     x += increment_x + counter*increment_x;
