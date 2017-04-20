@@ -112,6 +112,10 @@ public class GameBoardModel {
         return this.listOccupancyGameBoardSlots;
     }
 
+    player getSlotOccupancy(int x, int y){
+        return this.listOccupancyGameBoardSlots.get(x).get(y);
+    }
+
     int getTurn() {
         return numTurn;
     }
