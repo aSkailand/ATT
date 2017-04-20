@@ -9,13 +9,16 @@ import java.awt.event.ActionListener;
 public class GameTimerController implements ActionListener {
 
     GameBodyFrame gameBodyFrame;
-    Timer playerTurnTimer = new Timer(1000, this);
+    Timer playerTurnTimer = new Timer(250, this);
+
+    public void setCurrentTime(int currentTime) {
+        this.currentTime = currentTime;
+    }
     int currentTime = 30;
 
     public GameTimerController(GameBodyFrame gbFrame) {
 
         gameBodyFrame = gbFrame;
-        playerTurnTimer.start();
         playerTurnTimer.setActionCommand("time");
     }
 
@@ -30,12 +33,13 @@ public class GameTimerController implements ActionListener {
                 currentTime--;
 
                 if (currentTime < 0) {
+
+                    gameBodyFrame.timer.setText("New round");
+                    System.out.println("Time is up");
                     currentTime = 30;
                 }
-                break;
-            }
-            case "resetTimer": {
 
+                break;
             }
         }
     }

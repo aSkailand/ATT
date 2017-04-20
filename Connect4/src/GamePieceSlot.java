@@ -27,13 +27,14 @@ public class GamePieceSlot extends JPanel{
 
         // JPanel Setup
         this.setLayout(new BorderLayout());
-        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+        this.setBorder(new EmptyBorder(2, 2, 2, 2));
 
         // JButton Setup
         piece = new JButton();
         piece.setBorderPainted(false);
         piece.setForeground(Color.WHITE);
         piece.setText("Hey");
+        piece.setPreferredSize(new Dimension(50,50));
 
         this.add(piece);
     }
