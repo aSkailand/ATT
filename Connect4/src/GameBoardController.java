@@ -99,7 +99,7 @@ public class GameBoardController implements ActionListener {
     boolean checkWinVertical_All(GameBoardModel.player player) {
         boolean foundWin = false;
 
-        for (int i = 0; i < GameBoardModel.numRow; i++) {
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
             if (checkWinVertical_Single(i, 0, player)) foundWin = true;
         }
 
@@ -308,6 +308,13 @@ public class GameBoardController implements ActionListener {
         for (int i = 0; i < lister.size(); i++) {
 
             if (lister.get(i) == 1) {
+
+                // Update anchor x
+//                if (counter == 0){
+//                    x = i;
+//                }
+
+                // Count up
                 counter++;
             }
 
@@ -321,6 +328,8 @@ public class GameBoardController implements ActionListener {
                     // Tick win
                     winInSight = true;
 
+                    System.out.println(lister);
+
                     // Print out win message
                     System.out.println("\t\t> x: " + x + ", y: " + y + ", length: " + counter);
 
@@ -330,10 +339,12 @@ public class GameBoardController implements ActionListener {
                         x += increment_x;
                         y += increment_y;
                     }
-                } else {
-                    x += increment_x;
-                    y += increment_y;
                 }
+                else {
+                    x += increment_x + counter*increment_x;
+                    y += increment_y + counter*increment_y;
+                }
+
                 counter = 0;
             }
 
