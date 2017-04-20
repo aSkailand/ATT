@@ -8,7 +8,9 @@ public class Runner {
         //new Controller();
         //Testing 123...
 
-        StartMenu SM = new StartMenu();
+        StartMenuController SMC = new StartMenuController();
+
+
 
 
 
