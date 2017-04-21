@@ -20,6 +20,8 @@ public class GamePieceSlot extends JPanel{
     // A JButton will behave as the slot piece for now
     JButton piece;
 
+    boolean win_part = false;
+
     GamePieceSlot(){
 
         // JPanel Setup
@@ -33,8 +35,6 @@ public class GamePieceSlot extends JPanel{
         piece.setText("Hey");
         piece.setPreferredSize(new Dimension(50,50));
         piece.setMargin(new Insets(0,0,0,0)); // Make text fit button better
-
-
         this.add(piece);
     }
 

@@ -39,15 +39,15 @@ public class GameBoardController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        boolean end_game = false;
+
         // Turn Info
         System.out.println("\nTURN: " + gameBoardModel.getNumMove());
         System.out.println("**********");
 
         // Player Info
         System.out.println("Current Player: " + gameBoardModel.getCurrentPlayer());
-        System.out.print("AI status: " + gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()));
-        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) System.out.print(" ~ beep boop ~");
-        System.out.println("\n");
+        System.out.println("AI status: " + gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()));
 
         // HUMAN PLAY
         if (!gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) {
@@ -66,42 +66,25 @@ public class GameBoardController implements ActionListener {
 
             // check if there is any winning play
             for (int x = 0; x < GameBoardModel.numCol; x++) {
+                if (playableCol(x) && checkIfWinningMove(x)) {
 
-                if(!playableCol(x)) continue;
-
-                placePieceSoft(x);
-
-                int indexOfUpper = gameBoardModel.getListOccupancy().get(x).lastIndexOf(gameBoardModel.getCurrentPlayer());
-
-                if (checkIfWinningMove(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
-                    System.out.println("beep boop ~~ I see win at: (" + x + "," + indexOfUpper + ")");
-//                    gameBoardModel.printOccupancyList();
-
-                    removePieceSoft(x);
-
-
-                    System.out.println("beep boop ~~ me placing my piece in column " + x);
+                    // AI play the winning move
                     placePiece(x);
-
-//                    System.out.println("Real Board:");
-//                    gameBoardModel.printOccupancyList();
-
                     won = true;
+
+                    // Flavour Text
+                    System.out.println("beep boop ~~ I see win at: (" + x + "," + gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE) + ")");
+                    System.out.println("beep boop ~~ me placing my piece in column " + x);
                     System.out.println("beep boop ~~ I won yay me");
                     System.out.println("beep boop ~~ please notice me senpai");
-
                     System.out.println("");
 
                     // break or else AI plays more if it sees it can win multiple times
                     break;
-
-                } else {
-
-                    removePieceSoft(x);
                 }
             }
 
-            if(!won) {
+            if (!won) {
 
                 // Put random
                 boolean playable = false;
@@ -121,6 +104,7 @@ public class GameBoardController implements ActionListener {
         // Check if there's any winners
         checkWinAllConditions(gameBoardModel.getCurrentPlayer());
         checkWinAllConditions(gameBoardModel.getWaitingPlayer());
+        colorWinPieces();
 
         // Swap player
         alternatePlayers();
@@ -129,9 +113,11 @@ public class GameBoardController implements ActionListener {
         gameBoardModel.addMove();
 
         // todo: fix draw
-//            // Check if Draw
-//            if (gameBoardModel.getNumMove() == GameBoardModel.numRow * GameBoardModel.numCol)
-//                System.out.println("DRAW?");
+        // Check if Draw
+        if (gameBoardModel.getNumMove() == GameBoardModel.numRow * GameBoardModel.numCol) {
+            System.out.println("DRAW?");
+            end_game = true;
+        }
 
         // Change option buttons' color to current player
         colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
@@ -144,7 +130,7 @@ public class GameBoardController implements ActionListener {
 
         // todo: FIX! this is self trigger for AI
         // this will trigger when the human have just played (since current player switched)
-        if(gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) actionPerformed(e);
+        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()) && !end_game) actionPerformed(e);
 
     }
 
@@ -250,14 +236,31 @@ public class GameBoardController implements ActionListener {
 
 
     // CHECK SINGLE
-    boolean checkIfWinningMove(int x, int y, GameBoardModel.player player) {
-        if (checkWinVertical_Single(x, y, player)
-                || checkWinHorizontal_Single(x, y, player)
-                || checkWinAscendingDiagonal_Single(x, y, player)
-                || checkWinDescendingDiagonal_Single(x, y, player)) {
-            System.out.println("hello");
+    boolean checkIfWinningMove(int x) {
+
+        placePieceSoft(x);
+
+        int indexOfUpper = gameBoardModel.getListOccupancy().get(x).lastIndexOf(gameBoardModel.getCurrentPlayer());
+
+        if (checkWinVertical_Single(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+            removePieceSoft(x);
             return true;
-        } else return false;
+        }
+        if (checkWinHorizontal_Single(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+            removePieceSoft(x);
+            return true;
+        }
+        if (checkWinAscendingDiagonal_Single(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+            removePieceSoft(x);
+            return true;
+        }
+        if (checkWinDescendingDiagonal_Single(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+            removePieceSoft(x);
+            return true;
+        }
+
+        removePieceSoft(x);
+        return false;
     }
 
     // todo: remove int y parameter?
@@ -276,7 +279,7 @@ public class GameBoardController implements ActionListener {
         }
 
         // Find win
-        return colorWinningRow(x, 0, 0, 1, lister, player);
+        return searchWinningRow(x, 0, 0, 1, lister, player);
     }
 
     // todo: remove int x parameter?
@@ -295,7 +298,7 @@ public class GameBoardController implements ActionListener {
         }
 
         // Find win
-        return colorWinningRow(0, y, 1, 0, lister, player);
+        return searchWinningRow(0, y, 1, 0, lister, player);
     }
 
     boolean checkWinAscendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
@@ -331,7 +334,7 @@ public class GameBoardController implements ActionListener {
         }
 
         // Find win
-        return colorWinningRow(init_x, init_y, 1, 1, lister, player);
+        return searchWinningRow(init_x, init_y, 1, 1, lister, player);
     }
 
     boolean checkWinDescendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
@@ -366,12 +369,12 @@ public class GameBoardController implements ActionListener {
             return false;
         }
 
-        return colorWinningRow(init_x, init_y, 1, -1, lister, player);
+        return searchWinningRow(init_x, init_y, 1, -1, lister, player);
 
     }
 
 
-    boolean colorWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister, GameBoardModel.player player) {
+    boolean searchWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister, GameBoardModel.player player) {
 
         // Prematurely return if not enough same pieces
         if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)) {
@@ -385,43 +388,37 @@ public class GameBoardController implements ActionListener {
         int x = init_x;
         int y = init_y;
 
-        // Pick correct color
-        Color WinColor = gameBoardModel.getPlayerWinColor(player);
-
         int counter = 0;
 
         // Check given list
         for (int i = 0; i < lister.size(); i++) {
 
+
             if (lister.get(i) == 1) {
-
-                // Update anchor x
-//                if (counter == 0){
-//                    x = i;
-//                }
-
+                // Update anchor coordinates
+                if (counter == 0) {
+                    x = init_x + increment_x * i;
+                    y = init_y + increment_y * i;
+                }
                 // Count up
                 counter++;
             }
 
-            if (lister.get(i) == 0 || i == lister.size() - 1) {
 
+            if (lister.get(i) == 0 || i == lister.size() - 1) {
                 // Check if long enough row exist
                 if (counter >= GameBoardModel.winInRow) {
 
-
-                    // Add win-events here (things that happens if PLAYER_1 user wins)
-
                     // Tick win
                     winInSight = true;
-
 
                     int anchor_x = x;
                     int anchor_y = y;
 
                     // Color win
                     for (int j = 0; j < counter; j++) {
-                        gameBoardPanel.getSlot(x, y).piece.setBackground(WinColor);
+
+                        gameBoardPanel.getSlot(x, y).win_part = true;
                         x += increment_x;
                         y += increment_y;
                     }
@@ -431,11 +428,6 @@ public class GameBoardController implements ActionListener {
                             "\t\t> from (" + anchor_x + "," + anchor_y + ") " +
                                     "to (" + (x - increment_x) + "," + (y - increment_y) + "), " +
                                     "length: " + counter);
-
-
-                } else {
-                    x += increment_x + counter * increment_x;
-                    y += increment_y + counter * increment_y;
                 }
 
                 counter = 0;
@@ -447,6 +439,17 @@ public class GameBoardController implements ActionListener {
 
     }
 
+    void colorWinPieces() {
+
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (gameBoardPanel.getSlot(x, y).win_part) {
+                    Color WinColor = gameBoardModel.getPlayerWinColor(gameBoardModel.getSlotOccupancy(x, y));
+                    gameBoardPanel.getSlot(x, y).piece.setBackground(WinColor);
+                }
+            }
+        }
+    }
 
     // BOARD ACTIONS
 
