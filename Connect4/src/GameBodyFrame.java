@@ -67,24 +67,24 @@ public class GameBodyFrame extends JFrame {
 
         // Left player panel
         leftPlayerPanel.setLayout(new GridBagLayout());
-        leftPlayerPanel.setBackground(Color.cyan);
-        gbcLeftPanel();
+        leftPlayerPanel.setBackground(Color.RED);
+        gbcLeftPlayerPanel();
         playersPanel.add(leftPlayerPanel, gbc);
         leftPlayerPanel.add(gameBodyModel.playerOneLabel);
 
         // Timer panel
         timerPanel.setLayout(new GridBagLayout());
-        timerPanel.setBackground(Color.BLUE);
-        gbcCenterPanel();
-        playersPanel.add(timerPanel);
-        timerPanel.add(timer);
+        timerPanel.setBackground(Color.GRAY);
+        gbcTimerPanel();
+        playersPanel.add(timerPanel,gbc);
+
 
         // Right player panel
         rightPlayerPanel.setLayout(new GridBagLayout());
-        rightPlayerPanel.setBackground(Color.magenta);
-        gbcRightPanel();
-        playersPanel.add(rightPlayerPanel,gbc);
-        rightPlayerPanel.add(gameBodyModel.playerOneLabel);
+        rightPlayerPanel.setBackground(Color.BLUE);
+        gbcRightPlayerPanel();
+        playersPanel.add(rightPlayerPanel, gbc);
+        rightPlayerPanel.add(gameBodyModel.playerTwoLabel);
 
 
         // Top panel
@@ -194,5 +194,60 @@ public class GameBodyFrame extends JFrame {
         gbc.anchor = GridBagConstraints.PAGE_END;
     }
 
+    void gbcLeftPlayerPanel() {
 
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 0.333;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcRightPlayerPanel() {
+
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 0.333;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcTimerPanel() {
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 0.333;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+
+    }
 }

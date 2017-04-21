@@ -14,12 +14,14 @@ public class GameBodyModel {
     JPanel playerOnePanel = new JPanel();
     JPanel playerTwoPanel = new JPanel();
     JLabel playerOneLabel;
+    JLabel playerTwoLabel;
 
     BufferedImage playerOneAvatar = null;
     BufferedImage playerTwoAvatar = null;
 
     public GameBodyModel(){
 
+        playerTwoLabel = new JLabel();
         playerOneLabel = new JLabel();
 
         playerOnePanel.setLayout(new GridLayout());
@@ -45,7 +47,13 @@ public class GameBodyModel {
         playerOneLabel.setIcon(imageIcon);
 
 
-        Image playerTwoAvatar2 = playerTwoAvatar.
+        Image playerTwoAvatar2 = playerTwoAvatar.getScaledInstance(50,50,Image.SCALE_FAST);
+
+        ImageIcon imageIcon1 = new ImageIcon(playerTwoAvatar2);
+
+        playerTwoPanel.setLayout(new BorderLayout());
+
+        playerTwoLabel.setIcon(imageIcon1);
 
 
 
