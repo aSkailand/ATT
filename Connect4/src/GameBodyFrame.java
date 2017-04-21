@@ -15,11 +15,15 @@ public class GameBodyFrame extends JFrame {
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
     JPanel playersPanel = new JPanel();
-
+    JPanel timerPanel = new JPanel();
+    JPanel leftPlayerPanel = new JPanel();
+    JPanel rightPlayerPanel = new JPanel();
 
     JLabel timer = new JLabel("Starting game...");
 
     GridBagConstraints gbc = new GridBagConstraints();
+
+    GameBodyModel gameBodyModel;
 
     /**
      * This is the Game Frame, which contains all in-game elements.
@@ -27,6 +31,7 @@ public class GameBodyFrame extends JFrame {
      */
     public GameBodyFrame() {
 
+        gameBodyModel = new GameBodyModel();
 
         // JFrame setup
         this.setTitle("Connect4");
@@ -60,8 +65,26 @@ public class GameBodyFrame extends JFrame {
         gbcPlayersPanel();
         this.add(playersPanel, gbc);
 
+        // Left player panel
+        leftPlayerPanel.setLayout(new GridBagLayout());
+        leftPlayerPanel.setBackground(Color.cyan);
+        gbcLeftPanel();
+        playersPanel.add(leftPlayerPanel, gbc);
+        leftPlayerPanel.add(gameBodyModel.playerOneLabel);
+
         // Timer panel
-        playersPanel.add(timer);
+        timerPanel.setLayout(new GridBagLayout());
+        timerPanel.setBackground(Color.BLUE);
+        gbcCenterPanel();
+        playersPanel.add(timerPanel);
+        timerPanel.add(timer);
+
+        // Right player panel
+        rightPlayerPanel.setLayout(new GridBagLayout());
+        rightPlayerPanel.setBackground(Color.magenta);
+        gbcRightPanel();
+        playersPanel.add(rightPlayerPanel,gbc);
+        rightPlayerPanel.add(gameBodyModel.playerOneLabel);
 
 
         // Top panel
