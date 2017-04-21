@@ -39,14 +39,84 @@ public class GameBoardController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // Turn Info
         System.out.println("\nTURN: " + gameBoardModel.getNumMove());
         System.out.println("**********");
 
-        // Check the number on the clicked button
-        int chosenCol = Integer.parseInt(e.getActionCommand());
+        // Player Info
+        System.out.println("Current Player: " + gameBoardModel.getCurrentPlayer());
+        System.out.print("AI status: " + gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()));
+        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) System.out.print(" ~ beep boop ~");
+        System.out.println("\n");
 
-        // Place piece
-        placePiece(chosenCol);
+        // HUMAN PLAY
+        if (!gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) {
+
+            // Check the number on the clicked button
+            int chosenCol = Integer.parseInt(e.getActionCommand());
+
+            // Place piece
+            placePiece(chosenCol);
+
+        }
+        // AI PLAY
+        else {
+
+            boolean won = false;
+
+            // check if there is any winning play
+            for (int x = 0; x < GameBoardModel.numCol; x++) {
+
+                if(!playableCol(x)) continue;
+
+                placePieceSoft(x);
+
+                int indexOfUpper = gameBoardModel.getListOccupancy().get(x).lastIndexOf(gameBoardModel.getCurrentPlayer());
+
+                if (checkIfWinningMove(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+                    System.out.println("beep boop ~~ I see win at: (" + x + "," + indexOfUpper + ")");
+//                    gameBoardModel.printOccupancyList();
+
+                    removePieceSoft(x);
+
+
+                    System.out.println("beep boop ~~ me placing my piece in column " + x);
+                    placePiece(x);
+
+//                    System.out.println("Real Board:");
+//                    gameBoardModel.printOccupancyList();
+
+                    won = true;
+                    System.out.println("beep boop ~~ I won yay me");
+                    System.out.println("beep boop ~~ please notice me senpai");
+
+                    System.out.println("");
+
+                    // break or else AI plays more if it sees it can win multiple times
+                    break;
+
+                } else {
+
+                    removePieceSoft(x);
+                }
+            }
+
+            if(!won) {
+
+                // Put random
+                boolean playable = false;
+                while (!playable) {
+                    int random = (int) (Math.random() * GameBoardModel.numCol);
+                    if (playableCol(random)) {
+                        playable = true;
+                        placePiece(random);
+                    }
+
+                }
+            }
+        }
+
+        // COMMON METHODS
 
         // Check if there's any winners
         checkWinAllConditions(gameBoardModel.getCurrentPlayer());
@@ -58,8 +128,10 @@ public class GameBoardController implements ActionListener {
         // add a move
         gameBoardModel.addMove();
 
-        // Check if Draw
-        if (gameBoardModel.getNumMove() == GameBoardModel.numRow * GameBoardModel.numCol) System.out.println("DRAW?");
+        // todo: fix draw
+//            // Check if Draw
+//            if (gameBoardModel.getNumMove() == GameBoardModel.numRow * GameBoardModel.numCol)
+//                System.out.println("DRAW?");
 
         // Change option buttons' color to current player
         colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
@@ -70,30 +142,9 @@ public class GameBoardController implements ActionListener {
         // Print OccupancyList
         gameBoardModel.printOccupancyList();
 
-        // AI PLAY
-
-        // check if there is any winning play
-        for (int x = 0; x < GameBoardModel.numCol; x++) {
-
-            placePieceSoft(x);
-
-            int indexOfUpper = gameBoardModel.getListOccupancy().get(x).lastIndexOf(gameBoardModel.getCurrentPlayer());
-
-            if(checkIfWinningMove(x, indexOfUpper, gameBoardModel.getCurrentPlayer())){
-                System.out.println("WIN AT: ("+x+","+indexOfUpper+")");
-                gameBoardModel.printOccupancyList();
-
-                removePieceSoft(x);
-
-                System.out.println("Real Board:");
-                gameBoardModel.printOccupancyList();
-            }
-            else {
-
-                removePieceSoft(x);
-            }
-
-        }
+        // todo: FIX! this is self trigger for AI
+        // this will trigger when the human have just played (since current player switched)
+        if(gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) actionPerformed(e);
 
     }
 
@@ -203,12 +254,10 @@ public class GameBoardController implements ActionListener {
         if (checkWinVertical_Single(x, y, player)
                 || checkWinHorizontal_Single(x, y, player)
                 || checkWinAscendingDiagonal_Single(x, y, player)
-                || checkWinDescendingDiagonal_Single(x, y, player))
-        {
+                || checkWinDescendingDiagonal_Single(x, y, player)) {
             System.out.println("hello");
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     // todo: remove int y parameter?
@@ -401,7 +450,7 @@ public class GameBoardController implements ActionListener {
 
     // BOARD ACTIONS
 
-    void placePieceSoft(int chosenCol){
+    void placePieceSoft(int chosenCol) {
 
         // Find available slot in chosen column
         int indexOfNotOccupied = gameBoardModel.getListOccupancy().get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
@@ -416,7 +465,7 @@ public class GameBoardController implements ActionListener {
         gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, gameBoardModel.getCurrentPlayer());
     }
 
-    void removePieceSoft(int chosenCol){
+    void removePieceSoft(int chosenCol) {
 
         // Find available slot in chosen column
         int indexOfUpper = gameBoardModel.getListOccupancy().get(chosenCol).lastIndexOf(gameBoardModel.getCurrentPlayer());
