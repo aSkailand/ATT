@@ -62,6 +62,9 @@ public class GameBoardController implements ActionListener {
         // AI PLAY
         else {
 
+//            minmax(gameBoardModel.getListOccupancy());
+            // ADD MIN-MAX HERE
+
             boolean won = false;
 
             // check if there is any winning play
@@ -84,7 +87,23 @@ public class GameBoardController implements ActionListener {
                 }
             }
 
-            if (!won) {
+            // Try to cancel out opponent's victory
+            boolean placed = false;
+
+            if(!won) {
+                alternatePlayers();
+                for (int x = 0; x < GameBoardModel.numCol; x++) {
+                    if (playableCol(x) && checkIfWinningMove(x)) {
+                        alternatePlayers();
+                        placePiece(x);
+                        placed = true;
+                        break;
+                    }
+                }
+                if (!placed) alternatePlayers();
+            }
+
+            if (!won && !placed) {
 
                 // Put random
                 boolean playable = false;
@@ -96,6 +115,13 @@ public class GameBoardController implements ActionListener {
                     }
 
                 }
+            }
+        }
+
+        // Clean all win_parts
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            for (int j = 0; j < GameBoardModel.numRow; j++) {
+                gameBoardPanel.getSlot(i,j).win_part = false;
             }
         }
 
@@ -133,6 +159,54 @@ public class GameBoardController implements ActionListener {
         if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()) && !end_game) actionPerformed(e);
 
     }
+
+    // AI
+
+
+    // node = position (Occupancy list works here)
+    int minmax(final ArrayList<ArrayList<GameBoardModel.player>> node){
+
+        // Total moves from beginning
+        int totalMoves = 0;
+
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            totalMoves  += GameBoardModel.numRow - Collections.frequency(node.get(i), GameBoardModel.player.PLAYER_NONE);
+        }
+        System.out.println("Total Moves: "+totalMoves);
+
+
+        // If draw, return 0;
+        if(totalMoves == GameBoardModel.numRow * GameBoardModel.numCol){
+            return 0;
+        }
+
+        // Check if player can win
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            if(playableCol(i) && checkIfWinningMove(i)){
+                return (GameBoardModel.numCol * GameBoardModel.numRow) + 1 - (totalMoves / 2);
+            }
+        }
+
+        int bestScore = - (GameBoardModel.numCol * GameBoardModel.numRow);
+
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            if(playableCol(i)){
+                ArrayList<ArrayList<GameBoardModel.player>> p2 = node;
+                placePieceSoft(i);
+                alternatePlayers();
+                int score = -minmax(p2);
+                if(score > bestScore) bestScore = score;
+
+
+            }
+
+        }
+        System.out.println(bestScore);
+        return bestScore;
+    }
+
+
+
 
     // TODO: Move this function over to model when done here with all win - conditions
     // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
@@ -408,6 +482,8 @@ public class GameBoardController implements ActionListener {
             if (lister.get(i) == 0 || i == lister.size() - 1) {
                 // Check if long enough row exist
                 if (counter >= GameBoardModel.winInRow) {
+
+                    System.out.println(lister);
 
                     // Tick win
                     winInSight = true;
