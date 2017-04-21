@@ -55,7 +55,7 @@ public class GameBoardController implements ActionListener {
         // Swap player
         alternatePlayers();
 
-        // add PLAYER_1 move
+        // add a move
         gameBoardModel.addMove();
 
         // Check if Draw
@@ -70,6 +70,30 @@ public class GameBoardController implements ActionListener {
         // Print OccupancyList
         gameBoardModel.printOccupancyList();
 
+        // AI PLAY
+
+        // check if there is any winning play
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+
+            placePieceSoft(x);
+
+            int indexOfUpper = gameBoardModel.getListOccupancy().get(x).lastIndexOf(gameBoardModel.getCurrentPlayer());
+
+            if(checkIfWinningMove(x, indexOfUpper, gameBoardModel.getCurrentPlayer())){
+                System.out.println("WIN AT: ("+x+","+indexOfUpper+")");
+                gameBoardModel.printOccupancyList();
+
+                removePieceSoft(x);
+
+                System.out.println("Real Board:");
+                gameBoardModel.printOccupancyList();
+            }
+            else {
+
+                removePieceSoft(x);
+            }
+
+        }
 
     }
 
@@ -175,6 +199,18 @@ public class GameBoardController implements ActionListener {
 
 
     // CHECK SINGLE
+    boolean checkIfWinningMove(int x, int y, GameBoardModel.player player) {
+        if (checkWinVertical_Single(x, y, player)
+                || checkWinHorizontal_Single(x, y, player)
+                || checkWinAscendingDiagonal_Single(x, y, player)
+                || checkWinDescendingDiagonal_Single(x, y, player))
+        {
+            System.out.println("hello");
+            return true;
+        }
+        else return false;
+    }
+
     // todo: remove int y parameter?
     boolean checkWinVertical_Single(int x, int y, GameBoardModel.player player) {
 
@@ -193,6 +229,7 @@ public class GameBoardController implements ActionListener {
         // Find win
         return colorWinningRow(x, 0, 0, 1, lister, player);
     }
+
     // todo: remove int x parameter?
     boolean checkWinHorizontal_Single(int x, int y, GameBoardModel.player player) {
 
@@ -248,10 +285,10 @@ public class GameBoardController implements ActionListener {
         return colorWinningRow(init_x, init_y, 1, 1, lister, player);
     }
 
-    boolean checkWinDescendingDiagonal_Single(int x, int y, GameBoardModel.player player){
+    boolean checkWinDescendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
 
         // Find initial values
-        while (0 < x && y < GameBoardModel.numRow-1) {
+        while (0 < x && y < GameBoardModel.numRow - 1) {
             x--;
             y++;
         }
@@ -324,14 +361,10 @@ public class GameBoardController implements ActionListener {
                 if (counter >= GameBoardModel.winInRow) {
 
 
-
                     // Add win-events here (things that happens if PLAYER_1 user wins)
 
                     // Tick win
                     winInSight = true;
-
-
-
 
 
                     int anchor_x = x;
@@ -347,15 +380,13 @@ public class GameBoardController implements ActionListener {
                     // Print out win message
                     System.out.println(
                             "\t\t> from (" + anchor_x + "," + anchor_y + ") " +
-                            "to ("+(x - increment_x)+","+(y - increment_y)+"), " +
-                            "length: "+counter);
+                                    "to (" + (x - increment_x) + "," + (y - increment_y) + "), " +
+                                    "length: " + counter);
 
 
-
-                }
-                else {
-                    x += increment_x + counter*increment_x;
-                    y += increment_y + counter*increment_y;
+                } else {
+                    x += increment_x + counter * increment_x;
+                    y += increment_y + counter * increment_y;
                 }
 
                 counter = 0;
@@ -369,6 +400,30 @@ public class GameBoardController implements ActionListener {
 
 
     // BOARD ACTIONS
+
+    void placePieceSoft(int chosenCol){
+
+        // Find available slot in chosen column
+        int indexOfNotOccupied = gameBoardModel.getListOccupancy().get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
+
+        // Abort if not found
+        if (indexOfNotOccupied == -1) {
+            System.out.println("No empty slots in this column, terminating method.");
+            return; // Never supposed to happen. If it happens, we got a bug somewhere.
+        }
+
+        // Tick occupancy list
+        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, gameBoardModel.getCurrentPlayer());
+    }
+
+    void removePieceSoft(int chosenCol){
+
+        // Find available slot in chosen column
+        int indexOfUpper = gameBoardModel.getListOccupancy().get(chosenCol).lastIndexOf(gameBoardModel.getCurrentPlayer());
+
+        // Tick occupancy list
+        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfUpper, GameBoardModel.player.PLAYER_NONE);
+    }
 
     // Place piece at chosen column
     void placePiece(int chosenCol) {
