@@ -77,6 +77,7 @@ public class GameBodyFrame extends JFrame {
         timerPanel.setBackground(Color.GRAY);
         gbcTimerPanel();
         playersPanel.add(timerPanel,gbc);
+        timerPanel.add(timer);
 
 
         // Right player panel
