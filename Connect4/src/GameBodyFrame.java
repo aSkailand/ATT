@@ -15,11 +15,15 @@ public class GameBodyFrame extends JFrame {
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
     JPanel playersPanel = new JPanel();
-
+    JPanel timerPanel = new JPanel();
+    JPanel leftPlayerPanel = new JPanel();
+    JPanel rightPlayerPanel = new JPanel();
 
     JLabel timer = new JLabel("Starting game...");
 
     GridBagConstraints gbc = new GridBagConstraints();
+
+    GameBodyModel gameBodyModel;
 
     /**
      * This is the Game Frame, which contains all in-game elements.
@@ -27,6 +31,7 @@ public class GameBodyFrame extends JFrame {
      */
     public GameBodyFrame() {
 
+        gameBodyModel = new GameBodyModel();
 
         // JFrame setup
         this.setTitle("Connect4");
@@ -60,8 +65,27 @@ public class GameBodyFrame extends JFrame {
         gbcPlayersPanel();
         this.add(playersPanel, gbc);
 
+        // Left player panel
+        leftPlayerPanel.setLayout(new GridBagLayout());
+        leftPlayerPanel.setBackground(Color.RED);
+        gbcLeftPlayerPanel();
+        playersPanel.add(leftPlayerPanel, gbc);
+        leftPlayerPanel.add(gameBodyModel.playerOneLabel);
+
         // Timer panel
-        playersPanel.add(timer);
+        timerPanel.setLayout(new GridBagLayout());
+        timerPanel.setBackground(Color.GRAY);
+        gbcTimerPanel();
+        playersPanel.add(timerPanel,gbc);
+        timerPanel.add(timer);
+
+
+        // Right player panel
+        rightPlayerPanel.setLayout(new GridBagLayout());
+        rightPlayerPanel.setBackground(Color.BLUE);
+        gbcRightPlayerPanel();
+        playersPanel.add(rightPlayerPanel, gbc);
+        rightPlayerPanel.add(gameBodyModel.playerTwoLabel);
 
 
         // Top panel
@@ -171,5 +195,60 @@ public class GameBodyFrame extends JFrame {
         gbc.anchor = GridBagConstraints.PAGE_END;
     }
 
+    void gbcLeftPlayerPanel() {
 
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 0.333;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcRightPlayerPanel() {
+
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 0.333;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcTimerPanel() {
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 0.333;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+
+    }
 }

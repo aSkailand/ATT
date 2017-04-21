@@ -9,7 +9,7 @@ public class GameBoardModel {
     // BOARD CONTROL
     static int numRow = 6;      // Default: 6
     static int numCol = 7;      // Default: 7
-    static int winInRow = 4;    // Default: 4
+            static int winInRow = 4;    // Default: 4
 
     // GAME OPTIONS
     private int numMove = 0;
