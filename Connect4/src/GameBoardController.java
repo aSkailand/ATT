@@ -62,10 +62,14 @@ public class GameBoardController implements ActionListener {
         // AI PLAY
         else {
 
-//            minmax(gameBoardModel.getListOccupancy());
-            // ADD MIN-MAX HERE
+            // if the AI has placed a piece or not
+            boolean placed = false;
 
-            boolean won = false;
+            // HIERARCHICAL AI
+            // - Follow a hierarchical scheme, if higher priority can't be followed, proceed to lower, and repeat.
+
+
+            // 1. IF CAN WIN, DO SO
 
             // check if there is any winning play
             for (int x = 0; x < GameBoardModel.numCol; x++) {
@@ -73,7 +77,7 @@ public class GameBoardController implements ActionListener {
 
                     // AI play the winning move
                     placePiece(x);
-                    won = true;
+                    placed = true;
 
                     // Flavour Text
                     System.out.println("beep boop ~~ I see win at: (" + x + "," + gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE) + ")");
@@ -87,11 +91,13 @@ public class GameBoardController implements ActionListener {
                 }
             }
 
-            // Try to cancel out opponent's victory
-            boolean placed = false;
+            // 2. IF CAN DENY OPPONENT'S WIN IN CURRENT ROUND, DO SO
 
-            if(!won) {
-                alternatePlayers();
+            // Try to cancel out opponent's victory
+            if (!placed) {
+
+                alternatePlayers(); // switch over to opponent
+
                 for (int x = 0; x < GameBoardModel.numCol; x++) {
                     if (playableCol(x) && checkIfWinningMove(x)) {
                         alternatePlayers();
@@ -103,25 +109,67 @@ public class GameBoardController implements ActionListener {
                 if (!placed) alternatePlayers();
             }
 
-            if (!won && !placed) {
 
-                // Put random
-                boolean playable = false;
-                while (!playable) {
-                    int random = (int) (Math.random() * GameBoardModel.numCol);
-                    if (playableCol(random)) {
-                        playable = true;
-                        placePiece(random);
+            // 3. PLACE RANDOMLY WITH 1 DEPTH LOOK-AHEAD
+
+            boolean badSlot = false;
+            int antiLock = 0; // Prevents from loop lock
+
+            while (!placed) {
+
+                int random = (int) (Math.random() * GameBoardModel.numCol);
+
+                if (playableCol(random)) {
+
+                    placePieceSoft(random); // AI places temporary
+                    alternatePlayers(); // Switch to opponent
+
+                    // Check if opponent can win
+                    for (int xx = 0; xx < GameBoardModel.numCol; xx++) {
+                        if (playableCol(xx) && checkIfWinningMove(xx)) {
+                            // Don't play it!
+                            antiLock++;
+                            badSlot = true;
+                            break;
+                        }
                     }
 
+                    removePieceSoft(random); // remove temporary piece
+                    alternatePlayers(); // Switch back to AI
+
+                    if (badSlot && antiLock < 10) {
+                        badSlot = false;
+                    } else {
+                        placePiece(random);
+                        placed = true;
+                    }
                 }
             }
+
+
+//            if (!placed) {
+//
+//                // Put random
+//                boolean playable = false;
+//                while (!playable) {
+//                    int random = (int) (Math.random() * GameBoardModel.numCol);
+//                    if (playableCol(random)) {
+//                        playable = true;
+//                        placePiece(random);
+//                    }
+//
+//                }
+//            }
         }
 
         // Clean all win_parts
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
+        for (
+                int i = 0;
+                i < GameBoardModel.numCol; i++)
+
+        {
             for (int j = 0; j < GameBoardModel.numRow; j++) {
-                gameBoardPanel.getSlot(i,j).win_part = false;
+                gameBoardPanel.getSlot(i, j).win_part = false;
             }
         }
 
@@ -129,7 +177,9 @@ public class GameBoardController implements ActionListener {
 
         // Check if there's any winners
         checkWinAllConditions(gameBoardModel.getCurrentPlayer());
+
         checkWinAllConditions(gameBoardModel.getWaitingPlayer());
+
         colorWinPieces();
 
         // Swap player
@@ -140,7 +190,9 @@ public class GameBoardController implements ActionListener {
 
         // todo: fix draw
         // Check if Draw
-        if (gameBoardModel.getNumMove() == GameBoardModel.numRow * GameBoardModel.numCol) {
+        if (gameBoardModel.getNumMove() == GameBoardModel.numRow * GameBoardModel.numCol)
+
+        {
             System.out.println("DRAW?");
             end_game = true;
         }
@@ -156,57 +208,11 @@ public class GameBoardController implements ActionListener {
 
         // todo: FIX! this is self trigger for AI
         // this will trigger when the human have just played (since current player switched)
-        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()) && !end_game) actionPerformed(e);
+        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()) && !end_game)
+
+            actionPerformed(e);
 
     }
-
-    // AI
-
-
-    // node = position (Occupancy list works here)
-    int minmax(final ArrayList<ArrayList<GameBoardModel.player>> node){
-
-        // Total moves from beginning
-        int totalMoves = 0;
-
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
-            totalMoves  += GameBoardModel.numRow - Collections.frequency(node.get(i), GameBoardModel.player.PLAYER_NONE);
-        }
-        System.out.println("Total Moves: "+totalMoves);
-
-
-        // If draw, return 0;
-        if(totalMoves == GameBoardModel.numRow * GameBoardModel.numCol){
-            return 0;
-        }
-
-        // Check if player can win
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
-            if(playableCol(i) && checkIfWinningMove(i)){
-                return (GameBoardModel.numCol * GameBoardModel.numRow) + 1 - (totalMoves / 2);
-            }
-        }
-
-        int bestScore = - (GameBoardModel.numCol * GameBoardModel.numRow);
-
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
-            if(playableCol(i)){
-                ArrayList<ArrayList<GameBoardModel.player>> p2 = node;
-                placePieceSoft(i);
-                alternatePlayers();
-                int score = -minmax(p2);
-                if(score > bestScore) bestScore = score;
-
-
-            }
-
-        }
-        System.out.println(bestScore);
-        return bestScore;
-    }
-
-
-
 
     // TODO: Move this function over to model when done here with all win - conditions
     // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
