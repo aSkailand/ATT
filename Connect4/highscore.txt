@@ -1,3 +1,5 @@
 i won: Time: 0:22
 fuck you: Time: 0:0
 FUCK: Time: 0:0
+null: Time: 0:0
+fuck: Time: 1:23

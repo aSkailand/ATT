@@ -29,8 +29,8 @@ public class GameTimerController implements ActionListener {
         switch (e.getActionCommand()) {
             case "time": {
 
-                gameBodyFrame.timer.setText("Timer: " + currentTime);
-                gameBodyFrame.totalTimer.setText("Total time: " + minutes + ":" + seconds);
+                gameBodyFrame.timer.setText("" + currentTime);
+                //gameBodyFrame.totalTimer.setText("Total time: " + minutes + ":" + seconds);
 
                 currentTime--;
                 totalTime++;
@@ -43,9 +43,13 @@ public class GameTimerController implements ActionListener {
 
                 if (currentTime < 0) {
 
-                    gameBodyFrame.timer.setText("Timer: 30");
+                    gameBodyFrame.timer.setText("30");
                     System.out.println("Time is up");
                     currentTime = 29;
+                }
+
+                if (currentTime < 10 ) {
+                    gameBodyFrame.timer.setText("0"+currentTime);
                 }
 
 

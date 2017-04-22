@@ -78,8 +78,8 @@ public class GameJMenuController implements ActionListener {
                 gameTimerController.currentTime = 29;
                 gameTimerController.seconds = 0;
                 gameTimerController.minutes = 0;
-                gameBodyFrame.totalTimer.setText("Total time: 0:0");
-                gameBodyFrame.timer.setText("Time: 30");
+                //gameBodyFrame.totalTimer.setText("Total time: 0:0");
+                gameBodyFrame.timer.setText("30");
                 pauseBoolean = true;
                 break;
             }

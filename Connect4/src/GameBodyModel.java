@@ -12,20 +12,19 @@ import java.io.*;
  */
 public class GameBodyModel {
 
-    JPanel playerOnePanel = new JPanel();
-    JPanel playerTwoPanel = new JPanel();
-    JLabel playerOneLabel;
-    JLabel playerTwoLabel;
+    JLabel playerTwoLabel = new JLabel();
+    JLabel playerOneLabel = new JLabel();
+    JLabel redGoldLabel = new JLabel();
+    JLabel blueGoldLabel = new JLabel();
+
 
     BufferedImage playerOneAvatar = null;
     BufferedImage playerTwoAvatar = null;
+    BufferedImage redGold = null;
+    BufferedImage blueGold = null;
 
     public GameBodyModel() {
 
-        playerTwoLabel = new JLabel();
-        playerOneLabel = new JLabel();
-
-        playerOnePanel.setLayout(new GridLayout());
 
         //Loads player one avatar
         try {
@@ -41,6 +40,21 @@ public class GameBodyModel {
             e.printStackTrace();
         }
 
+        //Loads red gold image
+        try {
+            redGold = ImageIO.read(new File("redGold.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Loads blue gold image
+        try {
+            blueGold = ImageIO.read(new File("blueGold.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         // Sets the size and layout for player one avatar
         Image playerOneAvatar2 = playerOneAvatar.getScaledInstance(90, 30, Image.SCALE_FAST);
         ImageIcon imageIcon = new ImageIcon(playerOneAvatar2);
@@ -50,8 +64,18 @@ public class GameBodyModel {
         // Sets the size and layout for player two avater
         Image playerTwoAvatar2 = playerTwoAvatar.getScaledInstance(90, 30, Image.SCALE_FAST);
         ImageIcon imageIcon1 = new ImageIcon(playerTwoAvatar2);
-        playerTwoPanel.setLayout(new BorderLayout());
+        playerTwoLabel.setLayout(new BorderLayout());
         playerTwoLabel.setIcon(imageIcon1);
+
+        Image redGoldResized = redGold.getScaledInstance(30,30, Image.SCALE_DEFAULT);
+        ImageIcon imageIconRedGold = new ImageIcon(redGoldResized);
+        redGoldLabel.setLayout(new BorderLayout());
+        redGoldLabel.setIcon(imageIconRedGold);
+
+        Image blueGoldResized = blueGold.getScaledInstance(30,30, Image.SCALE_DEFAULT);
+        ImageIcon imageIconBlueGold = new ImageIcon(blueGoldResized);
+        blueGoldLabel.setLayout(new BorderLayout());
+        blueGoldLabel.setIcon(imageIconBlueGold);
 
     }
 
