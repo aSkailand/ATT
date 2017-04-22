@@ -62,9 +62,7 @@ public class GameBoardController implements ActionListener {
         // AI PLAY
         else {
 
-//            minmax(gameBoardModel.getListOccupancy());
-            // ADD MIN-MAX HERE
-
+            // if the AI has placed a piece or not
             boolean placed = false;
 
             // HIERARCHICAL AI
@@ -97,7 +95,9 @@ public class GameBoardController implements ActionListener {
 
             // Try to cancel out opponent's victory
             if (!placed) {
-                alternatePlayers();
+
+                alternatePlayers(); // switch over to opponent
+
                 for (int x = 0; x < GameBoardModel.numCol; x++) {
                     if (playableCol(x) && checkIfWinningMove(x)) {
                         alternatePlayers();
@@ -110,21 +110,21 @@ public class GameBoardController implements ActionListener {
             }
 
 
-            // 3. CHECK FUTURE
+            // 3. PLACE RANDOMLY WITH 1 DEPTH LOOK-AHEAD
 
             boolean badSlot = false;
             int antiLock = 0; // Prevents from loop lock
-            int random;
 
             while (!placed) {
 
-                random = (int) (Math.random() * GameBoardModel.numCol);
+                int random = (int) (Math.random() * GameBoardModel.numCol);
 
                 if (playableCol(random)) {
 
-                    placePieceSoft(random);
+                    placePieceSoft(random); // AI places temporary
+                    alternatePlayers(); // Switch to opponent
 
-                    alternatePlayers();
+                    // Check if opponent can win
                     for (int xx = 0; xx < GameBoardModel.numCol; xx++) {
                         if (playableCol(xx) && checkIfWinningMove(xx)) {
                             // Don't play it!
@@ -133,8 +133,9 @@ public class GameBoardController implements ActionListener {
                             break;
                         }
                     }
-                    alternatePlayers();
-                    removePieceSoft(random);
+
+                    removePieceSoft(random); // remove temporary piece
+                    alternatePlayers(); // Switch back to AI
 
                     if (badSlot && antiLock < 10) {
                         badSlot = false;
@@ -212,52 +213,6 @@ public class GameBoardController implements ActionListener {
             actionPerformed(e);
 
     }
-
-    // AI
-
-
-    // node = position (Occupancy list works here)
-    int minmax(final ArrayList<ArrayList<GameBoardModel.player>> node) {
-
-        // Total moves from beginning
-        int totalMoves = 0;
-
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
-            totalMoves += GameBoardModel.numRow - Collections.frequency(node.get(i), GameBoardModel.player.PLAYER_NONE);
-        }
-        System.out.println("Total Moves: " + totalMoves);
-
-
-        // If draw, return 0;
-        if (totalMoves == GameBoardModel.numRow * GameBoardModel.numCol) {
-            return 0;
-        }
-
-        // Check if player can win
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
-            if (playableCol(i) && checkIfWinningMove(i)) {
-                return (GameBoardModel.numCol * GameBoardModel.numRow) + 1 - (totalMoves / 2);
-            }
-        }
-
-        int bestScore = -(GameBoardModel.numCol * GameBoardModel.numRow);
-
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
-            if (playableCol(i)) {
-                ArrayList<ArrayList<GameBoardModel.player>> p2 = new ArrayList<>(node);
-                placePieceSoft(i);
-                alternatePlayers();
-                int score = -minmax(p2);
-                if (score > bestScore) bestScore = score;
-
-
-            }
-
-        }
-        System.out.println(bestScore);
-        return bestScore;
-    }
-
 
     // TODO: Move this function over to model when done here with all win - conditions
     // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
