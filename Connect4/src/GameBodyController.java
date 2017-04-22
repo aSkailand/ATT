@@ -7,7 +7,7 @@ import java.awt.event.WindowEvent;
 /**
  * Created by aslak on 03.04.17.
  */
-public class GameBodyController {
+public class GameBodyController{
 
 
     // todo: Convert to local: Possible if in actionPerformed: e.getSource -> e.getActionCommand

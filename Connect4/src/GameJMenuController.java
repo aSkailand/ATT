@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Timer;
@@ -10,12 +11,16 @@ public class GameJMenuController implements ActionListener {
     GameJMenu gameJMenu;
     GameBodyFrame gameBodyFrame;
     GameTimerController gameTimerController;
-
+    GameBodyModel gameBodyModel;
+    HighscoreView highscoreView;
     //This boolean is for the pause/unpause button, when its true its unpaused, if its false its paused
     boolean pauseBoolean = true;
 
 
     public GameJMenuController(GameBodyFrame gbFrame) {
+
+
+        gameBodyModel = new GameBodyModel();
 
         gameTimerController = new GameTimerController(gbFrame);
 
@@ -37,10 +42,13 @@ public class GameJMenuController implements ActionListener {
             }
             case "highscore": {
                 System.out.println("Highscore...");
+                highscoreView = new HighscoreView();
                 break;
             }
             case "saveGame": {
                 System.out.println("Saved game...");
+                String fuck = JOptionPane.showInputDialog(null, "New highscore, enter name: ");
+                gameBodyModel.setHighScore(fuck + ": Time: " + gameTimerController.minutes + ":" + gameTimerController.seconds + "\n");
                 break;
             }
             case "openGame": {
@@ -49,11 +57,10 @@ public class GameJMenuController implements ActionListener {
             }
             case "pauseGame": {
                 System.out.println("Paused game...");
-                if(pauseBoolean==true) {
+                if (pauseBoolean == true) {
                     gameTimerController.playerTurnTimer.stop();
                     pauseBoolean = false;
-                }
-                else{
+                } else {
                     gameTimerController.playerTurnTimer.start();
                     pauseBoolean = true;
                 }

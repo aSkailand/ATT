@@ -62,7 +62,6 @@ public class GameBodyFrame extends JFrame {
 
         // Players panel
         playersPanel.setLayout(new GridBagLayout());
-        playersPanel.setBackground(Color.green);
         gbcPlayersPanel();
         this.add(playersPanel, gbc);
 
@@ -116,7 +115,7 @@ public class GameBodyFrame extends JFrame {
         gbc.weightx = 1;
         gbc.weighty = 1;
 
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(2, 2, 2, 2);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -135,7 +134,7 @@ public class GameBodyFrame extends JFrame {
         gbc.weightx = 1;
         gbc.weighty = 1;
 
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(2, 2, 2, 2);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -154,7 +153,7 @@ public class GameBodyFrame extends JFrame {
         gbc.weightx = 0.05;
         gbc.weighty = 0.2;
 
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(2, 2, 2, 2);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -174,7 +173,7 @@ public class GameBodyFrame extends JFrame {
         gbc.weightx = 0.05;
         gbc.weighty = 0.9;
 
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(2, 2, 2, 2);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -193,7 +192,7 @@ public class GameBodyFrame extends JFrame {
         gbc.weightx = 0.05;
         gbc.weighty = 0.005;
 
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(2, 2, 2, 2);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -212,7 +211,7 @@ public class GameBodyFrame extends JFrame {
         gbc.weightx = 0.333;
         gbc.weighty = 1;
 
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(2, 2, 2, 2);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -231,7 +230,7 @@ public class GameBodyFrame extends JFrame {
         gbc.weightx = 0.333;
         gbc.weighty = 1;
 
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(2, 2, 2, 2);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -249,7 +248,7 @@ public class GameBodyFrame extends JFrame {
         gbc.weightx = 0.333;
         gbc.weighty = 1;
 
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(2, 2, 2, 2);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
