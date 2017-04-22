@@ -134,8 +134,8 @@ public class GameBoardController implements ActionListener {
                         }
                     }
 
-                    removePieceSoft(random); // remove temporary piece
                     alternatePlayers(); // Switch back to AI
+                    removePieceSoft(random); // remove temporary piece
 
                     if (badSlot && antiLock < 10) {
                         badSlot = false;
