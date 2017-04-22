@@ -11,10 +11,11 @@ public class GameTimerController implements ActionListener {
     GameBodyFrame gameBodyFrame;
     Timer playerTurnTimer = new Timer(250, this);
 
-    public void setCurrentTime(int currentTime) {
-        this.currentTime = currentTime;
-    }
+
     int currentTime = 30;
+    int totalTime = 0;
+    int seconds = 0;
+    int minutes = 0;
 
     public GameTimerController(GameBodyFrame gbFrame) {
 
@@ -28,16 +29,26 @@ public class GameTimerController implements ActionListener {
         switch (e.getActionCommand()) {
             case "time": {
 
-                gameBodyFrame.timer.setText("Time left: " + currentTime + " Seconds...");
+                gameBodyFrame.timer.setText("Timer: " + currentTime);
+                gameBodyFrame.totalTimer.setText("Total time: " + minutes + ":" + seconds);
 
                 currentTime--;
+                totalTime++;
+                seconds++;
+
+                if (seconds == 60) {
+                    minutes++;
+                    seconds = 0;
+                }
 
                 if (currentTime < 0) {
 
-                    gameBodyFrame.timer.setText("New round");
+                    gameBodyFrame.timer.setText("Timer: 30");
                     System.out.println("Time is up");
-                    currentTime = 30;
+                    currentTime = 29;
                 }
+
+
 
                 break;
             }

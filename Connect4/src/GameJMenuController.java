@@ -69,7 +69,10 @@ public class GameJMenuController implements ActionListener {
                 System.out.println("Timer reset...");
                 gameTimerController.playerTurnTimer.stop();
                 gameTimerController.currentTime = 29;
-                gameBodyFrame.timer.setText("Time left: 30 Seconds...");
+                gameTimerController.seconds = 0;
+                gameTimerController.minutes = 0;
+                gameBodyFrame.totalTimer.setText("Total time: 0:0");
+                gameBodyFrame.timer.setText("Time: 30");
                 pauseBoolean = true;
                 break;
             }

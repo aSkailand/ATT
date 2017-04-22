@@ -19,7 +19,8 @@ public class GameBodyFrame extends JFrame {
     JPanel leftPlayerPanel = new JPanel();
     JPanel rightPlayerPanel = new JPanel();
 
-    JLabel timer = new JLabel("Starting game...");
+    JLabel timer = new JLabel("Time: 30");
+    JLabel totalTimer = new JLabel("Total time: 0:0");
 
     GridBagConstraints gbc = new GridBagConstraints();
 
@@ -77,7 +78,12 @@ public class GameBodyFrame extends JFrame {
         timerPanel.setBackground(Color.GRAY);
         gbcTimerPanel();
         playersPanel.add(timerPanel,gbc);
-        timerPanel.add(timer);
+        gbc.gridy = 1;
+        gbc.gridx = 0;
+        timerPanel.add(timer,gbc);
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        timerPanel.add(totalTimer,gbc);
 
 
         // Right player panel
