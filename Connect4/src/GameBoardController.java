@@ -16,7 +16,7 @@ public class GameBoardController implements ActionListener {
 
     GameOptionPanel gameOptionPanel;
 
-    public GameBoardController(GameBodyFrame gbFrame) {
+    GameBoardController(GameBodyFrame gbFrame) {
 
         gameBodyFrame = gbFrame;
 
@@ -42,7 +42,7 @@ public class GameBoardController implements ActionListener {
         boolean end_game = false;
 
         // Turn Info
-        System.out.println("\nTURN: " + gameBoardModel.getNumMove());
+        System.out.println("\nMOVE: " + gameBoardModel.getNumMove());
         System.out.println("**********");
 
         // Player Info
@@ -62,122 +62,30 @@ public class GameBoardController implements ActionListener {
         // AI PLAY
         else {
 
-            // if the AI has placed a piece or not
-            boolean placed = false;
-
-            // HIERARCHICAL AI
-            // - Follow a hierarchical scheme, if higher priority can't be followed, proceed to lower, and repeat.
-
+            /* HIERARCHICAL AI
+             - Follow a hierarchical scheme, if higher priority can't be followed, proceed to lower, and repeat.
+             - All in all, has only an 1 step look-ahead.
+             */
 
             // 1. IF CAN WIN, DO SO
-
-            // check if there is any winning play
-            for (int x = 0; x < GameBoardModel.numCol; x++) {
-                if (playableCol(x) && checkIfWinningMove(x)) {
-
-                    // AI play the winning move
-                    placePiece(x);
-                    placed = true;
-
-                    // Flavour Text
-                    System.out.println("beep boop ~~ I see win at: (" + x + "," + gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE) + ")");
-                    System.out.println("beep boop ~~ me placing my piece in column " + x);
-                    System.out.println("beep boop ~~ I won yay me");
-                    System.out.println("beep boop ~~ please notice me senpai");
-                    System.out.println("");
-
-                    // break or else AI plays more if it sees it can win multiple times
-                    break;
-                }
-            }
+            boolean AI_havePlaced = AI_checkIfCanWin();
 
             // 2. IF CAN DENY OPPONENT'S WIN IN CURRENT ROUND, DO SO
-
-            // Try to cancel out opponent's victory
-            if (!placed) {
-
-                alternatePlayers(); // switch over to opponent
-
-                for (int x = 0; x < GameBoardModel.numCol; x++) {
-                    if (playableCol(x) && checkIfWinningMove(x)) {
-                        alternatePlayers();
-                        placePiece(x);
-                        placed = true;
-                        break;
-                    }
-                }
-                if (!placed) alternatePlayers();
-            }
-
+            if (!AI_havePlaced) AI_havePlaced = AI_checkIfOpponentCanWin();
 
             // 3. PLACE RANDOMLY WITH 1 DEPTH LOOK-AHEAD
-
-            boolean badSlot = false;
-            int antiLock = 0; // Prevents from loop lock
-
-            while (!placed) {
-
-                int random = (int) (Math.random() * GameBoardModel.numCol);
-
-                if (playableCol(random)) {
-
-                    placePieceSoft(random); // AI places temporary
-                    alternatePlayers(); // Switch to opponent
-
-                    // Check if opponent can win
-                    for (int xx = 0; xx < GameBoardModel.numCol; xx++) {
-                        if (playableCol(xx) && checkIfWinningMove(xx)) {
-                            // Don't play it!
-                            antiLock++;
-                            badSlot = true;
-                            break;
-                        }
-                    }
-
-                    alternatePlayers(); // Switch back to AI
-                    removePieceSoft(random); // remove temporary piece
-
-                    if (badSlot && antiLock < 10) {
-                        badSlot = false;
-                    } else {
-                        placePiece(random);
-                        placed = true;
-                    }
-                }
-            }
+            if (!AI_havePlaced) AI_randomPlace();
 
 
-//            if (!placed) {
-//
-//                // Put random
-//                boolean playable = false;
-//                while (!playable) {
-//                    int random = (int) (Math.random() * GameBoardModel.numCol);
-//                    if (playableCol(random)) {
-//                        playable = true;
-//                        placePiece(random);
-//                    }
-//
-//                }
-//            }
         }
 
-        // Clean all win_parts
-        for (
-                int i = 0;
-                i < GameBoardModel.numCol; i++)
+        /* COMMON METHODS */
 
-        {
-            for (int j = 0; j < GameBoardModel.numRow; j++) {
-                gameBoardPanel.getSlot(i, j).win_part = false;
-            }
-        }
-
-        // COMMON METHODS
+        // Remove All WinParts
+        cleanAllWinParts();
 
         // Check if there's any winners
         checkWinAllConditions(gameBoardModel.getCurrentPlayer());
-
         checkWinAllConditions(gameBoardModel.getWaitingPlayer());
 
         colorWinPieces();
@@ -191,7 +99,6 @@ public class GameBoardController implements ActionListener {
         // todo: fix draw
         // Check if Draw
         if (gameBoardModel.getNumMove() == GameBoardModel.numRow * GameBoardModel.numCol)
-
         {
             System.out.println("DRAW?");
             end_game = true;
@@ -208,17 +115,131 @@ public class GameBoardController implements ActionListener {
 
         // todo: FIX! this is self trigger for AI
         // this will trigger when the human have just played (since current player switched)
-        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()) && !end_game)
+        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()) && !end_game) actionPerformed(e);
 
-            actionPerformed(e);
+    }
 
+    /* WORK IN PROGRESS METHODS */
+    void gravityPull(){
+
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            int amountOfEmpty = Collections.frequency(gameBoardModel.getListOccupancy().get(x), GameBoardModel.player.PLAYER_NONE);
+            int indexOfLowestEmpty = gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE);
+            if(indexOfLowestEmpty < GameBoardModel.numRow - amountOfEmpty){
+                for (int i = 0; i < GameBoardModel.numRow - amountOfEmpty; i++) {
+                    gameBoardPanel.getSlot(x, indexOfLowestEmpty + i).piece = gameBoardPanel.getSlot(x, indexOfLowestEmpty + 1 + i).piece;
+                    gameBoardModel.getListOccupancy().get(x).set(indexOfLowestEmpty + i, gameBoardModel.getSlotOccupancy(x,indexOfLowestEmpty+i));
+                }
+                gameBoardPanel.getSlot(x, GameBoardModel.numRow - 1).piece.setBackground(Color.white);
+                gameBoardPanel.getSlot(x, GameBoardModel.numRow - 1).piece.setEnabled(false);
+                gameBoardModel.getListOccupancy().get(x).set(GameBoardModel.numRow - 1, GameBoardModel.player.PLAYER_NONE);
+            }
+        }
+    }
+
+    /* AI METHODS */
+
+    /**
+     * The AI place a piece randomly on a playable column.
+     * This check have 1 step look-ahead.
+     * @return true if a piece is placed, and false if not (false shall never occur)
+     */
+    boolean AI_randomPlace(){
+        int antiLock = 0; // Prevents from loop lock
+        boolean badSlot = true;
+        int random = -1;
+
+        while (badSlot && antiLock < 10) {
+
+            badSlot = false;
+
+            // Force random till legal column
+            random = (int) (Math.random() * GameBoardModel.numCol);
+            while (!playableCol(random)) {
+                random = (int) (Math.random() * GameBoardModel.numCol);
+            }
+
+            placePieceSoft(random); // AI places temporary
+            alternatePlayers(); // Switch to opponent
+
+            // Check if opponent can win
+            for (int xx = 0; xx < GameBoardModel.numCol; xx++) {
+                if (playableCol(xx) && checkIfWinningMove(xx)) {
+                    // Don't play it!
+                    antiLock++;
+                    badSlot = true;
+                    break;
+                }
+            }
+
+            alternatePlayers(); // Switch back to AI
+            removePieceSoft(random); // remove temporary piece
+        }
+        placePiece(random);
+        return true;
+    }
+
+    /**
+     * Check if AI can win on current turn. Will play the move if it can win.
+     *
+     * @return returns true if it has won, and false if not.
+     */
+    boolean AI_checkIfCanWin() {
+
+        boolean placed = false;
+
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            if (playableCol(x) && checkIfWinningMove(x)) {
+
+                // AI play the winning move
+                placePiece(x);
+                placed = true;
+
+                // Flavour Text
+                System.out.println("beep boop ~~ I see win at: (" + x + "," + gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE) + ")");
+                System.out.println("beep boop ~~ me placing my piece in column " + x);
+                System.out.println("beep boop ~~ I won yay me");
+                System.out.println("beep boop ~~ please notice me senpai");
+                System.out.println("");
+
+                // break or else AI plays more if it sees it can win multiple times
+                break;
+            }
+        }
+
+        return placed;
+    }
+
+    /**
+     * The AI switch over to opponent to see if the opponent can win next round.
+     * AI will try to block the winning row if there is one in sight.
+     *
+     * @return true if AI places a piece, false if not.
+     */
+    boolean AI_checkIfOpponentCanWin() {
+
+        alternatePlayers(); // switch over to opponent
+
+        int threatCol = -1;
+
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            if (playableCol(x) && checkIfWinningMove(x)) {
+                threatCol = x;
+                break;
+            }
+        }
+        alternatePlayers();
+
+        if (threatCol != -1) {
+            placePiece(threatCol);
+            return true;
+        }
+        return false;
     }
 
     // TODO: Move this function over to model when done here with all win - conditions
     // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
-    // CHECK WIN CONDITIONS
-
-    // CHECK ALL
+    /* CHECK FOR WIN (ALL) */
     void checkWinAllConditions(GameBoardModel.player player) {
         System.out.println("CHECK WIN: " + player);
 
@@ -314,8 +335,7 @@ public class GameBoardController implements ActionListener {
 
     }
 
-
-    // CHECK SINGLE
+    /* CHECK FOR WIN (SINGLE) */
     boolean checkIfWinningMove(int x) {
 
         placePieceSoft(x);
@@ -343,7 +363,6 @@ public class GameBoardController implements ActionListener {
         return false;
     }
 
-    // todo: remove int y parameter?
     boolean checkWinVertical_Single(int x, int y, GameBoardModel.player player) {
 
         // Instantiating list
@@ -362,7 +381,6 @@ public class GameBoardController implements ActionListener {
         return searchWinningRow(x, 0, 0, 1, lister, player);
     }
 
-    // todo: remove int x parameter?
     boolean checkWinHorizontal_Single(int x, int y, GameBoardModel.player player) {
 
         // Instantiating list
@@ -454,6 +472,7 @@ public class GameBoardController implements ActionListener {
     }
 
 
+    /* OTHER WIN CHECK METHODS */
     boolean searchWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister, GameBoardModel.player player) {
 
         // Prematurely return if not enough same pieces
@@ -531,7 +550,24 @@ public class GameBoardController implements ActionListener {
                 }
             }
         }
+
     }
+
+    /**
+     * This method will make all win_part = false.
+     * Needed because checking for win leaves behind residues of win_parts,
+     * which later will be mistaken later by additional win checks.
+     */
+    void cleanAllWinParts(){
+        // Clean all win_parts
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            for (int j = 0; j < GameBoardModel.numRow; j++) {
+                gameBoardPanel.getSlot(i, j).win_part = false;
+            }
+        }
+    }
+
+
 
     // BOARD ACTIONS
 
