@@ -82,18 +82,37 @@ public class GameBoardController implements ActionListener {
 
         /* COMMON METHODS */
 
-        // Remove All WinParts
+        // Remove all WinParts
         cleanAllWinParts();
 
-        // Check if there's any winners
-        checkWinAllConditions(gameBoardModel.getCurrentPlayer());
-        checkWinAllConditions(gameBoardModel.getWaitingPlayer());
+        // Check if there's any winners in collateral manner (forcing non-short-circuiting with only one "|")
+        while (checkWinAllConditions(gameBoardModel.getCurrentPlayer()) | checkWinAllConditions(gameBoardModel.getWaitingPlayer())) {
 
-        killWinPieces();
-        gravityPull();
+            System.out.println("BEFORE:");
+            gameBoardModel.printOccupancyList();
 
-        gameBoardPanel.revalidate();
-        gameBoardPanel.repaint();
+            // Remove win
+            System.out.println("Remove all winning rows");
+            killWinPieces();
+            gameBoardModel.printOccupancyList();
+
+            // Gravity pull
+            System.out.println("Gravity pull");
+            gravityPull();
+            gameBoardModel.printOccupancyList();
+
+            // Clean all WinParts
+            cleanAllWinParts();
+
+            // Update Board
+            gameBoardPanel.revalidate();
+            gameBoardPanel.repaint();
+
+            System.out.println("AFTER:");
+            gameBoardModel.printOccupancyList();
+
+        }
+
 
 
         // Swap player
@@ -251,22 +270,27 @@ public class GameBoardController implements ActionListener {
     // TODO: Move this function over to model when done here with all win - conditions
     // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
     /* CHECK FOR WIN (ALL) */
-    void checkWinAllConditions(GameBoardModel.player player) {
+    boolean checkWinAllConditions(GameBoardModel.player player) {
+
+        boolean winInSight = false;
+
         System.out.println("CHECK WIN: " + player);
 
         System.out.println("\tcheck Horizontal:");
-        checkWinHorizontal_All(player);
+        if(checkWinHorizontal_All(player)) winInSight = true;
 
         System.out.println("\tcheck Vertical:");
-        checkWinVertical_All(player);
+        if(checkWinVertical_All(player)) winInSight = true;
 
         System.out.println("\tcheck Descending:");
-        checkWinDescendingDiagonal_All(player);
+        if(checkWinDescendingDiagonal_All(player)) winInSight = true;
 
         System.out.println("\tcheck Ascending:");
-        checkWinAscendingDiagonal_All(player);
+        if(checkWinAscendingDiagonal_All(player)) winInSight = true;
 
         System.out.println("");
+
+        return winInSight;
     }
 
     boolean checkWinVertical_All(GameBoardModel.player player) {
