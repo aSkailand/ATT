@@ -39,16 +39,17 @@ public class GameBoardPanel extends JPanel {
 
 
         // Add ArrayList of JPanels to a common ArrayList
-        for (int i = 0; i < GameBoardModel.numCol; i++) {
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
             listJPanelGameBoardSlots.add(new ArrayList<>());
-            for (int j = 0; j < GameBoardModel.numRow; j++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
 
-                int currentSquareIndex = (((GameBoardModel.numRow - 1) * GameBoardModel.numCol) + i) - (GameBoardModel.numCol * j);
+                // corresponding index from linked list to x-y-index
+                int currentSquareIndex = (((GameBoardModel.numRow - 1) * GameBoardModel.numCol) + x) - (GameBoardModel.numCol * y);
 
-                tempListPanels.get(currentSquareIndex).piece.setText("( " + i + " , " + j + " )");
-                tempListPanels.get(currentSquareIndex).piece.setEnabled(false);
-
-                listJPanelGameBoardSlots.get(i).add(tempListPanels.get(currentSquareIndex));
+                listJPanelGameBoardSlots.get(x).add(tempListPanels.get(currentSquareIndex));
+                getSlot(x,y).setCoordinates(x,y);
+                getSlot(x,y).initializeEmpty();
+                getSlot(x,y).setEmpty();
 
             }
         }

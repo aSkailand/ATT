@@ -34,6 +34,7 @@ public class GameBoardController implements ActionListener {
 
         System.out.println("");
         gameBoardModel.printOccupancyList();
+
     }
 
     @Override
@@ -607,11 +608,12 @@ public class GameBoardController implements ActionListener {
             return; // Never supposed to happen. If it happens, we got a bug somewhere.
         }
 
-        // Set current player color on piece
-        gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).piece.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
+        // Creating a piece
+        GamePiece aGamePiece = new GamePiece();
+        aGamePiece.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
-        // Set enabled on piece
-        gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).piece.setEnabled(true);
+        // Add piece to slot
+        gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).setPiece(aGamePiece);
 
         // Tick occupancy list
         gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, gameBoardModel.getCurrentPlayer());
