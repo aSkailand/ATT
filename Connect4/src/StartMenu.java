@@ -35,7 +35,7 @@ public class StartMenu extends JFrame{
     public StartMenu(StartMenuController c){
 
 
-        this.setSize(600,600);
+        this.setSize(800,800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
@@ -64,16 +64,11 @@ public class StartMenu extends JFrame{
         GBCJL();
         JP.add(JL, GBC);
 
-
-
-        TitleLabel = new JLabel("Welcome to Connect 4");
-        GBC.insets = new Insets(5,0,5,0);
-        GBC.gridx = 1;
-        GBC.gridy = 0;
-        GBC.weightx = 0.5;
-        GBC.weighty = 0.5;
-        GBC.fill = GridBagConstraints.BOTH;
-        TitleLabel.add(JL,GBC);
+        TitleLabel = new JLabel("Welcome to Connect4");
+        TitleLabel.setForeground(Color.BLACK);
+        TitleLabel.setFont(new Font("", Font.BOLD, 22));
+        GBCTitleLabel();
+        JP.add(TitleLabel,GBC);
 
         jPanel.add(JP);
         this.setVisible(true);
@@ -224,6 +219,19 @@ public class StartMenu extends JFrame{
         GBC.weightx = 0.1;
         GBC.weighty = 0.05;
         GBC.fill = GridBagConstraints.BOTH;
+
+    }
+
+    void GBCTitleLabel(){
+
+        GBC.insets = new Insets(20,20,20,20);
+        GBC.gridx = 0;
+        GBC.gridy = 0;
+        GBC.weightx = 0.03;
+        GBC.weighty = 0.03;
+        GBC.fill = GridBagConstraints.VERTICAL;
+
+
 
     }
 
