@@ -16,6 +16,10 @@ public class GameBoardController implements ActionListener {
 
     GameOptionPanel gameOptionPanel;
 
+    // todo: insert HP here
+    int HP_player_1 = 30;
+    int HP_player_2 = 30;
+
     GameBoardController(GameBodyFrame gbFrame) {
 
         gameBodyFrame = gbFrame;
@@ -55,13 +59,11 @@ public class GameBoardController implements ActionListener {
             int chosenCol = Integer.parseInt(e.getActionCommand());
 
             // Place piece
-            placePiece(chosenCol);
+            placePiece(chosenCol, gameBoardModel.getCurrentPlayer());
 
         }
         // AI PLAY
         else {
-
-
 
             /* HIERARCHICAL AI
              - Follow a hierarchical scheme, if higher priority can't be followed, proceed to lower, and repeat.
@@ -113,8 +115,10 @@ public class GameBoardController implements ActionListener {
 
         }
 
+        System.out.println("Player 1 HP: "+HP_player_1);
+        System.out.println("Player 2 HP: "+HP_player_2);
 
-
+        
         // Swap player
         alternatePlayers();
 
@@ -175,12 +179,15 @@ public class GameBoardController implements ActionListener {
      * @return true if a piece is placed, and false if not (false shall never occur)
      */
     boolean AI_randomPlace() {
+
+        GameBoardModel.player AI = gameBoardModel.getCurrentPlayer();
+        GameBoardModel.player Opponent = gameBoardModel.getWaitingPlayer();
+
         int antiLock = 0; // Prevents from loop lock
-        boolean badSlot = true;
         int random = -1;
 
+        boolean badSlot = true;
         while (badSlot && antiLock < 10) {
-
             badSlot = false;
 
             // Force random till legal column
@@ -189,12 +196,11 @@ public class GameBoardController implements ActionListener {
                 random = (int) (Math.random() * GameBoardModel.numCol);
             }
 
-            placePieceSoft(random); // AI places temporary
-            alternatePlayers(); // Switch to opponent
+            placePieceSoft(random, AI); // AI places temporary
 
             // Check if opponent can win
             for (int xx = 0; xx < GameBoardModel.numCol; xx++) {
-                if (playableCol(xx) && checkIfWinningMove(xx)) {
+                if (playableCol(xx) && checkIfWinningMove(xx, Opponent)) {
                     // Don't play it!
                     antiLock++;
                     badSlot = true;
@@ -202,10 +208,10 @@ public class GameBoardController implements ActionListener {
                 }
             }
 
-            alternatePlayers(); // Switch back to AI
             removePieceSoft(random); // remove temporary piece
+
         }
-        placePiece(random);
+        placePiece(random, AI);
         return true;
     }
 
@@ -219,7 +225,7 @@ public class GameBoardController implements ActionListener {
         boolean placed = false;
 
         for (int x = 0; x < GameBoardModel.numCol; x++) {
-            if (playableCol(x) && checkIfWinningMove(x)) {
+            if (playableCol(x) && checkIfWinningMove(x, gameBoardModel.getCurrentPlayer())) {
 
                 // Flavour Text
                 System.out.println("beep boop ~~ I see win at: (" + x + "," + gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE) + ")");
@@ -229,7 +235,7 @@ public class GameBoardController implements ActionListener {
                 System.out.println("");
 
                 // AI play the winning move
-                placePiece(x);
+                placePiece(x, gameBoardModel.getCurrentPlayer());
                 placed = true;
 
                 // break or else AI plays more if it sees it can win multiple times
@@ -248,22 +254,13 @@ public class GameBoardController implements ActionListener {
      */
     boolean AI_checkIfOpponentCanWin() {
 
-        alternatePlayers(); // switch over to opponent
-
-        int threatCol = -1;
-
         for (int x = 0; x < GameBoardModel.numCol; x++) {
-            if (playableCol(x) && checkIfWinningMove(x)) {
-                threatCol = x;
-                break;
+            if (playableCol(x) && checkIfWinningMove(x, gameBoardModel.getWaitingPlayer())) {
+                placePiece(x, gameBoardModel.getCurrentPlayer());
+                return true;
             }
         }
-        alternatePlayers();
 
-        if (threatCol != -1) {
-            placePiece(threatCol);
-            return true;
-        }
         return false;
     }
 
@@ -371,25 +368,25 @@ public class GameBoardController implements ActionListener {
     }
 
     /* CHECK FOR WIN (SINGLE) */
-    boolean checkIfWinningMove(int x) {
+    boolean checkIfWinningMove(int x, GameBoardModel.player player) {
 
-        placePieceSoft(x);
+        placePieceSoft(x, player);
 
-        int indexOfUpper = gameBoardModel.getListOccupancy().get(x).lastIndexOf(gameBoardModel.getCurrentPlayer());
+        int indexOfUpper = gameBoardModel.getListOccupancy().get(x).lastIndexOf(player);
 
-        if (checkWinVertical_Single(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+        if (checkWinVertical_Single(x, indexOfUpper, player)) {
             removePieceSoft(x);
             return true;
         }
-        if (checkWinHorizontal_Single(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+        if (checkWinHorizontal_Single(x, indexOfUpper, player)) {
             removePieceSoft(x);
             return true;
         }
-        if (checkWinAscendingDiagonal_Single(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+        if (checkWinAscendingDiagonal_Single(x, indexOfUpper, player)) {
             removePieceSoft(x);
             return true;
         }
-        if (checkWinDescendingDiagonal_Single(x, indexOfUpper, gameBoardModel.getCurrentPlayer())) {
+        if (checkWinDescendingDiagonal_Single(x, indexOfUpper, player)) {
             removePieceSoft(x);
             return true;
         }
@@ -595,6 +592,9 @@ public class GameBoardController implements ActionListener {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
                     gameBoardPanel.getSlot(x, y).setEmpty();
+                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_1)) HP_player_2--;
+                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_2)) HP_player_1--;
+
                     gameBoardModel.getListOccupancy().get(x).set(y, GameBoardModel.player.PLAYER_NONE);
                 }
             }
@@ -619,7 +619,7 @@ public class GameBoardController implements ActionListener {
 
     // BOARD ACTIONS
 
-    void placePieceSoft(int chosenCol) {
+    void placePieceSoft(int chosenCol, GameBoardModel.player player) {
 
         // Find available slot in chosen column
         int indexOfNotOccupied = gameBoardModel.getListOccupancy().get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
@@ -631,20 +631,25 @@ public class GameBoardController implements ActionListener {
         }
 
         // Tick occupancy list
-        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, gameBoardModel.getCurrentPlayer());
+        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, player);
     }
 
     void removePieceSoft(int chosenCol) {
 
         // Find available slot in chosen column
-        int indexOfUpper = gameBoardModel.getListOccupancy().get(chosenCol).lastIndexOf(gameBoardModel.getCurrentPlayer());
+        int index1 = gameBoardModel.getListOccupancy().get(chosenCol).lastIndexOf(gameBoardModel.getCurrentPlayer());
+        int index2 = gameBoardModel.getListOccupancy().get(chosenCol).lastIndexOf(gameBoardModel.getWaitingPlayer());
+        int indexOfUpper;
+
+        if (index1 > index2) indexOfUpper = index1;
+        else indexOfUpper = index2;
 
         // Tick occupancy list
         gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfUpper, GameBoardModel.player.PLAYER_NONE);
     }
 
     // Place piece at chosen column
-    void placePiece(int chosenCol) {
+    void placePiece(int chosenCol, GameBoardModel.player player) {
 
         // Find available slot in chosen column
         int indexOfNotOccupied = gameBoardModel.getListOccupancy().get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
@@ -657,13 +662,13 @@ public class GameBoardController implements ActionListener {
 
         // Creating a piece
         GamePiece aGamePiece = new GamePiece();
-        aGamePiece.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
+        aGamePiece.setBackground(gameBoardModel.getPlayerColor(player));
 
         // Add piece to slot
         gameBoardPanel.getSlot(chosenCol, indexOfNotOccupied).setPiece(aGamePiece);
 
         // Tick occupancy list
-        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, gameBoardModel.getCurrentPlayer());
+        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, player);
 
     }
 
