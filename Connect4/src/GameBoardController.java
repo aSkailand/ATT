@@ -398,6 +398,17 @@ public class GameBoardController implements ActionListener {
         return false;
     }
 
+    /**
+     * SINGLE WIN CHECKS
+     * All single winChecks works in similar fashion.
+     * They need a coordinate (x,y), and the player that they will look for.
+     * From there, they will translate the row to an ArrayList lister that will contain 1's and 0's.
+     * A 1 for each piece that correspond with given player, and a 0 for each that does not.
+     * @param x: the x coordinate to start from.
+     * @param y: the y coordinate to start from.
+     * @param player: the player the methods shall focus on.
+     * @return true if a win occurs, and false if not.
+     */
     boolean checkWinVertical_Single(int x, int y, GameBoardModel.player player) {
 
         // Instantiating list
@@ -407,15 +418,9 @@ public class GameBoardController implements ActionListener {
             else lister.add(0);
         }
 
-        // Prematurely return if not enough same pieces
-        if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)) {
-            return false;
-        }
-
         // Find win
-        return searchWinningRow(x, 0, 0, 1, lister, player);
+        return searchWinningRow(x, 0, 0, 1, lister);
     }
-
     boolean checkWinHorizontal_Single(int x, int y, GameBoardModel.player player) {
 
         // Instantiating list
@@ -425,15 +430,9 @@ public class GameBoardController implements ActionListener {
             else lister.add(0);
         }
 
-        // Prematurely return if not enough same pieces
-        if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)) {
-            return false;
-        }
-
         // Find win
-        return searchWinningRow(0, y, 1, 0, lister, player);
+        return searchWinningRow(0, y, 1, 0, lister);
     }
-
     boolean checkWinAscendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
 
         // Find initial values
@@ -461,15 +460,9 @@ public class GameBoardController implements ActionListener {
             y++;
         }
 
-        // Prematurely return if not enough same pieces
-        if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)) {
-            return false;
-        }
-
         // Find win
-        return searchWinningRow(init_x, init_y, 1, 1, lister, player);
+        return searchWinningRow(init_x, init_y, 1, 1, lister);
     }
-
     boolean checkWinDescendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
 
         // Find initial values
@@ -497,18 +490,26 @@ public class GameBoardController implements ActionListener {
             y--;
         }
 
-        // Prematurely return if not enough same pieces
-        if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)) {
-            return false;
-        }
-
-        return searchWinningRow(init_x, init_y, 1, -1, lister, player);
+        return searchWinningRow(init_x, init_y, 1, -1, lister);
 
     }
 
 
+
     /* OTHER WIN CHECK METHODS */
-    boolean searchWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister, GameBoardModel.player player) {
+
+    // todo: make it so searchWinningRow returns winning rows?
+    // todo: maybe return ArrayList<Integer[]> where each Integer[] = {init_x, init_y, end_x, end_y}
+    /**
+     * Check the given ArrayList lister. Check for how many 1's in row. Mark the corresponding slots.
+     * @param init_x: the initial x-coordinate of lister's row.
+     * @param init_y: the initial y-coordinate of lister's row.
+     * @param increment_x: how x is incremented, used to simulate row (vertical, horizontal, ascending or descending).
+     * @param increment_y: how y is incremented, used to simulate row (vertical, horizontal, ascending or descending).
+     * @param lister: the ArrayList forming the translated view of the current row.
+     * @return true if there's win, false if not.
+     */
+    boolean searchWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister) {
 
         // Prematurely return if not enough same pieces
         if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)) {
