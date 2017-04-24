@@ -18,7 +18,6 @@ public class StartMenuController implements ActionListener{
     }
 
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -39,49 +38,62 @@ public class StartMenuController implements ActionListener{
                 View.Settings(this);
                 View.jPanel.validate();
                 View.jPanel.repaint();
-                System.out.println("Settingss");
+                System.out.println("Trakk på Settings");
                 break;
             }
 
             case "Exit Game": {
 
-                System.out.println("Trykket på Exit");
+                View.ExitGame(this);
+                System.out.println("Trakk på Exit");
 
                 break;
             }
 
             case "Save": {
-                System.out.println("Trykket på save");
+                System.out.println("Trakk på save");
                 break;
 
             }
 
             case "Reset": {
-                System.out.println("Trykket på reset");
+                System.out.println("Trakk på reset");
                 break;
             }
 
             case "Back": {
 
-                System.out.println("Trykket på back");
+                View.jPanel.removeAll();
+                View.BackToMenu(this);
+                View.jPanel.validate();
+                View.jPanel.repaint();
+
+                System.out.println("Trakk på back");
+
                 break;
             }
 
             case "Solo": {
 
-                System.out.println("Trykket på Solo");
+                System.out.println("Trakk på Solo");
                 break;
             }
 
             case "Versus": {
 
-                System.out.println("Trykket på Versus");
+                System.out.println("Trakk på Versus");
                 break;
             }
 
             case "Back to Menu":{
 
-                System.out.println("Trykket på back to menu");
+                View.jPanel.removeAll();
+                View.BackToMenu(this);
+                View.jPanel.validate();
+                View.jPanel.repaint();
+
+
+                System.out.println("Trakk på back to menu");
                 break;
             }
 

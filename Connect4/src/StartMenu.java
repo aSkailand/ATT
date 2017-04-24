@@ -18,6 +18,7 @@ public class StartMenu extends JFrame{
     JLabel JL;
     JPanel jPanel = new JPanel();
     JPanel JP = new JPanel();
+    JLabel TitleLabel;
 
     JButton SaveButton;
     JButton ResetButton;
@@ -62,6 +63,17 @@ public class StartMenu extends JFrame{
         JL = new JLabel("");
         GBCJL();
         JP.add(JL, GBC);
+
+
+
+        TitleLabel = new JLabel("Welcome to Connect 4");
+        GBC.insets = new Insets(5,0,5,0);
+        GBC.gridx = 1;
+        GBC.gridy = 0;
+        GBC.weightx = 0.5;
+        GBC.weighty = 0.5;
+        GBC.fill = GridBagConstraints.BOTH;
+        TitleLabel.add(JL,GBC);
 
         jPanel.add(JP);
         this.setVisible(true);
@@ -144,20 +156,45 @@ public class StartMenu extends JFrame{
     }
 
 
-    void GBCPlayGameButton(){
+    public void ExitGame(StartMenuController c){
 
-        GBC.insets = new Insets(10,0,0,0);
-        GBC.gridx = 0;
-        GBC.gridy = 0;
-        GBC.weightx = 0.1;
-        GBC.weighty = 0.4;
-        GBC.fill = GridBagConstraints.BOTH;
-
+        setVisible(false);
+        dispose();
 
     }
 
-    void GBCSettingsButton(){
+    public void BackToMenu(StartMenuController c){
 
+        PlayGameButton = new JButton("Play Game");
+        PlayGameButton.addActionListener(c);
+        GBCPlayGameButton();
+        JP.add(PlayGameButton, GBC);
+
+        SettingsButton = new JButton("Settings");
+        SettingsButton.addActionListener(c);
+        GBCSettingsButton();
+        JP.add(SettingsButton,GBC);
+
+        ExitButton = new JButton("Exit Game");
+        ExitButton.addActionListener(c);
+        GBCExitButton();
+        JP.add(ExitButton, GBC);
+
+        JL = new JLabel("");
+        GBCJL();
+        JP.add(JL, GBC);
+
+        jPanel.add(JP);
+        this.setVisible(true);
+
+    }
+
+
+
+
+    void GBCPlayGameButton(){
+
+        GBC.insets = new Insets(10,5,5,5);
         GBC.gridx = 0;
         GBC.gridy = 1;
         GBC.weightx = 0.1;
@@ -167,13 +204,25 @@ public class StartMenu extends JFrame{
 
     }
 
-    void GBCExitButton(){
+    void GBCSettingsButton(){
 
-        GBC.insets = new Insets(0,0,10,0);
+        GBC.insets = new Insets(5,5,5,5);
         GBC.gridx = 0;
         GBC.gridy = 2;
         GBC.weightx = 0.1;
         GBC.weighty = 0.1;
+        GBC.fill = GridBagConstraints.BOTH;
+
+
+    }
+
+    void GBCExitButton(){
+
+        GBC.insets = new Insets(5,5,10,5);
+        GBC.gridx = 0;
+        GBC.gridy = 3;
+        GBC.weightx = 0.1;
+        GBC.weighty = 0.05;
         GBC.fill = GridBagConstraints.BOTH;
 
     }
