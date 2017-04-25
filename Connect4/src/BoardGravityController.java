@@ -8,12 +8,13 @@ import java.awt.event.ActionListener;
  */
 public class BoardGravityController implements ActionListener {
 
-    Timer gravityTimer;
     GameBoardController gameBoardController;
     GameBoardModel gameBoardModel;
     GameBoardPanel gameBoardPanel;
 
     BoardWinController boardWinController;
+
+    Timer gravityTimer;
 
     int ticks = 0;
 
@@ -21,9 +22,10 @@ public class BoardGravityController implements ActionListener {
         this.gameBoardController = gameBoardController;
         gameBoardPanel = gameBoardController.gameBoardPanel;
         gameBoardModel = gameBoardController.gameBoardModel;
+
         boardWinController = gameBoardController.boardWinController;
 
-        gravityTimer = new Timer(50, this);
+        gravityTimer = new Timer(30, this);
     }
 
 
@@ -35,9 +37,20 @@ public class BoardGravityController implements ActionListener {
         gravityTimer.stop();
     }
 
+    void calcMaxTicks(){
+        int indexOfLowestEmpty = 0;
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            int currentRowLowestEmpty = gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE);
+            if(currentRowLowestEmpty < indexOfLowestEmpty)
+                indexOfLowestEmpty = currentRowLowestEmpty;
+        }
+        this.ticks = GameBoardModel.numRow - 1 - indexOfLowestEmpty;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (ticks < 6) {
+
+        if (ticks > 0) {
 
             for (int x = 0; x < GameBoardModel.numCol; x++) {
 
@@ -58,25 +71,28 @@ public class BoardGravityController implements ActionListener {
                     gameBoardModel.getListOccupancy().get(x).add(GameBoardModel.player.PLAYER_NONE);
 
                 }
+
                 gameBoardPanel.revalidate();
                 gameBoardPanel.repaint();
             }
 
 
 
-            ticks++;
+            ticks--;
         }
         else {
             ticks = 0;
             stopGravityTimer();
+            boardWinController.RUN();
 
-            if(boardWinController.RUN()){
-                startGravityTimer();
-            }
-            else {
-                System.out.println("Gravity DONE???");
-                gameBoardController.roundEnd();
-            }
+//            if(boardWinController.RUN()){
+//                calcMaxTicks();
+//                startGravityTimer();
+//            }
+//            else {
+//                System.out.println("Gravity DONE???");
+//                gameBoardController.roundEnd();
+//            }
 
         }
 

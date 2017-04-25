@@ -43,8 +43,6 @@ public class GameBoardController implements ActionListener {
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
 
-
-
         boardSummonController = new BoardSummonController(this);
         boardWinController = new BoardWinController(this);
         boardGravityController = new BoardGravityController(this);
@@ -74,6 +72,8 @@ public class GameBoardController implements ActionListener {
 
         // Lock all option buttons
         disableAllColumns();
+
+        boardGravityController.calcMaxTicks();
 
         // Initiate gravity
         boardGravityController.startGravityTimer();
@@ -520,6 +520,19 @@ public class GameBoardController implements ActionListener {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
                     Color WinColor = gameBoardModel.getPlayerWinColor(gameBoardModel.getSlotOccupancy(x, y));
                     gameBoardPanel.getSlot(x, y).piece.setBackground(WinColor);
+                }
+            }
+        }
+
+    }
+
+    void resetColorWinPieces() {
+
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (gameBoardPanel.getSlot(x, y).win_part) {
+                    Color Color = gameBoardModel.getPlayerColor(gameBoardModel.getSlotOccupancy(x, y));
+                    gameBoardPanel.getSlot(x, y).piece.setBackground(Color);
                 }
             }
         }
