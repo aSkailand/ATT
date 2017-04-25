@@ -1,14 +1,12 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
 
 
 /**
  * Created by Trong on 24/04/2017.
  */
-public class gravityTimer implements ActionListener {
+public class BoardGravityController implements ActionListener {
 
     Timer gravityTimer;
     GameBoardController gameBoardController;
@@ -19,12 +17,13 @@ public class gravityTimer implements ActionListener {
 
     int ticks = 0;
 
-    gravityTimer(GameBoardPanel gameBoardPanel, GameBoardModel gameBoardModel, GameBoardController gameBoardController) {
-        gravityTimer = new Timer(50, this);
+    BoardGravityController(GameBoardController gameBoardController) {
         this.gameBoardController = gameBoardController;
-        this.gameBoardPanel = gameBoardPanel;
-        this.gameBoardModel = gameBoardModel;
-        this.boardWinController = gameBoardController.boardWinController;
+        gameBoardPanel = gameBoardController.gameBoardPanel;
+        gameBoardModel = gameBoardController.gameBoardModel;
+        boardWinController = gameBoardController.boardWinController;
+
+        gravityTimer = new Timer(50, this);
     }
 
 
@@ -45,9 +44,6 @@ public class gravityTimer implements ActionListener {
                 int indexOfLowestEmpty = gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE);
                 if (indexOfLowestEmpty != -1) {
 
-                    int amountOfEmpty = Collections.frequency(gameBoardModel.getListOccupancy().get(x), GameBoardModel.player.PLAYER_NONE);
-
-
                     for (int i = indexOfLowestEmpty; i < GameBoardModel.numRow - 1; i++) {
                         if (gameBoardModel.getSlotOccupancy(x, i + 1).equals(GameBoardModel.player.PLAYER_NONE)) {
                             gameBoardPanel.getSlot(x, i).setEmpty();
@@ -60,9 +56,6 @@ public class gravityTimer implements ActionListener {
 
                     gameBoardModel.getListOccupancy().get(x).remove(indexOfLowestEmpty);
                     gameBoardModel.getListOccupancy().get(x).add(GameBoardModel.player.PLAYER_NONE);
-
-                    indexOfLowestEmpty = gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE);
-
 
                 }
                 gameBoardPanel.revalidate();
@@ -82,7 +75,7 @@ public class gravityTimer implements ActionListener {
             }
             else {
                 System.out.println("Gravity DONE???");
-                gameBoardController.endRound();
+                gameBoardController.roundEnd();
             }
 
         }

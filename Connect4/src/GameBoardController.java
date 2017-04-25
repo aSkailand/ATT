@@ -16,10 +16,11 @@ public class GameBoardController implements ActionListener {
 
     GameOptionPanel gameOptionPanel;
 
-    BoardPlacePiece boardPlacePiece;
+    BoardSummonController boardSummonController;
+    BoardGravityController boardGravityController;
     BoardWinController boardWinController;
 
-    gravityTimer gravityTimer;
+
 
     // todo: insert HP here
     int HP_player_1 = 30;
@@ -31,7 +32,10 @@ public class GameBoardController implements ActionListener {
 
         gameBoardModel = new GameBoardModel();
         gameBoardPanel = new GameBoardPanel();
+
+        // todo: send this gameBodyController
         gameOptionPanel = new GameOptionPanel(this);
+        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
         gameBodyFrame.centerPanel.add(gameBoardPanel);
         gameBodyFrame.topPanel.add(gameOptionPanel);
@@ -39,22 +43,44 @@ public class GameBoardController implements ActionListener {
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
 
-        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
+
+
+        boardSummonController = new BoardSummonController(this);
+        boardWinController = new BoardWinController(this);
+        boardGravityController = new BoardGravityController(this);
 
         System.out.println("");
         gameBoardModel.printOccupancyList();
 
-        boardPlacePiece = new BoardPlacePiece(this);
-        boardWinController = new BoardWinController(gameBoardModel, gameBoardPanel, this);
-        gravityTimer = new gravityTimer(gameBoardPanel, gameBoardModel, this);
-
+        wakeupAI();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        roundIntro();
 
+        // Place piece on top of board
 
+        // IF HUMAN
+        if(!gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) {
+            int chosenCol = Integer.parseInt(e.getActionCommand());
+            boardSummonController.summonPiece(chosenCol);
+        }
+        // IF AI
+        else {
+            boardSummonController.summonPieceAI();
+        }
+
+        // Lock all option buttons
+        disableAllColumns();
+
+        // Initiate gravity
+        boardGravityController.startGravityTimer();
+
+    }
+
+    void roundIntro(){
         // Turn Info
         System.out.println("\nMOVE: " + gameBoardModel.getNumMove());
         System.out.println("**********");
@@ -62,78 +88,10 @@ public class GameBoardController implements ActionListener {
         // Player Info
         System.out.println("Current Player: " + gameBoardModel.getCurrentPlayer());
         System.out.println("AI status: " + gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()));
-
-
-        // Check the number on the clicked button
-        int chosenCol = Integer.parseInt(e.getActionCommand());
-
-        // HANDLE AI OR HUMAN PLAY IN HERE
-        boardPlacePiece.placePieceREAL(chosenCol);
-
-        disableAllColumns();
-
-        gravityTimer.startGravityTimer();
-
-
-//        /* COMMON METHODS */
-//
-//        // Remove all WinParts
-//        boardWinController.cleanAllWinParts();
-//
-//
-//        // CHECKWIN
-//        boardWinController.checkWinAllConditions(gameBoardModel.getCurrentPlayer());
-//        boardWinController.checkWinAllConditions(gameBoardModel.getWaitingPlayer());
-//        boardWinController.killWinPieces();
-//
-//        gameBoardPanel.revalidate();
-//        gameBoardPanel.repaint();
-//
-//        // GRAVITYPULL
-//        gravityTimer.startGravityTimer();
-//        gameBoardPanel.revalidate();
-//        gameBoardPanel.repaint();
-
-//        // Check if there's any winners in collateral manner (forcing non-short-circuiting with only one "|")
-//        while (checkWinAllConditions(gameBoardModel.getCurrentPlayer()) | checkWinAllConditions(gameBoardModel.getWaitingPlayer())) {
-//
-//            System.out.println("BEFORE:");
-//            gameBoardModel.printOccupancyList();
-//
-//            // Remove win
-//            System.out.println("Remove all winning rows");
-//            killWinPieces();
-//            gameBoardModel.printOccupancyList();
-//
-//            // Gravity pull
-//            System.out.println("Gravity pull");
-//            gravityPull();
-//            gameBoardModel.printOccupancyList();
-//
-//            // Clean all WinParts
-//            cleanAllWinParts();
-//
-//            // Update Board
-//            gameBoardPanel.revalidate();
-//            gameBoardPanel.repaint();
-//
-//            System.out.println("AFTER:");
-//            gameBoardModel.printOccupancyList();
-//
-//        }
-//
-//        System.out.println("Player 1 HP: "+HP_player_1);
-//        System.out.println("Player 2 HP: "+HP_player_2);
-
-        
-
-//        // todo: FIX! this is self trigger for AI
-//        // this will trigger when the human have just played (since current player switched)
-//        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) actionPerformed(e);
-
     }
 
-    void endRound(){
+    void roundEnd(){
+
         // Swap player
         alternatePlayers();
 
@@ -149,131 +107,22 @@ public class GameBoardController implements ActionListener {
         // Print OccupancyList
         gameBoardModel.printOccupancyList();
 
+        // Wake up the AI if it's her turn
+        wakeupAI();
     }
 
-    /* WORK IN PROGRESS METHODS */
-    void gravityPull() {
-
-        for (int x = 0; x < GameBoardModel.numCol; x++) {
-
-            int indexOfLowestEmpty = gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE);
-            if (indexOfLowestEmpty != -1) {
-
-                int amountOfEmpty = Collections.frequency(gameBoardModel.getListOccupancy().get(x), GameBoardModel.player.PLAYER_NONE);
-
-                while (indexOfLowestEmpty < GameBoardModel.numRow - amountOfEmpty) {
-                    for (int i = indexOfLowestEmpty; i < GameBoardModel.numRow - 1; i++) {
-                        if (gameBoardModel.getSlotOccupancy(x, i + 1).equals(GameBoardModel.player.PLAYER_NONE)) {
-                            gameBoardPanel.getSlot(x, i).setEmpty();
-                        } else {
-                            gameBoardPanel.getSlot(x, i).setPiece(gameBoardPanel.getSlot(x, i + 1).piece);
-                        }
-                    }
-
-                    gameBoardPanel.getSlot(x, GameBoardModel.numRow - 1).setEmpty();
-
-                    gameBoardModel.getListOccupancy().get(x).remove(indexOfLowestEmpty);
-                    gameBoardModel.getListOccupancy().get(x).add(GameBoardModel.player.PLAYER_NONE);
-
-                    indexOfLowestEmpty = gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE);
-                }
-            }
-        }
+    void wakeupAI(){
+        if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) actionPerformed(gameBoardModel.Food4AI);
     }
+
 
     /* AI METHODS */
 
-    /**
-     * The AI place a piece randomly on a playable column.
-     * This check have 1 step look-ahead.
-     *
-     * @return true if a piece is placed, and false if not (false shall never occur)
-     */
-//    boolean AI_randomPlace() {
-//
-//        GameBoardModel.player AI = gameBoardModel.getCurrentPlayer();
-//        GameBoardModel.player Opponent = gameBoardModel.getWaitingPlayer();
-//
-//        int antiLock = 0; // Prevents from loop lock
-//        int random = -1;
-//
-//        boolean badSlot = true;
-//        while (badSlot && antiLock < 10) {
-//            badSlot = false;
-//
-//            // Force random till legal column
-//            random = (int) (Math.random() * GameBoardModel.numCol);
-//            while (!playableCol(random)) {
-//                random = (int) (Math.random() * GameBoardModel.numCol);
-//            }
-//
-//            placePieceSoft(random, AI); // AI places temporary
-//
-//            // Check if opponent can win
-//            for (int xx = 0; xx < GameBoardModel.numCol; xx++) {
-//                if (playableCol(xx) && checkIfWinningMove(xx, Opponent)) {
-//                    // Don't play it!
-//                    antiLock++;
-//                    badSlot = true;
-//                    break;
-//                }
-//            }
-//
-//            removePieceSoft(random); // remove temporary piece
-//
-//        }
-//        placePiece(random, AI);
-//        return true;
-//    }
 
-    /**
-     * Check if AI can win on current turn. Will play the move if it can win.
-     *
-     * @return returns true if it has won, and false if not.
-     */
-//    boolean AI_checkIfCanWin() {
-//
-//        boolean placed = false;
-//
-//        for (int x = 0; x < GameBoardModel.numCol; x++) {
-//            if (playableCol(x) && checkIfWinningMove(x, gameBoardModel.getCurrentPlayer())) {
-//
-//                // Flavour Text
-//                System.out.println("beep boop ~~ I see win at: (" + x + "," + gameBoardModel.getListOccupancy().get(x).indexOf(GameBoardModel.player.PLAYER_NONE) + ")");
-//                System.out.println("beep boop ~~ me placing my piece in column " + x);
-//                System.out.println("beep boop ~~ I won yay me");
-//                System.out.println("beep boop ~~ please notice me senpai");
-//                System.out.println("");
-//
-//                // AI play the winning move
-//                placePiece(x, gameBoardModel.getCurrentPlayer());
-//                placed = true;
-//
-//                // break or else AI plays more if it sees it can win multiple times
-//                break;
-//            }
-//        }
-//
-//        return placed;
-//    }
 
-    /**
-     * The AI switch over to opponent to see if the opponent can win next round.
-     * AI will try to block the winning row if there is one in sight.
-     *
-     * @return true if AI places a piece, false if not.
-     */
-//    boolean AI_checkIfOpponentCanWin() {
-//
-//        for (int x = 0; x < GameBoardModel.numCol; x++) {
-//            if (playableCol(x) && checkIfWinningMove(x, gameBoardModel.getWaitingPlayer())) {
-//                placePiece(x, gameBoardModel.getCurrentPlayer());
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
+
+
+
 
     // TODO: Move this function over to model when done here with all win - conditions
     // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
@@ -322,6 +171,390 @@ public class GameBoardController implements ActionListener {
         gameBoardModel.setWaitingPlayer(tempPlayer);
     }
 
+
+    boolean checkWinAllConditions(GameBoardModel.player player) {
+
+        boolean winInSight = false;
+
+        System.out.println("CHECK WIN: " + player);
+
+        System.out.println("\tcheck Horizontal:");
+        if (checkWinHorizontal_All(player)) winInSight = true;
+
+        System.out.println("\tcheck Vertical:");
+        if (checkWinVertical_All(player)) winInSight = true;
+
+        System.out.println("\tcheck Descending:");
+        if (checkWinDescendingDiagonal_All(player)) winInSight = true;
+
+        System.out.println("\tcheck Ascending:");
+        if (checkWinAscendingDiagonal_All(player)) winInSight = true;
+
+        System.out.println("");
+
+        return winInSight;
+    }
+
+    boolean checkWinVertical_All(GameBoardModel.player player) {
+        boolean foundWin = false;
+
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            if (checkWinVertical_Single(i, 0, player)) foundWin = true;
+        }
+
+        return foundWin;
+    }
+
+    boolean checkWinHorizontal_All(GameBoardModel.player player) {
+
+        boolean foundWin = false;
+
+        for (int i = 0; i < GameBoardModel.numRow; i++) {
+            if (checkWinHorizontal_Single(0, i, player)) foundWin = true;
+        }
+
+        return foundWin;
+
+    }
+
+    boolean checkWinAscendingDiagonal_All(GameBoardModel.player player) {
+
+        boolean foundWin = false;
+
+        int init_x = 0;
+        int init_y = GameBoardModel.numRow - GameBoardModel.winInRow;
+
+        int last_x = GameBoardModel.numCol - GameBoardModel.winInRow;
+        int last_y = 0;
+
+        while (init_x <= last_x) {
+
+            int cur_x = init_x;
+            int cur_y = init_y;
+
+            if (checkWinAscendingDiagonal_Single(cur_x, cur_y, player)) foundWin = true;
+
+            // Moving PLAYER_1 step further
+            if (init_y != last_y) init_y--;
+            else init_x++;
+
+        }
+
+        return foundWin;
+
+    }
+
+    boolean checkWinDescendingDiagonal_All(GameBoardModel.player player) {
+
+        boolean foundWin = false;
+
+        // Declare early variables
+        int init_x = 0;
+        int init_y = GameBoardModel.winInRow - 1;
+
+        int last_x = GameBoardModel.numCol - GameBoardModel.winInRow;
+        int last_y = GameBoardModel.numRow - 1;
+
+        while (init_x <= last_x) {
+
+            int cur_x = init_x;
+            int cur_y = init_y;
+
+            if (checkWinDescendingDiagonal_Single(cur_x, cur_y, player)) foundWin = true;
+
+            // Moving PLAYER_1 step further
+            if (init_y != last_y) init_y++;
+            else init_x++;
+
+        }
+
+        return foundWin;
+
+    }
+
+    /* CHECK FOR WIN (SINGLE) */
+    boolean checkIfWinningMove(int x, GameBoardModel.player player) {
+
+        placePieceSoft(x, player);
+
+        int indexOfUpper = gameBoardModel.getListOccupancy().get(x).lastIndexOf(player);
+
+        if (checkWinVertical_Single(x, indexOfUpper, player)) {
+            removePieceSoft(x);
+            return true;
+        }
+        if (checkWinHorizontal_Single(x, indexOfUpper, player)) {
+            removePieceSoft(x);
+            return true;
+        }
+        if (checkWinAscendingDiagonal_Single(x, indexOfUpper, player)) {
+            removePieceSoft(x);
+            return true;
+        }
+        if (checkWinDescendingDiagonal_Single(x, indexOfUpper, player)) {
+            removePieceSoft(x);
+            return true;
+        }
+
+        removePieceSoft(x);
+        return false;
+    }
+
+    /**
+     * SINGLE WIN CHECKS
+     * All single winChecks works in similar fashion.
+     * They need a coordinate (x,y), and the player that they will look for.
+     * From there, they will translate the row to an ArrayList lister that will contain 1's and 0's.
+     * A 1 for each piece that correspond with given player, and a 0 for each that does not.
+     *
+     * @param x:      the x coordinate to start from.
+     * @param y:      the y coordinate to start from.
+     * @param player: the player the methods shall focus on.
+     * @return true if a win occurs, and false if not.
+     */
+    boolean checkWinVertical_Single(int x, int y, GameBoardModel.player player) {
+
+        // Instantiating list
+        ArrayList<Integer> lister = new ArrayList<>();  // 1D binary list of current row
+        for (int j = 0; j < GameBoardModel.numRow; j++) {
+            if (gameBoardModel.getSlotOccupancy(x, j).equals(player)) lister.add(1);
+            else lister.add(0);
+        }
+
+        // Find win
+        return searchWinningRow(x, 0, 0, 1, lister);
+    }
+
+    boolean checkWinHorizontal_Single(int x, int y, GameBoardModel.player player) {
+
+        // Instantiating list
+        ArrayList<Integer> lister = new ArrayList<>();  // 1D binary list of current row
+        for (int j = 0; j < GameBoardModel.numCol; j++) {
+            if (gameBoardModel.getSlotOccupancy(j, y).equals(player)) lister.add(1);
+            else lister.add(0);
+        }
+
+        // Find win
+        return searchWinningRow(0, y, 1, 0, lister);
+    }
+
+    boolean checkWinAscendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
+
+        // Find initial values
+        while (0 < x && 0 < y) {
+            x--;
+            y--;
+        }
+
+        // Declare initial values
+        int init_x = x;
+        int init_y = y;
+
+        // Instantiating list
+        ArrayList<Integer> lister = new ArrayList<>();  // 1D binary list of current row
+
+        // Check if x or y hit their max limit
+        while (x < GameBoardModel.numCol && y < GameBoardModel.numRow) {
+
+            // Check current tile's owner
+            if (gameBoardModel.getSlotOccupancy(x, y).equals(player)) lister.add(1);
+            else lister.add(0);
+
+            // Increments both, simulating ascending rightwards.
+            x++;
+            y++;
+        }
+
+        // Find win
+        return searchWinningRow(init_x, init_y, 1, 1, lister);
+    }
+
+    boolean checkWinDescendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
+
+        // Find initial values
+        while (0 < x && y < GameBoardModel.numRow - 1) {
+            x--;
+            y++;
+        }
+
+        // Declare initial values
+        int init_x = x;
+        int init_y = y;
+
+        // Instantiating list
+        ArrayList<Integer> lister = new ArrayList<>();  // 1D binary list of current row
+
+        // Check if x or y hit their max limit
+        while (x < GameBoardModel.numCol && 0 <= y) {
+
+            // Check current tile's owner
+            if (gameBoardModel.getSlotOccupancy(x, y).equals(player)) lister.add(1);
+            else lister.add(0);
+
+            // Increments both, simulating ascending rightwards.
+            x++;
+            y--;
+        }
+
+        return searchWinningRow(init_x, init_y, 1, -1, lister);
+
+    }
+
+
+
+    /* OTHER WIN CHECK METHODS */
+
+    // todo: make it so searchWinningRow returns winning rows?
+    // todo: maybe return ArrayList<Integer[]> where each Integer[] = {init_x, init_y, end_x, end_y}
+
+    /**
+     * Check the given ArrayList lister. Check for how many 1's in row. Mark the corresponding slots.
+     *
+     * @param init_x:      the initial x-coordinate of lister's row.
+     * @param init_y:      the initial y-coordinate of lister's row.
+     * @param increment_x: how x is incremented, used to simulate row (vertical, horizontal, ascending or descending).
+     * @param increment_y: how y is incremented, used to simulate row (vertical, horizontal, ascending or descending).
+     * @param lister:      the ArrayList forming the translated view of the current row.
+     * @return true if there's win, false if not.
+     */
+    boolean searchWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister) {
+
+        // Prematurely return if not enough same pieces
+        if (!(Collections.frequency(lister, 1) >= GameBoardModel.winInRow)) {
+            return false;
+        }
+
+        // Return value
+        boolean winInSight = false;
+
+        // Initial values
+        int x = init_x;
+        int y = init_y;
+
+        int counter = 0;
+
+        // Check given list
+        for (int i = 0; i < lister.size(); i++) {
+
+
+            if (lister.get(i) == 1) {
+                // Update anchor coordinates
+                if (counter == 0) {
+                    x = init_x + increment_x * i;
+                    y = init_y + increment_y * i;
+                }
+                // Count up
+                counter++;
+            }
+
+
+            if (lister.get(i) == 0 || i == lister.size() - 1) {
+                // Check if long enough row exist
+                if (counter >= GameBoardModel.winInRow) {
+
+                    System.out.println(lister);
+
+                    // Tick win
+                    winInSight = true;
+
+                    int anchor_x = x;
+                    int anchor_y = y;
+
+                    // Color win
+                    for (int j = 0; j < counter; j++) {
+
+                        gameBoardPanel.getSlot(x, y).win_part = true;
+                        x += increment_x;
+                        y += increment_y;
+                    }
+
+                    // Print out win message
+                    System.out.println(
+                            "\t\t> from (" + anchor_x + "," + anchor_y + ") " +
+                                    "to (" + (x - increment_x) + "," + (y - increment_y) + "), " +
+                                    "length: " + counter);
+                }
+
+                counter = 0;
+            }
+
+        }
+
+        return winInSight;
+
+    }
+
+    void placePieceSoft(int chosenCol, GameBoardModel.player player) {
+
+        // Find available slot in chosen column
+        int indexOfNotOccupied = gameBoardModel.getListOccupancy().get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
+
+        // Abort if not found
+        if (indexOfNotOccupied == -1) {
+            System.out.println("No empty slots in this column, terminating method.");
+            return; // Never supposed to happen. If it happens, we got a bug somewhere.
+        }
+
+        // Tick occupancy list
+        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfNotOccupied, player);
+    }
+
+    void removePieceSoft(int chosenCol) {
+
+        // Find available slot in chosen column
+        int index1 = gameBoardModel.getListOccupancy().get(chosenCol).lastIndexOf(gameBoardModel.getCurrentPlayer());
+        int index2 = gameBoardModel.getListOccupancy().get(chosenCol).lastIndexOf(gameBoardModel.getWaitingPlayer());
+        int indexOfUpper;
+
+        if (index1 > index2) indexOfUpper = index1;
+        else indexOfUpper = index2;
+
+        // Tick occupancy list
+        gameBoardModel.getListOccupancy().get(chosenCol).set(indexOfUpper, GameBoardModel.player.PLAYER_NONE);
+    }
+
+    void colorWinPieces() {
+
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (gameBoardPanel.getSlot(x, y).win_part) {
+                    Color WinColor = gameBoardModel.getPlayerWinColor(gameBoardModel.getSlotOccupancy(x, y));
+                    gameBoardPanel.getSlot(x, y).piece.setBackground(WinColor);
+                }
+            }
+        }
+
+    }
+
+    void killWinPieces() {
+
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (gameBoardPanel.getSlot(x, y).win_part) {
+                    gameBoardPanel.getSlot(x, y).setEmpty();
+//                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_1)) HP_player_2--;
+//                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_2)) HP_player_1--;
+
+                    gameBoardModel.getListOccupancy().get(x).set(y, GameBoardModel.player.PLAYER_NONE);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * This method will make all win_part = false.
+     * Needed because checking for win leaves behind residues of win_parts,
+     * which later will be mistaken later by additional win checks.
+     */
+    void cleanAllWinParts() {
+        // Clean all win_parts
+        for (int i = 0; i < GameBoardModel.numCol; i++) {
+            for (int j = 0; j < GameBoardModel.numRow; j++) {
+                gameBoardPanel.getSlot(i, j).win_part = false;
+            }
+        }
+    }
 
     // GETTERS
 

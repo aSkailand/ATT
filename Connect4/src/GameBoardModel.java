@@ -1,4 +1,6 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 /**
@@ -53,13 +55,14 @@ public class GameBoardModel {
         }
     }
 
+    ActionEvent Food4AI = new ActionEvent(new JButton(), 1, "apple");;
 
 
     private player firstPlayer = player.PLAYER_NONE;
     private player currentPlayer;
     private player waitingPlayer;
 
-    private boolean AI_player_1 = false;
+    private boolean AI_player_1 = true;
     private boolean AI_player_2 = false;
 
     boolean getStatusAI(player player) {
