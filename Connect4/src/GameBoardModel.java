@@ -36,6 +36,25 @@ public class GameBoardModel {
         }
     }
 
+    public enum unit {
+
+        peasant('a'),
+        knight('b'),
+        bomb('c');
+
+        private char numVal;
+
+        unit(char numVal) {
+            this.numVal = numVal;
+        }
+
+        public char getNumVal() {
+            return numVal;
+        }
+    }
+
+
+
     private player firstPlayer = player.PLAYER_NONE;
     private player currentPlayer;
     private player waitingPlayer;
