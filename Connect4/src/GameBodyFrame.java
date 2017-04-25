@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
  */
 public class GameBodyFrame extends JFrame {
 
+    Hitpoints hitpoints;
+
     JPanel mainPanel = new JPanel();
 
     // SUPER GBC
@@ -30,6 +32,7 @@ public class GameBodyFrame extends JFrame {
     JPanel leftPlayerAvatarPanel = new JPanel();
     JPanel leftPlayerGoldPanel = new JPanel();
     JPanel leftPlayerUnitPanel = new JPanel();
+    JPanel leftPlayerHPPanel = new JPanel();
 
     JLabel leftPlayerGoldLabel = new JLabel("   x 0 ");
     JLabel leftPlayerHP = new JLabel("HP: 20/20");
@@ -37,7 +40,8 @@ public class GameBodyFrame extends JFrame {
     JButton leftUnitButton1 = new JButton("Button1");
     JButton leftUnitButton2 = new JButton("Button2");
     JButton leftUnitButton3 = new JButton("Button3");
-    JButton leftPlayerHPButton;
+
+    JLabel leftPlayerHPButton;
 
 
     // RIGHT PLAYER SHIT
@@ -46,6 +50,7 @@ public class GameBodyFrame extends JFrame {
     JPanel rightPlayerAvatarPanel = new JPanel();
     JPanel rightPlayerGoldPanel = new JPanel();
     JPanel rightPlayerUnitPanel = new JPanel();
+    JPanel rightPlayerHPPanel = new JPanel();
 
     JButton rightUnitButton1 = new JButton("Button1");
     JButton rightUnitButton2 = new JButton("Button2");
@@ -67,6 +72,8 @@ public class GameBodyFrame extends JFrame {
      * such as the game log/history, game grid (6x7), power-ups ect.
      */
     public GameBodyFrame() {
+
+        hitpoints = new Hitpoints(this);
 
         gameBodyModel = new GameBodyModel();
 
@@ -168,27 +175,44 @@ public class GameBodyFrame extends JFrame {
         gbcLeftPlayerPanel();
         mainPanel.add(leftPlayerPanel, gbc);
 
+
+
         // HP FONT
+        //leftPlayerHP.setText(""+gameBodyModel.getPlayerHP());
         leftPlayerHP.setFont(new Font(null, Font.BOLD, 20));
         leftPlayerHP.setForeground(Color.white);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth = 0;
 
-        gbc.gridwidth = 4;
         leftPlayerPanel.add(leftPlayerHP, gbc);
 
         gbc.gridy = 1;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 0;
+        gbc.weighty = 0;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.BOTH;
 
+
+        leftPlayerHPPanel.setBackground(Color.RED);
+        leftPlayerHPPanel.setLayout(new FlowLayout());
+        leftPlayerPanel.add(leftPlayerHPPanel, gbc);
+
+        leftPlayerHPPanel.add(hitpoints.HeartPlayer1(),FlowLayout.LEFT);
+
+/*
         // Adding 5 hp bars to the left top panel
         for (int i = 0; i < 5; i++) {
 
             gbc.weighty = 0;
             gbc.gridx = i;
-            leftPlayerPanel.add(leftPlayerHPButton = new JButton(), gbc);
+            leftPlayerHPPanel.add(leftPlayerHPButton = new JLabel());
+            leftPlayerHPButton.setText("HP");
+            leftPlayerHPButton.setForeground(Color.green);
             leftPlayerHPButton.setBackground(Color.green);
         }
+*/
 
         // ************************************************************* //
         // *********************** RIGHT PLAYER ************************ //
@@ -237,25 +261,38 @@ public class GameBodyFrame extends JFrame {
         rightPlayerHP.setFont(new Font(null, Font.BOLD, 20));
         rightPlayerHP.setForeground(Color.white);
 
-        gbc.gridx = 0;
+        gbc.gridx = 3;
         gbc.gridy = 0;
 
-        gbc.gridwidth = 4;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
         rightPlayerPanel.add(rightPlayerHP, gbc);
 
         gbc.anchor = GridBagConstraints.PAGE_END;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
+        gbc.weighty=0;
 
+        rightPlayerHPPanel.setBackground(Color.BLUE);
+        rightPlayerHPPanel.setLayout(new FlowLayout());
+        rightPlayerPanel.add(rightPlayerHPPanel,gbc);
+
+
+        rightPlayerHPPanel.add(hitpoints.HeartPlayer2());
+
+
+/*
         // Adding 5 hp bars to the right top panel
         for (int i = 0; i < 5; i++) {
 
             gbc.weighty = 0;
             gbc.gridx = i;
-            rightPlayerPanel.add(leftPlayerHPButton = new JButton(), gbc);
+            rightPlayerHPPanel.add(leftPlayerHPButton = new JLabel());
+            leftPlayerHPButton.setText("HP");
+            leftPlayerHPButton.setForeground(Color.green);
             leftPlayerHPButton.setBackground(Color.green);
         }
-
+*/
         // Set visibility
         this.setVisible(true);
     }
@@ -290,7 +327,7 @@ public class GameBodyFrame extends JFrame {
         gbc.gridwidth = 3;
         gbc.gridheight = 1;
 
-        gbc.weightx = 1;
+        gbc.weightx = 0.5;
         gbc.weighty = 1;
 
         gbc.insets = new Insets(1, 1, 1, 1);
@@ -310,7 +347,7 @@ public class GameBodyFrame extends JFrame {
         gbc.gridwidth = 3;
         gbc.gridheight = 1;
 
-        gbc.weightx = 1;
+        gbc.weightx = 0.5;
         gbc.weighty = 0.05;
 
         gbc.insets = new Insets(0, 0, 0, 0);
@@ -348,7 +385,7 @@ public class GameBodyFrame extends JFrame {
         gbc.gridwidth = 3;
         gbc.gridheight = 1;
 
-        gbc.weightx = 1;
+        gbc.weightx = 0.5;
         gbc.weighty = 0.05;
 
         gbc.insets = new Insets(0, 0, 0, 0);
@@ -426,7 +463,7 @@ public class GameBodyFrame extends JFrame {
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        gbc.weightx = 1;
+        gbc.weightx = 0.5;
         gbc.weighty = 0.333;
 
         gbc.insets = new Insets(0, 0, 0, 0);
@@ -504,8 +541,8 @@ public class GameBodyFrame extends JFrame {
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        gbc.weightx = 1;
-        gbc.weighty = 0.5;
+        gbc.weightx = 0.5;
+        gbc.weighty = 0.333;
 
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.ipadx = 0;

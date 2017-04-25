@@ -13,6 +13,7 @@ public class GameBodyController{
     // todo: Convert to local: Possible if in actionPerformed: e.getSource -> e.getActionCommand
     // todo: if changing to e.getActionCommand,
     GameBodyFrame gameBodyFrame;
+    GameBodyModel gameBodyModel;
 
     // todo: Convert over to local?
     GameBoardController gameBoardController;
@@ -21,17 +22,24 @@ public class GameBodyController{
 
     public GameBodyController() {
 
+        gameBodyModel = new GameBodyModel();
         gameBodyFrame = new GameBodyFrame();
         gameBoardController = new GameBoardController(gameBodyFrame);
         gameJMenuController = new GameJMenuController(gameBodyFrame);
         gameTimerController = new GameTimerController(gameBodyFrame);
 
-        // todo: add this to GameBodyFrame?
+
+
+
+
+
+        /// / todo: add this to GameBodyFrame?
         // Window listener
         gameBodyFrame.addWindowListener(
                 new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
+
 
                         //Prompts a JOptionPane
                         int option = JOptionPane.showConfirmDialog(

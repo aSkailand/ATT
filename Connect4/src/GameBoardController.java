@@ -10,9 +10,12 @@ import java.util.Collections;
 public class GameBoardController implements ActionListener {
 
     GameBodyFrame gameBodyFrame;
+    Hitpoints hitpoints;
+
 
     GameBoardModel gameBoardModel;
     GameBoardPanel gameBoardPanel;
+
 
     GameOptionPanel gameOptionPanel;
 
@@ -21,14 +24,18 @@ public class GameBoardController implements ActionListener {
     BoardWinController boardWinController;
 
 
-
     // todo: insert HP here
-    int HP_player_1 = 30;
-    int HP_player_2 = 30;
+    int HP = 30;
+
+    int HP_player_1 = HP;
+    int HP_player_2 = HP;
 
     GameBoardController(GameBodyFrame gbFrame) {
 
         gameBodyFrame = gbFrame;
+
+        hitpoints = new Hitpoints(gbFrame);
+
 
         gameBoardModel = new GameBoardModel();
         gameBoardPanel = new GameBoardPanel();
@@ -89,6 +96,7 @@ public class GameBoardController implements ActionListener {
         System.out.println("Current Player: " + gameBoardModel.getCurrentPlayer());
         System.out.println("AI status: " + gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()));
     }
+
 
     void roundEnd(){
 
@@ -540,7 +548,6 @@ public class GameBoardController implements ActionListener {
     }
 
     void killWinPieces() {
-
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
@@ -552,8 +559,8 @@ public class GameBoardController implements ActionListener {
                 }
             }
         }
-
     }
+
 
     /**
      * This method will make all win_part = false.

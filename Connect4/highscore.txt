@@ -3,3 +3,4 @@ fuck you: Time: 0:0
 FUCK: Time: 0:0
 null: Time: 0:0
 fuck: Time: 1:23
+null: Time: 0:0
