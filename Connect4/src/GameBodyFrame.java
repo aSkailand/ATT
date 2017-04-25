@@ -9,24 +9,23 @@ import java.awt.event.ActionListener;
  */
 public class GameBodyFrame extends JFrame {
 
-    // Temporary text
-    JLabel labelCurrentPlayerText = new JLabel();
-
+    JPanel mainPanel = new JPanel();
 
     // SUPER GBC
+
     GridBagConstraints gbc = new GridBagConstraints();
 
     // CENTER SHIT
+
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
-    JPanel playersPanel = new JPanel();
     JPanel timerPanel = new JPanel();
     JPanel centerStatusPanel = new JPanel();
 
-    JLabel labelStatus = new JLabel("NOTIFICATIONS");
+    JLabel labelNotifications = new JLabel("NOTIFICATIONS");
 
     // LEFT PLAYER SHIT
-    JPanel leftPanel = new JPanel();
+
     JPanel leftPlayerPanel = new JPanel();
     JPanel leftPlayerAvatarPanel = new JPanel();
     JPanel leftPlayerGoldPanel = new JPanel();
@@ -42,7 +41,7 @@ public class GameBodyFrame extends JFrame {
 
 
     // RIGHT PLAYER SHIT
-    JPanel rightPanel = new JPanel();
+
     JPanel rightPlayerPanel = new JPanel();
     JPanel rightPlayerAvatarPanel = new JPanel();
     JPanel rightPlayerGoldPanel = new JPanel();
@@ -73,7 +72,7 @@ public class GameBodyFrame extends JFrame {
 
         // JFrame setup
         this.setTitle("Connect4");
-        this.setSize(1366, 768);
+        this.setSize(1200, 720);
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.blue);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -82,16 +81,17 @@ public class GameBodyFrame extends JFrame {
         // *********************** CENTER SHIT************************** //
         // ************************************************************* //
 
+
+        gbcMainPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        this.add(mainPanel, gbc);
+
         // Center panel
         centerPanel.setLayout(new BorderLayout());
         centerPanel.setBackground(Color.white);
         gbcCenterPanel();
-        this.add(centerPanel, gbc);
+        mainPanel.add(centerPanel, gbc);
 
-        // Players panel
-        playersPanel.setLayout(new GridBagLayout());
-        gbcPlayersPanel();
-        this.add(playersPanel, gbc);
 
         // Timer panel
         timerPanel.setLayout(new GridBagLayout());
@@ -101,7 +101,7 @@ public class GameBodyFrame extends JFrame {
         timer.setBorderPainted(false);
         timer.setBackground(Color.LIGHT_GRAY);
         timer.setFont(new Font("Consolas", Font.BOLD, 40));
-        playersPanel.add(timerPanel, gbc);
+        mainPanel.add(timerPanel, gbc);
         gbc.gridy = 1;
         gbc.gridx = 0;
         timerPanel.add(timer, gbc);
@@ -114,39 +114,33 @@ public class GameBodyFrame extends JFrame {
         centerStatusPanel.setLayout(new GridBagLayout());
         centerStatusPanel.setBackground(Color.LIGHT_GRAY);
         gbcCenterStatusPanel();
-        playersPanel.add(centerStatusPanel, gbc);
-        centerStatusPanel.add(labelStatus);
+        mainPanel.add(centerStatusPanel, gbc);
+        centerStatusPanel.add(labelNotifications);
 
-        // Top panel
+        //Top panel
         topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(Color.white);
         gbcTopPanel();
-        this.add(topPanel, gbc);
+        mainPanel.add(topPanel, gbc);
 
         // ************************************************************* //
         // *********************** LEFT PLAYER ************************* //
         // ************************************************************* //
 
-        // Left panel
-        leftPanel.setLayout(new GridBagLayout());
-        leftPanel.setBackground(Color.WHITE);
-        leftPanel.add(labelCurrentPlayerText);
-        gbcLeftPanel();
-        this.add(leftPanel, gbc);
-
         // Left player avatar
         leftPlayerAvatarPanel.setLayout(new GridBagLayout());
         leftPlayerAvatarPanel.setBackground(Color.RED);
         gbcLeftPlayerAvatarPanel();
-        leftPanel.add(leftPlayerAvatarPanel, gbc);
+        mainPanel.add(leftPlayerAvatarPanel, gbc);
         leftPlayerAvatarPanel.add(gameBodyModel.playerOneLabel);
+
 
         // Left player gold panel
         leftPlayerGoldPanel.setLayout(new GridBagLayout());
         leftPlayerGoldPanel.setBackground(Color.RED);
         gbcLeftPlayerGoldPanel();
-        leftPanel.add(leftPlayerGoldPanel, gbc);
-        leftPlayerGoldLabel.setForeground(Color.white);
+        mainPanel.add(leftPlayerGoldPanel, gbc);
+        leftPlayerGoldLabel.setForeground(Color.WHITE);
         leftPlayerGoldPanel.add(gameBodyModel.redGoldLabel);
         leftPlayerGoldPanel.add(leftPlayerGoldLabel);
 
@@ -154,7 +148,8 @@ public class GameBodyFrame extends JFrame {
         leftPlayerUnitPanel.setLayout(new GridBagLayout());
         leftPlayerUnitPanel.setBackground(Color.RED);
         gbcLeftPlayerUnitPanel();
-        leftPanel.add(leftPlayerUnitPanel, gbc);
+        mainPanel.add(leftPlayerUnitPanel, gbc);
+
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridy = 0;
@@ -171,13 +166,15 @@ public class GameBodyFrame extends JFrame {
         leftPlayerPanel.setLayout(new GridBagLayout());
         leftPlayerPanel.setBackground(Color.RED);
         gbcLeftPlayerPanel();
-        playersPanel.add(leftPlayerPanel, gbc);
+        mainPanel.add(leftPlayerPanel, gbc);
 
         // HP FONT
         leftPlayerHP.setFont(new Font(null, Font.BOLD, 20));
         leftPlayerHP.setForeground(Color.white);
 
+        gbc.gridx = 0;
         gbc.gridy = 0;
+
         gbc.gridwidth = 4;
         leftPlayerPanel.add(leftPlayerHP, gbc);
 
@@ -197,17 +194,12 @@ public class GameBodyFrame extends JFrame {
         // *********************** RIGHT PLAYER ************************ //
         // ************************************************************* //
 
-        // Right panel
-        rightPanel.setLayout(new GridBagLayout());
-        rightPanel.setBackground(Color.WHITE);
-        gbcRightPanel();
-        this.add(rightPanel, gbc);
 
         // Right player avatar panel
         rightPlayerAvatarPanel.setLayout(new GridBagLayout());
         rightPlayerAvatarPanel.setBackground(Color.BLUE);
         gbcRightPlayerAvatarPanel();
-        rightPanel.add(rightPlayerAvatarPanel, gbc);
+        mainPanel.add(rightPlayerAvatarPanel, gbc);
         rightPlayerAvatarPanel.add(gameBodyModel.playerTwoLabel);
 
 
@@ -215,7 +207,7 @@ public class GameBodyFrame extends JFrame {
         rightPlayerGoldPanel.setLayout(new GridBagLayout());
         rightPlayerGoldPanel.setBackground(Color.BLUE);
         gbcRightPlayerGoldPanel();
-        rightPanel.add(rightPlayerGoldPanel, gbc);
+        mainPanel.add(rightPlayerGoldPanel, gbc);
         rightPlayerGoldLabel.setForeground(Color.WHITE);
         rightPlayerGoldPanel.add(gameBodyModel.blueGoldLabel);
         rightPlayerGoldPanel.add(rightPlayerGoldLabel);
@@ -225,7 +217,7 @@ public class GameBodyFrame extends JFrame {
         rightPlayerUnitPanel.setLayout(new GridBagLayout());
         rightPlayerUnitPanel.setBackground(Color.BLUE);
         gbcRightPlayerUnitPanel();
-        rightPanel.add(rightPlayerUnitPanel, gbc);
+        mainPanel.add(rightPlayerUnitPanel, gbc);
         gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridy = 0;
@@ -239,7 +231,7 @@ public class GameBodyFrame extends JFrame {
         rightPlayerPanel.setLayout(new GridBagLayout());
         rightPlayerPanel.setBackground(Color.BLUE);
         gbcRightPlayerPanel();
-        playersPanel.add(rightPlayerPanel, gbc);
+        mainPanel.add(rightPlayerPanel, gbc);
 
         //HP FONT
         rightPlayerHP.setFont(new Font(null, Font.BOLD, 20));
@@ -264,23 +256,64 @@ public class GameBodyFrame extends JFrame {
             leftPlayerHPButton.setBackground(Color.green);
         }
 
-
         // Set visibility
         this.setVisible(true);
     }
 
-    void gbcLeftPanel() {
+    // Center GBC's
+
+    void gbcMainPanel() {
 
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 2;
 
         gbc.gridwidth = 1;
-        gbc.gridheight = 3;
+        gbc.gridheight = 1;
 
-        gbc.weightx = 0.3;
+        gbc.weightx = 1;
         gbc.weighty = 1;
 
-        gbc.insets = new Insets(1,1,1, 1);
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+
+    }
+
+    void gbcCenterPanel() {
+
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+
+        gbc.gridwidth = 3;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(1, 1, 1, 1);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+
+    }
+
+    void gbcCenterStatusPanel() {
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+
+        gbc.gridwidth = 3;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 1;
+        gbc.weighty = 0.05;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -288,17 +321,58 @@ public class GameBodyFrame extends JFrame {
         gbc.anchor = GridBagConstraints.PAGE_END;
     }
 
-    void gbcLeftPlayerAvatarPanel() {
-        gbc.gridx = 1;
+    void gbcTimerPanel() {
+        gbc.gridx = 2;
         gbc.gridy = 0;
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.26;
+        gbc.weightx = 1;
+        gbc.weighty = 0.5;
 
-        gbc.insets = new Insets(1,1,1, 1);
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+
+    }
+
+    void gbcTopPanel() {
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+
+        gbc.gridwidth = 3;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 1;
+        gbc.weighty = 0.05;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+
+    // Left GBC's
+
+    void gbcLeftPlayerAvatarPanel() {
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+
+        gbc.weightx = 1;
+        gbc.weighty = 0.5;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -308,16 +382,16 @@ public class GameBodyFrame extends JFrame {
 
     void gbcLeftPlayerGoldPanel() {
 
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.1;
+        gbc.weightx = 1;
+        gbc.weighty = 0.005;
 
-        gbc.insets = new Insets(1,1,1, 1);
+        gbc.insets = new Insets(0, 0, 0, 0);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -327,168 +401,16 @@ public class GameBodyFrame extends JFrame {
     }
 
     void gbcLeftPlayerUnitPanel() {
-        gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.7;
-
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-    }
-
-    void gbcRightPanel() {
-
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 3;
-
-        gbc.weightx = 0.3;
+        gbc.weightx = 1;
         gbc.weighty = 1;
 
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-    }
-
-    void gbcRightPlayerAvatarPanel() {
-
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.26;
-
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-    }
-
-    void gbcRightPlayerGoldPanel() {
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.1;
-
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-    }
-
-    void gbcRightPlayerUnitPanel() {
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.7;
-
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-    }
-
-    void gbcCenterPanel() {
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 0.5;
-        gbc.weighty = 0.7;
-
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-
-    }
-
-    void gbcPlayersPanel() {
-
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 0.05;
-        gbc.weighty = 0.3;
-
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-    }
-
-    void gbcCenterStatusPanel() {
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-
-        gbc.gridwidth = 3;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 0.05;
-        gbc.weighty = 0.4;
-
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-    }
-
-    void gbcTopPanel() {
-
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 0.05;
-        gbc.weighty = 0.005;
-
-        gbc.insets = new Insets(1,1,1, 1);
+        gbc.insets = new Insets(0, 0, 0, 0);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -498,16 +420,75 @@ public class GameBodyFrame extends JFrame {
 
     void gbcLeftPlayerPanel() {
 
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 0;
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        gbc.weightx = 0.6;
+        gbc.weightx = 1;
+        gbc.weighty = 0.333;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    // Right GBC's
+
+
+    void gbcRightPlayerAvatarPanel() {
+
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+
+        gbc.weightx = 1;
+        gbc.weighty = 0.333;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcRightPlayerGoldPanel() {
+        gbc.gridx = 4;
+        gbc.gridy = 2;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 1;
+        gbc.weighty = 0.05;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+    }
+
+    void gbcRightPlayerUnitPanel() {
+
+        gbc.gridx = 4;
+        gbc.gridy = 3;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 1;
         gbc.weighty = 1;
 
-        gbc.insets = new Insets(1,1,1, 1);
+        gbc.insets = new Insets(0, 0, 0, 0);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
@@ -517,39 +498,20 @@ public class GameBodyFrame extends JFrame {
 
     void gbcRightPlayerPanel() {
 
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 0;
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-        gbc.weightx = 0.6;
-        gbc.weighty = 1;
+        gbc.weightx = 1;
+        gbc.weighty = 0.5;
 
-        gbc.insets = new Insets(1,1,1, 1);
+        gbc.insets = new Insets(0, 0, 0, 0);
         gbc.ipadx = 0;
         gbc.ipady = 0;
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.PAGE_END;
-    }
-
-    void gbcTimerPanel() {
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 0.333;
-        gbc.weighty = 1;
-
-        gbc.insets = new Insets(1,1,1, 1);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-
     }
 }
