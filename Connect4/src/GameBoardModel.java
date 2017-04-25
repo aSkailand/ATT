@@ -62,8 +62,8 @@ public class GameBoardModel {
     private player currentPlayer;
     private player waitingPlayer;
 
-    private boolean AI_player_1 = true;
-    private boolean AI_player_2 = false;
+    private boolean AI_player_1 = false;
+    private boolean AI_player_2 = true;
 
     boolean getStatusAI(player player) {
         switch (player) {
