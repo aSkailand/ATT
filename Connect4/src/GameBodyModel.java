@@ -8,7 +8,7 @@ import java.io.*;
 /**
  * Created by aslak on 20.04.17.
  *
- * This loads the images from files and make them avalible for usage...
+ * This loads the images from files and make them available for usage...
  */
 public class GameBodyModel {
 
@@ -17,13 +17,13 @@ public class GameBodyModel {
     JLabel redGoldLabel = new JLabel();
     JLabel blueGoldLabel = new JLabel();
 
-
     BufferedImage playerOneAvatar = null;
     BufferedImage playerTwoAvatar = null;
     BufferedImage redGold = null;
     BufferedImage blueGold = null;
 
     public GameBodyModel() {
+
 
 
         //Loads player one avatar

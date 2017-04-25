@@ -40,20 +40,15 @@ public class GameTimerController implements ActionListener {
                     minutes++;
                     seconds = 0;
                 }
-
                 if (currentTime < 0) {
 
                     gameBodyFrame.timer.setText("30");
                     System.out.println("Time is up");
                     currentTime = 29;
                 }
-
                 if (currentTime < 10 ) {
                     gameBodyFrame.timer.setText("0"+currentTime);
                 }
-
-
-
                 break;
             }
         }

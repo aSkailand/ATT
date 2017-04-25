@@ -10,19 +10,31 @@ import java.util.Collections;
 public class GameBoardController implements ActionListener {
 
     GameBodyFrame gameBodyFrame;
+    Hitpoints hitpoints;
+
 
     GameBoardModel gameBoardModel;
     GameBoardPanel gameBoardPanel;
 
+
     GameOptionPanel gameOptionPanel;
 
+    public int getHP() {
+        return HP;
+    }
+
     // todo: insert HP here
-    int HP_player_1 = 30;
-    int HP_player_2 = 30;
+    int HP = 30;
+
+    int HP_player_1 = HP;
+    int HP_player_2 = HP;
 
     GameBoardController(GameBodyFrame gbFrame) {
 
         gameBodyFrame = gbFrame;
+
+        hitpoints = new Hitpoints(gbFrame);
+
 
         gameBoardModel = new GameBoardModel();
         gameBoardPanel = new GameBoardPanel();
@@ -115,10 +127,12 @@ public class GameBoardController implements ActionListener {
 
         }
 
-        System.out.println("Player 1 HP: "+HP_player_1);
-        System.out.println("Player 2 HP: "+HP_player_2);
+        System.out.println("Player 1 HP:" + HP_player_1 + "/" + HP);
+        hitpoints.setHP_player_1View(HP_player_1);
+        System.out.println("Player 2 HP:" + HP_player_2 + "/" + HP);
+        hitpoints.setHP_player_2View(HP_player_2);
 
-        
+
         // Swap player
         alternatePlayers();
 
@@ -274,16 +288,16 @@ public class GameBoardController implements ActionListener {
         System.out.println("CHECK WIN: " + player);
 
         System.out.println("\tcheck Horizontal:");
-        if(checkWinHorizontal_All(player)) winInSight = true;
+        if (checkWinHorizontal_All(player)) winInSight = true;
 
         System.out.println("\tcheck Vertical:");
-        if(checkWinVertical_All(player)) winInSight = true;
+        if (checkWinVertical_All(player)) winInSight = true;
 
         System.out.println("\tcheck Descending:");
-        if(checkWinDescendingDiagonal_All(player)) winInSight = true;
+        if (checkWinDescendingDiagonal_All(player)) winInSight = true;
 
         System.out.println("\tcheck Ascending:");
-        if(checkWinAscendingDiagonal_All(player)) winInSight = true;
+        if (checkWinAscendingDiagonal_All(player)) winInSight = true;
 
         System.out.println("");
 
@@ -401,8 +415,9 @@ public class GameBoardController implements ActionListener {
      * They need a coordinate (x,y), and the player that they will look for.
      * From there, they will translate the row to an ArrayList lister that will contain 1's and 0's.
      * A 1 for each piece that correspond with given player, and a 0 for each that does not.
-     * @param x: the x coordinate to start from.
-     * @param y: the y coordinate to start from.
+     *
+     * @param x:      the x coordinate to start from.
+     * @param y:      the y coordinate to start from.
      * @param player: the player the methods shall focus on.
      * @return true if a win occurs, and false if not.
      */
@@ -418,6 +433,7 @@ public class GameBoardController implements ActionListener {
         // Find win
         return searchWinningRow(x, 0, 0, 1, lister);
     }
+
     boolean checkWinHorizontal_Single(int x, int y, GameBoardModel.player player) {
 
         // Instantiating list
@@ -430,6 +446,7 @@ public class GameBoardController implements ActionListener {
         // Find win
         return searchWinningRow(0, y, 1, 0, lister);
     }
+
     boolean checkWinAscendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
 
         // Find initial values
@@ -460,6 +477,7 @@ public class GameBoardController implements ActionListener {
         // Find win
         return searchWinningRow(init_x, init_y, 1, 1, lister);
     }
+
     boolean checkWinDescendingDiagonal_Single(int x, int y, GameBoardModel.player player) {
 
         // Find initial values
@@ -497,13 +515,15 @@ public class GameBoardController implements ActionListener {
 
     // todo: make it so searchWinningRow returns winning rows?
     // todo: maybe return ArrayList<Integer[]> where each Integer[] = {init_x, init_y, end_x, end_y}
+
     /**
      * Check the given ArrayList lister. Check for how many 1's in row. Mark the corresponding slots.
-     * @param init_x: the initial x-coordinate of lister's row.
-     * @param init_y: the initial y-coordinate of lister's row.
+     *
+     * @param init_x:      the initial x-coordinate of lister's row.
+     * @param init_y:      the initial y-coordinate of lister's row.
      * @param increment_x: how x is incremented, used to simulate row (vertical, horizontal, ascending or descending).
      * @param increment_y: how y is incremented, used to simulate row (vertical, horizontal, ascending or descending).
-     * @param lister: the ArrayList forming the translated view of the current row.
+     * @param lister:      the ArrayList forming the translated view of the current row.
      * @return true if there's win, false if not.
      */
     boolean searchWinningRow(int init_x, int init_y, int increment_x, int increment_y, ArrayList<Integer> lister) {
@@ -592,8 +612,8 @@ public class GameBoardController implements ActionListener {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
                     gameBoardPanel.getSlot(x, y).setEmpty();
-                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_1)) HP_player_2--;
-                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_2)) HP_player_1--;
+                    if (gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_1)) HP_player_2--;
+                    if (gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_2)) HP_player_1--;
 
                     gameBoardModel.getListOccupancy().get(x).set(y, GameBoardModel.player.PLAYER_NONE);
                 }
@@ -682,8 +702,7 @@ public class GameBoardController implements ActionListener {
         for (int i = 0; i < GameBoardModel.numCol; i++) {
             if (!playableCol(i)) {
                 gameOptionPanel.optionList.get(i).setEnabled(false);
-            }
-            else {
+            } else {
                 gameOptionPanel.optionList.get(i).setEnabled(true);
             }
         }
