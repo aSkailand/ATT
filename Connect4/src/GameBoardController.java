@@ -10,12 +10,9 @@ import java.util.Collections;
 public class GameBoardController implements ActionListener {
 
     GameBodyFrame gameBodyFrame;
-    Hitpoints hitpoints;
-
 
     GameBoardModel gameBoardModel;
     GameBoardPanel gameBoardPanel;
-
 
     GameOptionPanel gameOptionPanel;
 
@@ -23,19 +20,9 @@ public class GameBoardController implements ActionListener {
     BoardGravityController boardGravityController;
     BoardWinController boardWinController;
 
-
-    // todo: insert HP here
-    int HP = 30;
-
-    int HP_player_1 = HP;
-    int HP_player_2 = HP;
-
     GameBoardController(GameBodyFrame gbFrame) {
 
         gameBodyFrame = gbFrame;
-
-        hitpoints = new Hitpoints(gbFrame);
-
 
         gameBoardModel = new GameBoardModel();
         gameBoardPanel = new GameBoardPanel();
@@ -47,9 +34,6 @@ public class GameBoardController implements ActionListener {
         gameBodyFrame.centerPanel.add(gameBoardPanel);
         gameBodyFrame.topPanel.add(gameOptionPanel);
 
-        gameBodyFrame.revalidate();
-        gameBodyFrame.repaint();
-
         boardSummonController = new BoardSummonController(this);
         boardWinController = new BoardWinController(this);
         boardGravityController = new BoardGravityController(this);
@@ -57,35 +41,31 @@ public class GameBoardController implements ActionListener {
         System.out.println("");
         gameBoardModel.printOccupancyList();
 
+        gameBodyFrame.revalidate();
+        gameBodyFrame.repaint();
+
+        // AI will wake up if it is her turn
         wakeupAI();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // Run common intro
         roundIntro();
 
-        // Place piece on top of board
-
-        // IF HUMAN
-        if(!gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) {
-            int chosenCol = Integer.parseInt(e.getActionCommand());
-            boardSummonController.summonPiece(chosenCol);
-        }
-        // IF AI
-        else {
-            boardSummonController.summonPieceAI();
-        }
+        // Place piece on top of board, checks for human and AI
+        boardSummonController.doSummon(e);
 
         // Lock all option buttons
         disableAllColumns();
 
-        boardGravityController.calcMaxTicks();
-
         // Initiate gravity
-        boardGravityController.startGravityTimer();
+        boardGravityController.runGravity();
 
     }
+
+    /* ROUND CONTROL METHODS */
 
     void roundIntro(){
         // Turn Info
@@ -96,7 +76,6 @@ public class GameBoardController implements ActionListener {
         System.out.println("Current Player: " + gameBoardModel.getCurrentPlayer());
         System.out.println("AI status: " + gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()));
     }
-
 
     void roundEnd(){
 
@@ -122,19 +101,6 @@ public class GameBoardController implements ActionListener {
     void wakeupAI(){
         if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) actionPerformed(gameBoardModel.Food4AI);
     }
-
-
-    /* AI METHODS */
-
-
-
-
-
-
-
-    // TODO: Move this function over to model when done here with all win - conditions
-    // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
-    /* CHECK FOR WIN (ALL) */
 
 
     // BOARD ACTIONS
@@ -179,6 +145,10 @@ public class GameBoardController implements ActionListener {
         gameBoardModel.setWaitingPlayer(tempPlayer);
     }
 
+
+    // TODO: Move this function over to model when done here with all win - conditions
+    // TODO: Consider change it from void -> GameBoardModel.player. May open more flexibility.
+    /* CHECK FOR WIN (ALL) */
 
     boolean checkWinAllConditions(GameBoardModel.player player) {
 
@@ -281,6 +251,7 @@ public class GameBoardController implements ActionListener {
     }
 
     /* CHECK FOR WIN (SINGLE) */
+
     boolean checkIfWinningMove(int x, GameBoardModel.player player) {
 
         placePieceSoft(x, player);
