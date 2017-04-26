@@ -14,6 +14,7 @@ public class GameBodyController{
     // todo: if changing to e.getActionCommand,
     GameBodyFrame gameBodyFrame;
     GameBodyModel gameBodyModel;
+    Hitpoints hitpoints;
 
     // todo: Convert over to local?
     GameBoardController gameBoardController;
@@ -22,11 +23,15 @@ public class GameBodyController{
 
     public GameBodyController() {
 
+
         gameBodyModel = new GameBodyModel();
         gameBodyFrame = new GameBodyFrame();
+
         gameBoardController = new GameBoardController(gameBodyFrame);
         gameJMenuController = new GameJMenuController(gameBodyFrame);
         gameTimerController = new GameTimerController(gameBodyFrame);
+
+        hitpoints = new Hitpoints(gameBodyFrame);
 
 
 

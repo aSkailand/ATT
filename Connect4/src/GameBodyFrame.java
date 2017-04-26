@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 public class GameBodyFrame extends JFrame {
 
     Hitpoints hitpoints;
+    HitpointModel hitpointModel;
+
 
     JPanel mainPanel = new JPanel();
 
@@ -35,7 +37,7 @@ public class GameBodyFrame extends JFrame {
     JPanel leftPlayerHPPanel = new JPanel();
 
     JLabel leftPlayerGoldLabel = new JLabel("   x 0 ");
-    JLabel leftPlayerHP = new JLabel("HP: 20/20");
+    JLabel leftPlayerHP = new JLabel("");
 
     JButton leftUnitButton1 = new JButton("Button1");
     JButton leftUnitButton2 = new JButton("Button2");
@@ -57,7 +59,7 @@ public class GameBodyFrame extends JFrame {
     JButton rightUnitButton3 = new JButton("Button3");
 
     JLabel rightPlayerGoldLabel = new JLabel("   x 0 ");
-    JLabel rightPlayerHP = new JLabel("HP:20/20");
+    JLabel rightPlayerHP = new JLabel("");
 
 
     // LABELS
@@ -73,7 +75,13 @@ public class GameBodyFrame extends JFrame {
      */
     public GameBodyFrame() {
 
+
+        hitpointModel = new HitpointModel();
+
         hitpoints = new Hitpoints(this);
+
+        leftPlayerHP.setText("HP:"+hitpointModel.getPlayer_1Hitpoints()+"/"+hitpointModel.getPlayersHitpoints());
+        rightPlayerHP.setText("HP:"+hitpointModel.getPlayer_2Hitpoints()+"/"+hitpointModel.getPlayersHitpoints());
 
         gameBodyModel = new GameBodyModel();
 
