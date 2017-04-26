@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -9,36 +7,28 @@ import java.awt.event.WindowEvent;
  */
 public class GameBodyController{
 
-
-    // todo: Convert to local: Possible if in actionPerformed: e.getSource -> e.getActionCommand
-    // todo: if changing to e.getActionCommand,
     GameBodyFrame gameBodyFrame;
     GameBodyModel gameBodyModel;
-    Hitpoints hitpoints;
 
-    // todo: Convert over to local?
     GameBoardController gameBoardController;
     GameJMenuController gameJMenuController;
     GameTimerController gameTimerController;
 
+    HitPointsModel hitPointsModel;
+    HitPointsController hitPointsController;
+
     public GameBodyController() {
 
-
+        // Declare MVC
         gameBodyModel = new GameBodyModel();
-        gameBodyFrame = new GameBodyFrame();
+        gameBodyFrame = new GameBodyFrame(this);
 
+        // Instantiate classes
         gameBoardController = new GameBoardController(gameBodyFrame);
-        gameJMenuController = new GameJMenuController(gameBodyFrame);
-        gameTimerController = new GameTimerController(gameBodyFrame);
+        gameTimerController = new GameTimerController(this);
+        hitPointsController = new HitPointsController(this);
+        gameJMenuController = new GameJMenuController(this);
 
-        hitpoints = new Hitpoints(gameBodyFrame);
-
-
-
-
-
-
-        /// / todo: add this to GameBodyFrame?
         // Window listener
         gameBodyFrame.addWindowListener(
                 new WindowAdapter() {

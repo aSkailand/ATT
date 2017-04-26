@@ -1,41 +1,48 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Timer;
 
 /**
  * Created by aslak on 18.04.17.
  */
 public class GameJMenuController implements ActionListener {
 
-    HitpointModel hitpointModel;
-    Hitpoints hitpoints;
+
+    GameBodyController gameBodyController;
+    GameBodyFrame gameBodyFrame;
+
 
     GameJMenu gameJMenu;
-    GameBodyFrame gameBodyFrame;
     GameTimerController gameTimerController;
     GameBodyModel gameBodyModel;
     HighscoreView highscoreView;
+
+    HitPointsModel hitPointsModel;
+    HitPointsController hitpoints;
     //This boolean is for the pause/unpause button, when its true its unpaused, if its false its paused
     boolean pauseBoolean = true;
 
 
-    public GameJMenuController(GameBodyFrame gbFrame) {
+    public GameJMenuController(GameBodyController gameBodyController) {
 
-       hitpointModel = new HitpointModel();
-       hitpoints = new Hitpoints(gbFrame);
+        this.gameBodyController = gameBodyController;
+        gameBodyModel = this.gameBodyController.gameBodyModel;
+        gameBodyFrame = this.gameBodyController.gameBodyFrame;
 
+        gameTimerController = this.gameBodyController.gameTimerController;
 
-        gameBodyModel = new GameBodyModel();
-
-        gameTimerController = new GameTimerController(gbFrame);
+        // todo: temporary hp changer
+        hitPointsModel = this.gameBodyController.hitPointsModel;
+        hitpoints = this.gameBodyController.hitPointsController;
 
         gameJMenu = new GameJMenu(this);
-        gameBodyFrame = gbFrame;
         gameBodyFrame.setJMenuBar(gameJMenu);
 
+        // todo: have common repaint in GameBodyController
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
+
+
     }
 
     // ActionListener for the JMenuBar
@@ -87,7 +94,7 @@ public class GameJMenuController implements ActionListener {
                 gameTimerController.seconds = 0;
                 gameTimerController.minutes = 0;
                 //gameBodyFrame.totalTimer.setText("Total time: 0:0");
-                gameBodyFrame.timer.setText("30");
+                gameTimerController.timer.setText("30");
                 pauseBoolean = true;
                 break;
             }

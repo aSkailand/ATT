@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,49 +9,54 @@ import java.awt.event.ActionListener;
  */
 public class GameTimerController implements ActionListener {
 
+    GameBodyController gameBodyController;
     GameBodyFrame gameBodyFrame;
-    Timer playerTurnTimer = new Timer(250, this);
-
+    Timer playerTurnTimer = new Timer(1000, this);
+    JButton timer;
 
     int currentTime = 30;
     int totalTime = 0;
     int seconds = 0;
     int minutes = 0;
 
-    public GameTimerController(GameBodyFrame gbFrame) {
+    public GameTimerController(GameBodyController gameBodyController) {
 
-        gameBodyFrame = gbFrame;
-        playerTurnTimer.setActionCommand("time");
+        // Declare MVC
+        this.gameBodyController = gameBodyController;
+        gameBodyFrame = this.gameBodyController.gameBodyFrame;
+
+        // JButton Setup
+        timer = new JButton("30");
+        timer.setBorderPainted(false);
+        timer.setBackground(Color.LIGHT_GRAY);
+        timer.setFont(new Font("Consolas", Font.BOLD, 40));
+        gameBodyFrame.timerPanel.add(timer);
+
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case "time": {
 
-                gameBodyFrame.timer.setText("" + currentTime);
-                //gameBodyFrame.totalTimer.setText("Total time: " + minutes + ":" + seconds);
+        timer.setText("" + currentTime);
 
-                currentTime--;
-                totalTime++;
-                seconds++;
+        currentTime--;
+        totalTime++;
+        seconds++;
 
-                if (seconds == 60) {
-                    minutes++;
-                    seconds = 0;
-                }
-                if (currentTime < 0) {
-
-                    gameBodyFrame.timer.setText("30");
-                    System.out.println("Time is up");
-                    currentTime = 29;
-                }
-                if (currentTime < 10 ) {
-                    gameBodyFrame.timer.setText("0"+currentTime);
-                }
-                break;
-            }
+        if (seconds == 60) {
+            minutes++;
+            seconds = 0;
         }
+        if (currentTime < 0) {
+
+            timer.setText("30");
+            System.out.println("Time is up");
+            currentTime = 29;
+        }
+        if (currentTime < 10 ) {
+            timer.setText("0"+currentTime);
+        }
+
     }
 }

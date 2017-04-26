@@ -1,94 +1,75 @@
-import com.sun.org.apache.regexp.internal.RE;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
  * Created by aslak on 03.04.17.
  */
 public class GameBodyFrame extends JFrame {
 
-    Hitpoints hitpoints;
-    HitpointModel hitpointModel;
 
-
-    JPanel mainPanel = new JPanel();
+    GameBodyModel gameBodyModel;
 
     // SUPER GBC
 
     GridBagConstraints gbc = new GridBagConstraints();
 
     // CENTER SHIT
-
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
     JPanel timerPanel = new JPanel();
+
     JPanel centerStatusPanel = new JPanel();
 
     JLabel labelNotifications = new JLabel("NOTIFICATIONS");
 
     // LEFT PLAYER SHIT
-
     JPanel leftPlayerPanel = new JPanel();
     JPanel leftPlayerAvatarPanel = new JPanel();
     JPanel leftPlayerGoldPanel = new JPanel();
     JPanel leftPlayerUnitPanel = new JPanel();
+
     JPanel leftPlayerHPPanel = new JPanel();
-
     JLabel leftPlayerGoldLabel = new JLabel("   x 0 ");
-    JLabel leftPlayerHP = new JLabel("");
 
+    JLabel leftPlayerHP = new JLabel("");
     JButton leftUnitButton1 = new JButton("Button1");
     JButton leftUnitButton2 = new JButton("Button2");
+
+
     JButton leftUnitButton3 = new JButton("Button3");
 
-    JLabel leftPlayerHPButton;
-
-
     // RIGHT PLAYER SHIT
-
     JPanel rightPlayerPanel = new JPanel();
     JPanel rightPlayerAvatarPanel = new JPanel();
     JPanel rightPlayerGoldPanel = new JPanel();
     JPanel rightPlayerUnitPanel = new JPanel();
-    JPanel rightPlayerHPPanel = new JPanel();
 
+    JPanel rightPlayerHPPanel = new JPanel();
     JButton rightUnitButton1 = new JButton("Button1");
     JButton rightUnitButton2 = new JButton("Button2");
-    JButton rightUnitButton3 = new JButton("Button3");
 
+    JButton rightUnitButton3 = new JButton("Button3");
     JLabel rightPlayerGoldLabel = new JLabel("   x 0 ");
+
+
+
+
     JLabel rightPlayerHP = new JLabel("");
 
-
-    // LABELS
-    JButton timer = new JButton("30");
-
-    //JLabel totalTimer = new JLabel("Total time: 0:0");
-
-    GameBodyModel gameBodyModel;
 
     /**
      * This is the Game Frame, which contains all in-game elements.
      * such as the game log/history, game grid (6x7), power-ups ect.
      */
-    public GameBodyFrame() {
+    public GameBodyFrame(GameBodyController gameBodyController) {
 
-
-        hitpointModel = new HitpointModel();
-
-        hitpoints = new Hitpoints(this);
-
-        leftPlayerHP.setText("HP:"+hitpointModel.getPlayer_1Hitpoints()+"/"+hitpointModel.getPlayersHitpoints());
-        rightPlayerHP.setText("HP:"+hitpointModel.getPlayer_2Hitpoints()+"/"+hitpointModel.getPlayersHitpoints());
-
-        gameBodyModel = new GameBodyModel();
+        // Declare MVC
+        gameBodyModel = gameBodyController.gameBodyModel;
 
         // JFrame setup
         this.setTitle("Connect4");
         this.setSize(1200, 720);
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new BorderLayout());
         this.setBackground(Color.blue);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -96,10 +77,10 @@ public class GameBodyFrame extends JFrame {
         // *********************** CENTER SHIT************************** //
         // ************************************************************* //
 
-
-        gbcMainPanel();
+        // Main Panel
+        JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
-        this.add(mainPanel, gbc);
+        this.add(mainPanel);
 
         // Center panel
         centerPanel.setLayout(new BorderLayout());
@@ -109,30 +90,19 @@ public class GameBodyFrame extends JFrame {
 
 
         // Timer panel
-        timerPanel.setLayout(new GridBagLayout());
+        timerPanel.setLayout(new BorderLayout());
         timerPanel.setBackground(Color.GRAY);
         gbcTimerPanel();
-
-        timer.setBorderPainted(false);
-        timer.setBackground(Color.LIGHT_GRAY);
-        timer.setFont(new Font("Consolas", Font.BOLD, 40));
         mainPanel.add(timerPanel, gbc);
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        timerPanel.add(timer, gbc);
-        gbc.gridy = 0;
-        gbc.gridx = 0;
-        //todo: this is the totalTimer, do we need it?
-        //timerPanel.add(totalTimer, gbc);
 
         // Center status panel
         centerStatusPanel.setLayout(new GridBagLayout());
         centerStatusPanel.setBackground(Color.LIGHT_GRAY);
+        centerStatusPanel.add(labelNotifications);
         gbcCenterStatusPanel();
         mainPanel.add(centerStatusPanel, gbc);
-        centerStatusPanel.add(labelNotifications);
 
-        //Top panel
+        // Top panel
         topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(Color.white);
         gbcTopPanel();
@@ -145,9 +115,9 @@ public class GameBodyFrame extends JFrame {
         // Left player avatar
         leftPlayerAvatarPanel.setLayout(new GridBagLayout());
         leftPlayerAvatarPanel.setBackground(Color.RED);
+        leftPlayerAvatarPanel.add(gameBodyModel.playerOneLabel);
         gbcLeftPlayerAvatarPanel();
         mainPanel.add(leftPlayerAvatarPanel, gbc);
-        leftPlayerAvatarPanel.add(gameBodyModel.playerOneLabel);
 
 
         // Left player gold panel
@@ -207,20 +177,7 @@ public class GameBodyFrame extends JFrame {
         leftPlayerHPPanel.setLayout(new FlowLayout());
         leftPlayerPanel.add(leftPlayerHPPanel, gbc);
 
-        leftPlayerHPPanel.add(hitpoints.HeartPlayer1(),FlowLayout.LEFT);
 
-/*
-        // Adding 5 hp bars to the left top panel
-        for (int i = 0; i < 5; i++) {
-
-            gbc.weighty = 0;
-            gbc.gridx = i;
-            leftPlayerHPPanel.add(leftPlayerHPButton = new JLabel());
-            leftPlayerHPButton.setText("HP");
-            leftPlayerHPButton.setForeground(Color.green);
-            leftPlayerHPButton.setBackground(Color.green);
-        }
-*/
 
         // ************************************************************* //
         // *********************** RIGHT PLAYER ************************ //
@@ -286,21 +243,7 @@ public class GameBodyFrame extends JFrame {
         rightPlayerPanel.add(rightPlayerHPPanel,gbc);
 
 
-        rightPlayerHPPanel.add(hitpoints.HeartPlayer2());
 
-
-/*
-        // Adding 5 hp bars to the right top panel
-        for (int i = 0; i < 5; i++) {
-
-            gbc.weighty = 0;
-            gbc.gridx = i;
-            rightPlayerHPPanel.add(leftPlayerHPButton = new JLabel());
-            leftPlayerHPButton.setText("HP");
-            leftPlayerHPButton.setForeground(Color.green);
-            leftPlayerHPButton.setBackground(Color.green);
-        }
-*/
         // Set visibility
         this.setVisible(true);
     }
