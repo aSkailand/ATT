@@ -8,6 +8,9 @@ import java.util.Timer;
  */
 public class GameJMenuController implements ActionListener {
 
+    HitpointModel hitpointModel;
+    Hitpoints hitpoints;
+
     GameJMenu gameJMenu;
     GameBodyFrame gameBodyFrame;
     GameTimerController gameTimerController;
@@ -18,6 +21,9 @@ public class GameJMenuController implements ActionListener {
 
 
     public GameJMenuController(GameBodyFrame gbFrame) {
+
+       hitpointModel = new HitpointModel();
+       hitpoints = new Hitpoints(gbFrame);
 
 
         gameBodyModel = new GameBodyModel();
@@ -38,6 +44,7 @@ public class GameJMenuController implements ActionListener {
         switch (e.getActionCommand()) {
             case "mainMenu": {
                 System.out.println("Main menu...");
+                hitpoints.HitpointsPercentage(-20, GameBoardModel.player.PLAYER_1);
                 break;
             }
             case "highscore": {
@@ -53,6 +60,7 @@ public class GameJMenuController implements ActionListener {
             }
             case "openGame": {
                 System.out.println("Open game...");
+                hitpoints.HitpointsPercentage(-20, GameBoardModel.player.PLAYER_2);
                 break;
             }
             case "pauseGame": {
@@ -85,6 +93,8 @@ public class GameJMenuController implements ActionListener {
             }
             case "restartGame": {
                 System.out.println("Restarted game...");
+                hitpoints.HitpointsPercentage(20, GameBoardModel.player.PLAYER_1);
+                hitpoints.HitpointsPercentage(20, GameBoardModel.player.PLAYER_2);
                 break;
             }
         }
