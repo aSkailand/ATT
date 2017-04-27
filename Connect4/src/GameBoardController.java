@@ -27,6 +27,7 @@ import java.util.Collections;
  */
 public class GameBoardController implements ActionListener {
 
+    GameBodyController gameBodyController;
     GameBodyFrame gameBodyFrame;
 
     GameBoardModel gameBoardModel;
@@ -38,10 +39,12 @@ public class GameBoardController implements ActionListener {
     BoardGravityController boardGravityController;
     BoardWinController boardWinController;
 
-    GameBoardController(GameBodyFrame gbFrame) {
+    GameBoardController(GameBodyController gameBodyController) {
+        // Declare upper MVC
+        this.gameBodyController = gameBodyController;
+        gameBodyFrame = gameBodyController.gameBodyFrame;
 
-        gameBodyFrame = gbFrame;
-
+        // Declare current MVC
         gameBoardModel = new GameBoardModel();
         gameBoardPanel = new GameBoardPanel();
 

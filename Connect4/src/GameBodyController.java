@@ -25,7 +25,7 @@ public class GameBodyController{
         gameBodyFrame = new GameBodyFrame(this);
 
         // Instantiate classes
-        gameBoardController = new GameBoardController(gameBodyFrame);
+        gameBoardController = new GameBoardController(this);
         gameTimerController = new GameTimerController(this);
         hitPointsController = new HitPointsController(this);
         goldController = new GoldController(this);
