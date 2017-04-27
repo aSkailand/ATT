@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,21 +25,23 @@ public class StartMenuController implements ActionListener{
         switch(e.getActionCommand()){
 
             case "Play Game": {
-                View.jPanel.removeAll();
+                View.leftPanel.removeAll();
                 View.PlayGame(this);
-                View.jPanel.validate();
-                View.jPanel.repaint();
+                View.MainPanel.validate();
+                View.MainPanel.repaint();
 
                 System.out.println("Trakk på play game");
                 break;
             }
 
-            case "Settings": {
-                View.jPanel.removeAll();
-                View.Settings(this);
-                View.jPanel.validate();
-                View.jPanel.repaint();
-                System.out.println("Trakk på Settings");
+            case "How To Play": {
+                View.rightPanel.removeAll();
+                View.leftPanel.removeAll();
+                View.HowToPlay(this);
+                View.MainPanel.validate();
+                View.MainPanel.repaint();
+
+                System.out.println("Trakk på How to Play");
                 break;
             }
 
@@ -50,28 +53,78 @@ public class StartMenuController implements ActionListener{
                 break;
             }
 
-            case "Save": {
+            case "Credits": {
+
+                View.rightPanel.removeAll();
+                View.Credits(this);
+                View.MainPanel.validate();
+                View.MainPanel.repaint();
+
+                System.out.println("Trakk på Credits");
+                break;
+
+            }
+
+
+            case "Start Game": {
+
+                System.out.println("Trakk på start game");
+                break;
+
+            }
+
+
+            case "Game Mode": {
+
+                View.rightPanel.removeAll();
+                View.GameMode(this);
+                View.MainPanel.validate();
+                View.MainPanel.repaint();
+
+                break;
+
+            }
+
+
+            case "Settings": {
+                View.rightPanel.removeAll();
+                View.Settings(this);
+                View.MainPanel.validate();
+                View.MainPanel.repaint();
+
+                System.out.println("Trakk på Settings");
+                break;
+
+            }
+
+            case "Back": {
+
+                View.leftPanel.removeAll();
+                View.rightPanel.removeAll();
+                View.BackToMenu(this);
+                View.MainPanel.validate();
+                View.MainPanel.repaint();
+
+
+
+                System.out.println("Trakk på Back");
+
+                break;
+
+            }
+
+
+            case "Save Game": {
                 System.out.println("Trakk på save");
                 break;
 
             }
 
-            case "Reset": {
+            case "Reset Game": {
                 System.out.println("Trakk på reset");
                 break;
             }
 
-            case "Back": {
-
-                View.jPanel.removeAll();
-                View.BackToMenu(this);
-                View.jPanel.validate();
-                View.jPanel.repaint();
-
-                System.out.println("Trakk på back");
-
-                break;
-            }
 
             case "Solo": {
 
@@ -87,13 +140,14 @@ public class StartMenuController implements ActionListener{
 
             case "Back to Menu":{
 
-                View.jPanel.removeAll();
+                View.leftPanel.removeAll();
+                View.rightPanel.removeAll();
                 View.BackToMenu(this);
-                View.jPanel.validate();
-                View.jPanel.repaint();
-
+                View.MainPanel.validate();
+                View.MainPanel.repaint();
 
                 System.out.println("Trakk på back to menu");
+
                 break;
             }
 
