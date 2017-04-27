@@ -19,11 +19,12 @@ class BoardSummonController {
 
     /**
      * Summon piece, checks for AI or HUMAN.
-     * @param x: Column to be placed on. Only for HUMAN.
+     *
+     * @param e: Column to be placed on. Only for HUMAN.
      */
-    void doSummon(ActionEvent e){
+    void doSummon(ActionEvent e) {
         // IF HUMAN
-        if(!gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) {
+        if (!gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) {
             // Check selected column
             int chosenCol = Integer.parseInt(e.getActionCommand());
             summonPiece(chosenCol);
@@ -36,16 +37,17 @@ class BoardSummonController {
 
     /**
      * Summon for Human.
+     *
      * @param x: Column to be summoned on.
      */
     private void summonPiece(int x) {
-        placePiece(x, gameBoardModel.getCurrentPlayer());
+        placePiece(x, gameBoardModel.currentSelectedPiece, gameBoardModel.getCurrentPlayer());
     }
 
     /**
      * Summon for AI.
      */
-    private void summonPieceAI(){
+    private void summonPieceAI() {
 
         // AI PLAY
 
@@ -54,23 +56,28 @@ class BoardSummonController {
              - All in all, has only an 1 step look-ahead.
              */
 
+
         // 1. IF CAN WIN, DO SO
+        System.out.println("AI CHECKS IF SHE CAN WIN");
         boolean AI_havePlaced = AI_checkIfCanWin();
 
         // 2. IF CAN DENY OPPONENT'S WIN IN CURRENT ROUND, DO SO
+        System.out.println("AI CHECKS IF OPPONENT CAN WIN");
         if (!AI_havePlaced) AI_havePlaced = AI_checkIfOpponentCanWin();
 
         // 3. PLACE RANDOMLY WITH 1 DEPTH LOOK-AHEAD
+        System.out.println("AI PLAYS RANDOM");
         if (!AI_havePlaced) AI_randomPlace();
     }
 
     /**
      * Place a piece on top of board, readying it for gravity.
      * Used as a lesser method for rest of methods.
+     *
      * @param chosenCol: The column the piece will be on.
-     * @param player: The owner of piece that will be placed.
+     * @param player:    The owner of piece that will be placed.
      */
-    private void placePiece(int chosenCol, GameBoardModel.player player) {
+    private void placePiece(int chosenCol, GamePieceTypes currentPieceType, GameBoardModel.player player) {
 
         // Find available slot in chosen column
         int indexOfNotOccupied = gameBoardModel.getListOccupancy().get(chosenCol).indexOf(GameBoardModel.player.PLAYER_NONE);
@@ -81,15 +88,14 @@ class BoardSummonController {
             return; // Never supposed to happen. If it happens, we got a bug somewhere.
         }
 
-        // Creating a piece
-        GamePiece aGamePiece = new GamePiece();
-        aGamePiece.setBackground(gameBoardModel.getPlayerColor(player));
+        // Reference copy
+        PieceInfo currentPieceInfo = gameBoardModel.getSlotCombined(chosenCol,GameBoardModel.numRow-1);
+
+        // Tick list
+        currentPieceInfo.setInfo(player, currentPieceType);
 
         // Add piece to slot
-        gameBoardPanel.getSlot(chosenCol, GameBoardModel.numRow-1).setPiece(aGamePiece);
-
-        // Tick occupancy list
-        gameBoardModel.getListOccupancy().get(chosenCol).set(GameBoardModel.numRow-1, player);
+        gameBoardPanel.getSlot(chosenCol, GameBoardModel.numRow - 1).setPiece(currentPieceInfo);
 
     }
 
@@ -116,7 +122,7 @@ class BoardSummonController {
                 System.out.println("");
 
                 // AI play the winning move
-                placePiece(x, gameBoardModel.getCurrentPlayer());
+                placePiece(x, gameBoardModel.currentSelectedPiece ,gameBoardModel.getCurrentPlayer());
                 placed = true;
 
                 // break or else AI plays more if it sees it can win multiple times
@@ -137,7 +143,7 @@ class BoardSummonController {
 
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             if (gameBoardController.playableCol(x) && gameBoardController.checkIfWinningMove(x, gameBoardModel.getWaitingPlayer())) {
-                placePiece(x, gameBoardModel.getCurrentPlayer());
+                placePiece(x, gameBoardModel.currentSelectedPiece, gameBoardModel.getCurrentPlayer());
                 return true;
             }
         }
@@ -184,7 +190,7 @@ class BoardSummonController {
             gameBoardController.removePieceSoft(random); // remove temporary piece
 
         }
-        placePiece(random, AI);
+        placePiece(random, gameBoardModel.currentSelectedPiece, AI);
         return true;
     }
 
