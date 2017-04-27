@@ -11,13 +11,20 @@ public class GameBoardModel {
     // BOARD CONTROL
     static int numRow = 6;      // Default: 6
     static int numCol = 7;      // Default: 7
-            static int winInRow = 4;    // Default: 4
+    static int winInRow = 4;    // Default: 4
 
     // GAME OPTIONS
     private int numMove = 0;
 
-    // PLAYER_1 list that keeps track on which slots belong to whom
-    private ArrayList<ArrayList<player>> listOccupancyGameBoardSlots = new ArrayList<>();
+    // PIECE
+    GamePieceTypes currentSelectedPiece = GamePieceTypes.Peasant;
+
+    // List that keeps track on which slots belong to whom
+    private ArrayList<ArrayList<player>> listOccupancy = new ArrayList<>();
+
+    private ArrayList<ArrayList<GamePieceTypes>> listUnits = new ArrayList<>();
+
+    private ArrayList<ArrayList<PieceInfo>> listCombined = new ArrayList<>();
 
     // PLAYER VARIABLES
     // An enumeration that hold player states (behaves like a boolean in this case)
@@ -36,35 +43,18 @@ public class GameBoardModel {
         public int getNumVal() {
             return numVal;
         }
+
     }
 
-    public enum unit {
-
-        peasant('a'),
-        knight('b'),
-        bomb('c');
-
-        private char numVal;
-
-        unit(char numVal) {
-            this.numVal = numVal;
-        }
-
-        public char getNumVal() {
-            return numVal;
-        }
-    }
-
-    ActionEvent Food4AI = new ActionEvent(new JButton(), 1, "apple");;
-
-
+    ActionEvent Food4AI = new ActionEvent(new JButton(), 1, "apple");
     private player firstPlayer = player.PLAYER_NONE;
-    private player currentPlayer;
-    private player waitingPlayer;
 
+
+    private player currentPlayer;
+
+    private player waitingPlayer;
     private boolean AI_player_1 = false;
     private boolean AI_player_2 = true;
-
     boolean getStatusAI(player player) {
         switch (player) {
             case PLAYER_1:
@@ -76,14 +66,14 @@ public class GameBoardModel {
         }
     }
 
-
     // COLORS
     private Color colorPlayer1 = Color.RED;
+
     private Color colorPlayer2 = Color.BLUE;
+
+
     private Color colorWin1 = new Color(255, 119, 134);
     private Color colorWin2 = new Color(127, 167, 255);
-
-
     GameBoardModel() {
 
         // Set current + waiting player
@@ -92,9 +82,15 @@ public class GameBoardModel {
         // Load list of occupancy
         initializeOccupancyList();
 
-    }
+        // Load list of units
+        initializeUnitList();
 
+        // Load list of combined values
+        initializeCombinedList();
+
+    }
     // CONSTRUCTOR METHODS
+
 
     private void initializePlayers() {
         if (firstPlayer == player.PLAYER_1) {
@@ -112,15 +108,65 @@ public class GameBoardModel {
 
     private void initializeOccupancyList() {
         for (int i = 0; i < numCol; i++) {
-            listOccupancyGameBoardSlots.add(new ArrayList<>());
+            listOccupancy.add(new ArrayList<>());
             for (int j = 0; j < numRow; j++) {
-                listOccupancyGameBoardSlots.get(i).add(player.PLAYER_NONE);
+                listOccupancy.get(i).add(player.PLAYER_NONE);
             }
         }
     }
 
+    private void initializeUnitList() {
+        for (int i = 0; i < numCol; i++) {
+            listUnits.add(new ArrayList<>());
+            for (int j = 0; j < numRow; j++) {
+                listUnits.get(i).add(GamePieceTypes.None);
+            }
+        }
+    }
+
+    private void initializeCombinedList() {
+        for (int i = 0; i < numCol; i++) {
+            listCombined.add(new ArrayList<>());
+            for (int j = 0; j < numRow; j++) {
+                listCombined.get(i).add(new PieceInfo());
+            }
+        }
+    }
+
+    void loadSlotListFromCombinedList(GameBoardPanel gameBoardPanel){
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                gameBoardPanel.getSlot(x,y)
+                        .setPiece(listCombined.get(x).get(y));
+            }
+        }
+        gameBoardPanel.revalidate();
+        gameBoardPanel.repaint();
+    }
+
+    void loadOccupancyListFromCombinedList() {
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                getListOccupancy().get(x).set(y, this.listCombined.get(x).get(y).getOwner());
+            }
+        }
+    }
 
     // GETTERS AND SETTERS
+
+    void printCombinedList() {
+        for (int i = GameBoardModel.numRow - 1; i >= 0; i--) {
+            System.out.print("[");
+            for (int j = 0; j < GameBoardModel.numCol; j++) {
+                if (this.getListOccupancy().get(j).get(i).equals(GameBoardModel.player.PLAYER_NONE))
+                    System.out.print(" -- ");
+                else
+                    System.out.print(" " + this.listCombined.get(j).get(i).getCode() + " ");
+            }
+            System.out.print("]\n");
+        }
+        System.out.println("");
+    }
 
     // Prints out OccupancyList in terminal
     void printOccupancyList() {
@@ -131,6 +177,18 @@ public class GameBoardModel {
                     System.out.print(" - ");
                 else
                     System.out.print(" " + this.getListOccupancy().get(j).get(i).getNumVal() + " ");
+            }
+            System.out.print("]\n");
+        }
+        System.out.println("");
+    }
+
+    // Prints out OccupancyList in terminal
+    void printUnitList() {
+        for (int i = GameBoardModel.numRow - 1; i >= 0; i--) {
+            System.out.print("[");
+            for (int j = 0; j < GameBoardModel.numCol; j++) {
+                System.out.print(" " + this.listUnits.get(j).get(i).getaChar() + " ");
             }
             System.out.print("]\n");
         }
@@ -167,22 +225,30 @@ public class GameBoardModel {
         } else return colorWin2;
     }
 
-
     ArrayList<ArrayList<player>> getListOccupancy() {
-        return this.listOccupancyGameBoardSlots;
+        return this.listOccupancy;
     }
-
 
     int getNumMove() {
         return numMove;
     }
 
+
     player getSlotOccupancy(int x, int y) {
-        return this.listOccupancyGameBoardSlots.get(x).get(y);
+        return this.listOccupancy.get(x).get(y);
     }
+
 
     void addMove() {
         this.numMove++;
+    }
+
+    public ArrayList<ArrayList<GamePieceTypes>> getListUnits() {
+        return listUnits;
+    }
+
+    public PieceInfo getSlotCombined(int x, int y) {
+        return listCombined.get(x).get(y);
     }
 
 

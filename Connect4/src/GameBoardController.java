@@ -7,6 +7,24 @@ import java.util.Collections;
 /**
  * Created by aslak on 03.04.17.
  */
+/**
+ * Manages all board-related actions. The initiator for all the board/piece-related controllers.
+ *
+ *      ILLUSTRATION:
+ *
+ *      (START) GameBoardController -> BoardSummonController -> BoardGravityController
+ *                                                                  ^          |
+ *                                                                  |          v
+ *                                                               BoardWinController  -->  GameBoardController (END)
+ *
+ *      NOTES:
+ *      GameBoardController:    Start Process
+ *      BoardSummonController:  Places a piece, both Human and AI
+ *      BoardGravityController: Drag down pieces if possible
+ *      BoardWinController:     Check for win, claim them and runs Gravity again, or end if no win exists.
+ *      GameBoardController:    End process
+ *
+ */
 public class GameBoardController implements ActionListener {
 
     GameBodyFrame gameBodyFrame;
@@ -38,8 +56,7 @@ public class GameBoardController implements ActionListener {
         boardWinController = new BoardWinController(this);
         boardGravityController = new BoardGravityController(this);
 
-        System.out.println("");
-        gameBoardModel.printOccupancyList();
+        gameBoardModel.printCombinedList();
 
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
@@ -55,19 +72,22 @@ public class GameBoardController implements ActionListener {
         roundIntro();
 
         // Place piece on top of board, checks for human and AI
+        gameBoardModel.loadOccupancyListFromCombinedList();
         boardSummonController.doSummon(e);
+        gameBoardModel.printCombinedList();
 
         // Lock all option buttons
         disableAllColumns();
 
         // Initiate gravity
+        gameBoardModel.loadOccupancyListFromCombinedList();
         boardGravityController.runGravity();
 
     }
 
     /* ROUND CONTROL METHODS */
 
-    void roundIntro(){
+    void roundIntro() {
         // Turn Info
         System.out.println("\nMOVE: " + gameBoardModel.getNumMove());
         System.out.println("**********");
@@ -77,7 +97,7 @@ public class GameBoardController implements ActionListener {
         System.out.println("AI status: " + gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer()));
     }
 
-    void roundEnd(){
+    void roundEnd() {
 
         // Swap player
         alternatePlayers();
@@ -92,13 +112,15 @@ public class GameBoardController implements ActionListener {
         disableFullColumns();
 
         // Print OccupancyList
-        gameBoardModel.printOccupancyList();
+//        gameBoardModel.printOccupancyList();
+        gameBoardModel.printCombinedList();
+        gameBoardModel.printUnitList();
 
         // Wake up the AI if it's her turn
         wakeupAI();
     }
 
-    void wakeupAI(){
+    void wakeupAI() {
         if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) actionPerformed(gameBoardModel.Food4AI);
     }
 
@@ -115,8 +137,7 @@ public class GameBoardController implements ActionListener {
         for (int i = 0; i < GameBoardModel.numCol; i++) {
             if (!playableCol(i)) {
                 gameOptionPanel.optionList.get(i).setEnabled(false);
-            }
-            else {
+            } else {
                 gameOptionPanel.optionList.get(i).setEnabled(true);
             }
         }
@@ -125,7 +146,7 @@ public class GameBoardController implements ActionListener {
     // Disable all unplayable columns
     void disableAllColumns() {
         for (int i = 0; i < GameBoardModel.numCol; i++) {
-                gameOptionPanel.optionList.get(i).setEnabled(false);
+            gameOptionPanel.optionList.get(i).setEnabled(false);
         }
     }
 
@@ -498,7 +519,7 @@ public class GameBoardController implements ActionListener {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
                     Color WinColor = gameBoardModel.getPlayerWinColor(gameBoardModel.getSlotOccupancy(x, y));
-                    gameBoardPanel.getSlot(x, y).piece.setBackground(WinColor);
+                    gameBoardPanel.getSlot(x, y).setPieceColor(WinColor);
                 }
             }
         }
@@ -511,7 +532,7 @@ public class GameBoardController implements ActionListener {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
                     Color Color = gameBoardModel.getPlayerColor(gameBoardModel.getSlotOccupancy(x, y));
-                    gameBoardPanel.getSlot(x, y).piece.setBackground(Color);
+                    gameBoardPanel.getSlot(x, y).setPieceColor(Color);
                 }
             }
         }
