@@ -17,6 +17,7 @@ public class GameBodyController{
     HitPointsModel hitPointsModel;
     HitPointsController hitPointsController;
     GoldController goldController;
+    UnitButtonController unitButtonController;
 
     public GameBodyController() {
 
@@ -29,7 +30,9 @@ public class GameBodyController{
         gameTimerController = new GameTimerController(this);
         hitPointsController = new HitPointsController(this);
         goldController = new GoldController(this);
+        unitButtonController = new UnitButtonController(this);
         gameJMenuController = new GameJMenuController(this);
+
 
         // Window listener
         gameBodyFrame.addWindowListener(

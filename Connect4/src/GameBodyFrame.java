@@ -30,10 +30,6 @@ public class GameBodyFrame extends JFrame {
 
     JLabel leftPlayerHP = new JLabel("");
 
-    JButton leftUnitButton1 = new JButton("Button1");
-    JButton leftUnitButton2 = new JButton("Button2");
-    JButton leftUnitButton3 = new JButton("Button3");
-
     // Right player setup
     JPanel rightPlayerPanel = new JPanel();
     JPanel rightPlayerAvatarPanel = new JPanel();
@@ -42,12 +38,7 @@ public class GameBodyFrame extends JFrame {
     JPanel rightPlayerHPPanel = new JPanel();
     JPanel rightPlayerGoldGrid = new JPanel();
 
-    JButton rightUnitButton1 = new JButton("Button1");
-    JButton rightUnitButton2 = new JButton("Button2");
-    JButton rightUnitButton3 = new JButton("Button3");
-
     JLabel rightPlayerHP = new JLabel("");
-
 
     /**
      * This is the Game Frame, which contains all in-game elements.
@@ -123,22 +114,10 @@ public class GameBodyFrame extends JFrame {
 
 
         // Left player unit panel
-        leftPlayerUnitPanel.setLayout(new GridBagLayout());
+        leftPlayerUnitPanel.setLayout(new GridLayout());
         leftPlayerUnitPanel.setBackground(Color.RED);
         gbcLeftPlayerUnitPanel();
         mainPanel.add(leftPlayerUnitPanel, gbc);
-
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.gridy = 0;
-
-        leftPlayerUnitPanel.add(leftUnitButton1, gbc);
-        gbc.gridy = 1;
-
-        leftPlayerUnitPanel.add(leftUnitButton2, gbc);
-        gbc.gridy = 2;
-
-        leftPlayerUnitPanel.add(leftUnitButton3, gbc);
 
         // Left player top panel
         leftPlayerPanel.setLayout(new GridBagLayout());
@@ -193,18 +172,10 @@ public class GameBodyFrame extends JFrame {
         rightPlayerGoldPanel.add(rightPlayerGoldGrid);
 
         // Right player unit panel
-        rightPlayerUnitPanel.setLayout(new GridBagLayout());
+        rightPlayerUnitPanel.setLayout(new GridLayout());
         rightPlayerUnitPanel.setBackground(Color.BLUE);
         gbcRightPlayerUnitPanel();
         mainPanel.add(rightPlayerUnitPanel, gbc);
-        gbc.anchor = GridBagConstraints.NORTHEAST;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.gridy = 0;
-        rightPlayerUnitPanel.add(rightUnitButton1, gbc);
-        gbc.gridy = 1;
-        rightPlayerUnitPanel.add(rightUnitButton2, gbc);
-        gbc.gridy = 2;
-        rightPlayerUnitPanel.add(rightUnitButton3, gbc);
 
         // Right player top panel
         rightPlayerPanel.setLayout(new GridBagLayout());

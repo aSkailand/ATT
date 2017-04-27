@@ -14,6 +14,8 @@ public class HitPointsModel {
     ArrayList<JLabel> heartsLabelPlayer1 = new ArrayList<>();
     ArrayList<JLabel> heartsLabelPlayer2 = new ArrayList<>();
 
+
+
     ImageIcon heartAliveIcon;
     ImageIcon heartDeadIcon;
 

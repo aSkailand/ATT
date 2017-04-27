@@ -21,6 +21,8 @@ public class GameJMenuController implements ActionListener {
     HitPointsController hitpoints;
     GoldModel goldModel;
     GoldController goldController;
+    UnitButtonModel unitButtonModel;
+    UnitButtonController unitButtonController;
     //This boolean is for the pause/unpause button, when its true its unpaused, if its false its paused
     boolean pauseBoolean = true;
 
@@ -40,6 +42,9 @@ public class GameJMenuController implements ActionListener {
         // todo: temporary gold changer
         goldModel = this.gameBodyController.goldController.goldModel;
         goldController = this.gameBodyController.goldController;
+
+        // todo: temporary unit button changer
+        unitButtonController = this.gameBodyController.unitButtonController;
 
         gameJMenu = new GameJMenu(this);
         gameBodyFrame.setJMenuBar(gameJMenu);
@@ -61,6 +66,8 @@ public class GameJMenuController implements ActionListener {
                 // todo: TEMPORARY!!!
                 hitpoints.HitpointsPercentage(-20, GameBoardModel.player.PLAYER_1);
                 goldController.UpdateGoldValue(-1, GameBoardModel.player.PLAYER_1);
+                unitButtonController.disableButtons(GameBoardModel.player.PLAYER_1);
+
                                 break;
             }
             case "highscore": {
@@ -79,6 +86,7 @@ public class GameJMenuController implements ActionListener {
                 // todo: TEMPORARY!!
                 hitpoints.HitpointsPercentage(-20, GameBoardModel.player.PLAYER_2);
                 goldController.UpdateGoldValue(-1, GameBoardModel.player.PLAYER_2);
+                unitButtonController.disableButtons(GameBoardModel.player.PLAYER_2);
                 break;
             }
             case "pauseGame": {
