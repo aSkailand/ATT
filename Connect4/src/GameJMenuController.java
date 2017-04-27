@@ -19,6 +19,8 @@ public class GameJMenuController implements ActionListener {
 
     HitPointsModel hitPointsModel;
     HitPointsController hitpoints;
+    GoldModel goldModel;
+    GoldController goldController;
     //This boolean is for the pause/unpause button, when its true its unpaused, if its false its paused
     boolean pauseBoolean = true;
 
@@ -34,6 +36,10 @@ public class GameJMenuController implements ActionListener {
         // todo: temporary hp changer
         hitPointsModel = this.gameBodyController.hitPointsModel;
         hitpoints = this.gameBodyController.hitPointsController;
+
+        // todo: temporary gold changer
+        goldModel = this.gameBodyController.goldController.goldModel;
+        goldController = this.gameBodyController.goldController;
 
         gameJMenu = new GameJMenu(this);
         gameBodyFrame.setJMenuBar(gameJMenu);
@@ -51,8 +57,11 @@ public class GameJMenuController implements ActionListener {
         switch (e.getActionCommand()) {
             case "mainMenu": {
                 System.out.println("Main menu...");
+
+                // todo: TEMPORARY!!!
                 hitpoints.HitpointsPercentage(-20, GameBoardModel.player.PLAYER_1);
-                break;
+                goldController.UpdateGoldValue(-1, GameBoardModel.player.PLAYER_1);
+                                break;
             }
             case "highscore": {
                 System.out.println("Highscore...");
@@ -61,13 +70,15 @@ public class GameJMenuController implements ActionListener {
             }
             case "saveGame": {
                 System.out.println("Saved game...");
-                String fuck = JOptionPane.showInputDialog(null, "New highscore, enter name: ");
-                gameBodyModel.setHighScore(fuck + ": Time: " + gameTimerController.minutes + ":" + gameTimerController.seconds + "\n");
+                String saveName = JOptionPane.showInputDialog(null, "New highscore, enter name: ");
+                gameBodyModel.setHighScore(saveName + ": Time: " + gameTimerController.minutes + ":" + gameTimerController.seconds + "\n");
                 break;
             }
             case "openGame": {
                 System.out.println("Open game...");
+                // todo: TEMPORARY!!
                 hitpoints.HitpointsPercentage(-20, GameBoardModel.player.PLAYER_2);
+                goldController.UpdateGoldValue(-1, GameBoardModel.player.PLAYER_2);
                 break;
             }
             case "pauseGame": {
@@ -100,8 +111,12 @@ public class GameJMenuController implements ActionListener {
             }
             case "restartGame": {
                 System.out.println("Restarted game...");
+
+                // todo: TEMPORARY!!!
                 hitpoints.HitpointsPercentage(20, GameBoardModel.player.PLAYER_1);
                 hitpoints.HitpointsPercentage(20, GameBoardModel.player.PLAYER_2);
+                goldController.UpdateGoldValue(1, GameBoardModel.player.PLAYER_1);
+                goldController.UpdateGoldValue(1, GameBoardModel.player.PLAYER_2);
                 break;
             }
         }

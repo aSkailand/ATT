@@ -6,14 +6,12 @@ import java.awt.*;
  */
 public class GameBodyFrame extends JFrame {
 
-
     GameBodyModel gameBodyModel;
 
     // SUPER GBC
-
     GridBagConstraints gbc = new GridBagConstraints();
 
-    // CENTER SHIT
+    // Center setup
     JPanel centerPanel = new JPanel();
     JPanel topPanel = new JPanel();
     JPanel timerPanel = new JPanel();
@@ -22,37 +20,31 @@ public class GameBodyFrame extends JFrame {
 
     JLabel labelNotifications = new JLabel("NOTIFICATIONS");
 
-    // LEFT PLAYER SHIT
+    // Left player setup
     JPanel leftPlayerPanel = new JPanel();
     JPanel leftPlayerAvatarPanel = new JPanel();
     JPanel leftPlayerGoldPanel = new JPanel();
     JPanel leftPlayerUnitPanel = new JPanel();
-
     JPanel leftPlayerHPPanel = new JPanel();
-    JLabel leftPlayerGoldLabel = new JLabel("   x 0 ");
+    JPanel leftPlayerGoldGrid = new JPanel();
 
     JLabel leftPlayerHP = new JLabel("");
+
     JButton leftUnitButton1 = new JButton("Button1");
     JButton leftUnitButton2 = new JButton("Button2");
-
-
     JButton leftUnitButton3 = new JButton("Button3");
 
-    // RIGHT PLAYER SHIT
+    // Right player setup
     JPanel rightPlayerPanel = new JPanel();
     JPanel rightPlayerAvatarPanel = new JPanel();
     JPanel rightPlayerGoldPanel = new JPanel();
     JPanel rightPlayerUnitPanel = new JPanel();
-
     JPanel rightPlayerHPPanel = new JPanel();
+    JPanel rightPlayerGoldGrid = new JPanel();
+
     JButton rightUnitButton1 = new JButton("Button1");
     JButton rightUnitButton2 = new JButton("Button2");
-
     JButton rightUnitButton3 = new JButton("Button3");
-    JLabel rightPlayerGoldLabel = new JLabel("   x 0 ");
-
-
-
 
     JLabel rightPlayerHP = new JLabel("");
 
@@ -73,9 +65,9 @@ public class GameBodyFrame extends JFrame {
         this.setBackground(Color.blue);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        // ************************************************************* //
-        // *********************** CENTER SHIT************************** //
-        // ************************************************************* //
+        /* ***********************************************************
+        *********************** CENTER STUFF**************************
+        *********************************************************** */
 
         // Main Panel
         JPanel mainPanel = new JPanel();
@@ -108,9 +100,9 @@ public class GameBodyFrame extends JFrame {
         gbcTopPanel();
         mainPanel.add(topPanel, gbc);
 
-        // ************************************************************* //
-        // *********************** LEFT PLAYER ************************* //
-        // ************************************************************* //
+        /* **********************************************************
+        *********************** LEFT PLAYER *************************
+        ********************************************************** */
 
         // Left player avatar
         leftPlayerAvatarPanel.setLayout(new GridBagLayout());
@@ -125,9 +117,10 @@ public class GameBodyFrame extends JFrame {
         leftPlayerGoldPanel.setBackground(Color.RED);
         gbcLeftPlayerGoldPanel();
         mainPanel.add(leftPlayerGoldPanel, gbc);
-        leftPlayerGoldLabel.setForeground(Color.WHITE);
-        leftPlayerGoldPanel.add(gameBodyModel.redGoldLabel);
-        leftPlayerGoldPanel.add(leftPlayerGoldLabel);
+        leftPlayerGoldGrid.setBackground(Color.RED);
+        leftPlayerGoldGrid.setLayout(new GridLayout(1,2));
+        leftPlayerGoldPanel.add(leftPlayerGoldGrid);
+
 
         // Left player unit panel
         leftPlayerUnitPanel.setLayout(new GridBagLayout());
@@ -153,8 +146,6 @@ public class GameBodyFrame extends JFrame {
         gbcLeftPlayerPanel();
         mainPanel.add(leftPlayerPanel, gbc);
 
-
-
         // HP FONT
         //leftPlayerHP.setText(""+gameBodyModel.getPlayerHP());
         leftPlayerHP.setFont(new Font(null, Font.BOLD, 20));
@@ -179,9 +170,9 @@ public class GameBodyFrame extends JFrame {
 
 
 
-        // ************************************************************* //
-        // *********************** RIGHT PLAYER ************************ //
-        // ************************************************************* //
+        /* *********************************************************
+        *********************** RIGHT PLAYER ***********************
+        ********************************************************* */
 
 
         // Right player avatar panel
@@ -197,10 +188,9 @@ public class GameBodyFrame extends JFrame {
         rightPlayerGoldPanel.setBackground(Color.BLUE);
         gbcRightPlayerGoldPanel();
         mainPanel.add(rightPlayerGoldPanel, gbc);
-        rightPlayerGoldLabel.setForeground(Color.WHITE);
-        rightPlayerGoldPanel.add(gameBodyModel.blueGoldLabel);
-        rightPlayerGoldPanel.add(rightPlayerGoldLabel);
-
+        rightPlayerGoldGrid.setLayout(new GridLayout(1,2));
+        rightPlayerGoldGrid.setBackground(Color.BLUE);
+        rightPlayerGoldPanel.add(rightPlayerGoldGrid);
 
         // Right player unit panel
         rightPlayerUnitPanel.setLayout(new GridBagLayout());
@@ -242,14 +232,11 @@ public class GameBodyFrame extends JFrame {
         rightPlayerHPPanel.setLayout(new FlowLayout());
         rightPlayerPanel.add(rightPlayerHPPanel,gbc);
 
-
-
         // Set visibility
         this.setVisible(true);
     }
 
     // Center GBC's
-
     void gbcMainPanel() {
 
         gbc.gridx = 0;
@@ -347,9 +334,7 @@ public class GameBodyFrame extends JFrame {
         gbc.anchor = GridBagConstraints.PAGE_END;
     }
 
-
     // Left GBC's
-
     void gbcLeftPlayerAvatarPanel() {
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -426,8 +411,6 @@ public class GameBodyFrame extends JFrame {
     }
 
     // Right GBC's
-
-
     void gbcRightPlayerAvatarPanel() {
 
         gbc.gridx = 4;
