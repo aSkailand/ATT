@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,15 +12,21 @@ public class UnitButtonController implements ActionListener {
     UnitButtonView unitButtonView;
     UnitButtonModel unitButtonModel;
     GoldModel goldModel;
+    GameBoardModel gameBoardModel;
+    GoldController goldController;
 
     public UnitButtonController(GameBodyController gameBodyController) {
 
+
         // Declare MVC
         goldModel = gameBodyController.goldController.goldModel;
+        goldController = gameBodyController.goldController;
 
         gameBodyFrame = gameBodyController.gameBodyFrame;
         unitButtonModel = new UnitButtonModel();
         unitButtonView = new UnitButtonView();
+
+        gameBoardModel = gameBodyController.gameBoardController.gameBoardModel;
 
 
         // Adds buttons to the left player unit panel
@@ -29,7 +36,7 @@ public class UnitButtonController implements ActionListener {
                 unitButtonModel.unitLabelPlayer1,
                 unitButtonModel.testImg,
                 Color.red,
-                Color.ORANGE));
+                Color.GREEN));
 
         // adds buttons to the right player unit panel
         gameBodyFrame.rightPlayerUnitPanel.add(unitButtonView.CreateUnitButtonView(
@@ -37,7 +44,7 @@ public class UnitButtonController implements ActionListener {
                 unitButtonModel.unitButtonsPlayer2,
                 unitButtonModel.unitLabelPlayer2, unitButtonModel.testImg,
                 Color.blue,
-                Color.ORANGE));
+                Color.GREEN));
 
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
@@ -54,18 +61,39 @@ public class UnitButtonController implements ActionListener {
 
         if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
             for (int i = 0; i < 6; i++) {
+
+                gameBodyFrame.gameBodyModel.playerTwoAvatarButton.setEnabled(false);
+                gameBodyFrame.gameBodyModel.playerOneAvatarButton.setEnabled(true);
+
+
+
                 unitButtonModel.unitButtonsPlayer1.get(i).setEnabled(true);
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(false);
+
                 checkUnitsAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
                 checkMagicAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
+
             }
+            for (int i = 0; i < 6; i++) {
+                unitButtonModel.unitButtonsPlayer2.get(i).setContentAreaFilled(false);
+
+            }
+
         } else if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
             for (int i = 0; i < 6; i++) {
+
+
+                gameBodyFrame.gameBodyModel.playerTwoAvatarButton.setEnabled(true);
+                gameBodyFrame.gameBodyModel.playerOneAvatarButton.setEnabled(false);
+
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(true);
                 unitButtonModel.unitButtonsPlayer1.get(i).setEnabled(false);
                 checkUnitsAffordability(GameBoardModel.player.PLAYER_2, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
                 checkMagicAffordability(GameBoardModel.player.PLAYER_2, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
 
+            }
+            for (int i = 0; i < 6; i++) {
+                unitButtonModel.unitButtonsPlayer1.get(i).setContentAreaFilled(false);
             }
         }
     }
@@ -107,6 +135,7 @@ public class UnitButtonController implements ActionListener {
                 unitButtonModel.unitButtonsPlayer1.get(4).setEnabled(false);
 
             }
+
         }
         if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
             if (p2Gold >= unitButtonModel.getUnit3Cost()) {
@@ -133,6 +162,7 @@ public class UnitButtonController implements ActionListener {
                 unitButtonModel.unitButtonsPlayer2.get(4).setEnabled(false);
 
             }
+
         }
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
@@ -175,6 +205,7 @@ public class UnitButtonController implements ActionListener {
                 unitButtonModel.unitButtonsPlayer1.get(5).setEnabled(false);
 
             }
+
         }
         if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
             if (p2Gold >= unitButtonModel.getMagic3Cost()) {
@@ -202,43 +233,68 @@ public class UnitButtonController implements ActionListener {
 
             }
         }
+
     }
+
+
+    void selectedButton(int buttonPressed, GameBoardModel.player currentPlayer) {
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
+            for (int i = 0; i < 6; i++) {
+                unitButtonModel.unitButtonsPlayer1.get(i).setContentAreaFilled(false);
+
+            }
+            unitButtonModel.unitButtonsPlayer1.get(buttonPressed).setContentAreaFilled(true);
+        } else if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
+            for (int i = 0; i < 6; i++) {
+                unitButtonModel.unitButtonsPlayer2.get(i).setContentAreaFilled(false);
+            }
+            unitButtonModel.unitButtonsPlayer2.get(buttonPressed).setContentAreaFilled(true);
+        }
+    }
+
 
     // Action listener
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "button0": {
+                selectedButton(0, gameBoardModel.getCurrentPlayer());
+
 
                 System.out.println("button0");
                 break;
             }
             case "button1": {
 
+                selectedButton(1, gameBoardModel.getCurrentPlayer());
+
                 System.out.println("button1");
                 break;
             }
             case "button2": {
-
+                selectedButton(2, gameBoardModel.getCurrentPlayer());
                 System.out.println("button2");
                 break;
             }
             case "button3": {
-
+                selectedButton(3, gameBoardModel.getCurrentPlayer());
                 System.out.println("button3");
                 break;
             }
             case "button4": {
+                selectedButton(4, gameBoardModel.getCurrentPlayer());
 
                 System.out.println("button4");
                 break;
             }
             case "button5": {
+                selectedButton(5, gameBoardModel.getCurrentPlayer());
 
                 System.out.println("button5");
                 break;
             }
             case "button6": {
+                selectedButton(6, gameBoardModel.getCurrentPlayer());
 
                 System.out.println("button6");
                 break;

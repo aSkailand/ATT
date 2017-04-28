@@ -11,6 +11,7 @@ public class GoldController {
     GoldModel goldModel;
     private GoldView goldView;
 
+
     public GoldController(GameBodyController gameBodyController) {
 
         // Declare MVC

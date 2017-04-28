@@ -31,7 +31,7 @@ public class UnitButtonModel {
 
     public UnitButtonModel() {
 
-        testImg = loadImageIcon(new File("boxing.png"), 60, 60);
+        testImg = loadImageIcon(new File("boxing.png"), 30, 30);
 
         addButtonsToList(unitButtonsPlayer1);
         addLabelsToList(unitLabelPlayer1);

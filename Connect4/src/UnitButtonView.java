@@ -56,8 +56,11 @@ class UnitButtonView {
             labels.get(i).setForeground(Color.WHITE);
         }
 
+
         // This is the how the JPanel will look like
         gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.SOUTH;
 
         gbc.gridy = 0;
         gbc.gridx = 0;

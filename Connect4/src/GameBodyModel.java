@@ -1,82 +1,59 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
  * Created by aslak on 20.04.17.
- *
+ * <p>
  * This loads the images from files and make them available for usage...
  */
 public class GameBodyModel {
 
-    JLabel playerTwoLabel = new JLabel();
-    JLabel playerOneLabel = new JLabel();
-    JLabel redGoldLabel = new JLabel();
-    JLabel blueGoldLabel = new JLabel();
+    JButton playerOneAvatarButton = new JButton();
+    JButton playerTwoAvatarButton = new JButton();
 
-    BufferedImage playerOneAvatar = null;
-    BufferedImage playerTwoAvatar = null;
-    BufferedImage redGold = null;
-    BufferedImage blueGold = null;
 
     public GameBodyModel() {
 
+        playerOneAvatarButton.setBorder(new EmptyBorder(0, 0, 0, 0));
+        playerOneAvatarButton.setBorderPainted(false);
+        playerOneAvatarButton.setContentAreaFilled(false);
+
+        ImageIcon p1_avatar = loadImageIcon(new File("man.png"), 150, 150);
+        playerOneAvatarButton.setIcon(p1_avatar);
+
+        playerTwoAvatarButton.setBorder(new EmptyBorder(0, 0, 0, 0));
+        playerTwoAvatarButton.setBorderPainted(false);
+        playerTwoAvatarButton.setContentAreaFilled(false);
+
+        ImageIcon p2_avatar = loadImageIcon(new File("link.png"),150,150);
+        playerTwoAvatarButton.setIcon(p2_avatar);
 
 
-        //Loads player one avatar
+
+    }
+
+    ImageIcon loadImageIcon(File file, int imageWidth, int imageHeight) {
+
+        BufferedImage bufferedImage;
         try {
-            playerOneAvatar = ImageIO.read(new File("fuck.png"));
+            bufferedImage = ImageIO.read(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("ImageIcon is null!");
+            return null;
         }
 
-        //Loads player two avatar
-        try {
-            playerTwoAvatar = ImageIO.read(new File("fuck2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (bufferedImage == null) {
+            System.out.println("Image is null!");
+            return null;
+        } else {
+            Image image = bufferedImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_AREA_AVERAGING);
+            return new ImageIcon(image);
         }
-
-        //Loads red gold image
-        try {
-            redGold = ImageIO.read(new File("redGold.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Loads blue gold image
-        try {
-            blueGold = ImageIO.read(new File("blueGold.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        // Sets the size and layout for player one avatar
-        Image playerOneAvatar2 = playerOneAvatar.getScaledInstance(90, 30, Image.SCALE_FAST);
-        ImageIcon imageIcon = new ImageIcon(playerOneAvatar2);
-        playerOneLabel.setLayout(new BorderLayout());
-        playerOneLabel.setIcon(imageIcon);
-
-        // Sets the size and layout for player two avater
-        Image playerTwoAvatar2 = playerTwoAvatar.getScaledInstance(90, 30, Image.SCALE_FAST);
-        ImageIcon imageIcon1 = new ImageIcon(playerTwoAvatar2);
-        playerTwoLabel.setLayout(new BorderLayout());
-        playerTwoLabel.setIcon(imageIcon1);
-
-        Image redGoldResized = redGold.getScaledInstance(30,30, Image.SCALE_DEFAULT);
-        ImageIcon imageIconRedGold = new ImageIcon(redGoldResized);
-        redGoldLabel.setLayout(new BorderLayout());
-        redGoldLabel.setIcon(imageIconRedGold);
-
-        Image blueGoldResized = blueGold.getScaledInstance(30,30, Image.SCALE_DEFAULT);
-        ImageIcon imageIconBlueGold = new ImageIcon(blueGoldResized);
-        blueGoldLabel.setLayout(new BorderLayout());
-        blueGoldLabel.setIcon(imageIconBlueGold);
-
     }
 
     public String readHighScore() {
@@ -86,7 +63,7 @@ public class GameBodyModel {
             FileReader read = new FileReader("highscore.txt");
             BufferedReader bRead = new BufferedReader(read);
             String line = bRead.readLine();
-            while(line != null){
+            while (line != null) {
                 highscoreText += line + "\n";
                 line = bRead.readLine();
             }
@@ -105,7 +82,7 @@ public class GameBodyModel {
 
     }
 
-    public void setHighScore(String a){
+    public void setHighScore(String a) {
         System.out.println(a);
 
         try {

@@ -102,8 +102,10 @@ public class GameBoardController implements ActionListener {
 
     void roundEnd() {
 
+
         // Swap player
         alternatePlayers();
+
 
         // Add a move
         gameBoardModel.addMove();

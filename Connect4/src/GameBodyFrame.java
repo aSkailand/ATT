@@ -96,9 +96,10 @@ public class GameBodyFrame extends JFrame {
         ********************************************************** */
 
         // Left player avatar
-        leftPlayerAvatarPanel.setLayout(new GridBagLayout());
+        leftPlayerAvatarPanel.setLayout(new BorderLayout());
+        leftPlayerAvatarPanel.setPreferredSize(new Dimension(100,100));
         leftPlayerAvatarPanel.setBackground(Color.RED);
-        leftPlayerAvatarPanel.add(gameBodyModel.playerOneLabel);
+        leftPlayerAvatarPanel.add(gameBodyModel.playerOneAvatarButton);
         gbcLeftPlayerAvatarPanel();
         mainPanel.add(leftPlayerAvatarPanel, gbc);
 
@@ -114,7 +115,7 @@ public class GameBodyFrame extends JFrame {
 
 
         // Left player unit panel
-        leftPlayerUnitPanel.setLayout(new GridLayout());
+        leftPlayerUnitPanel.setLayout(new BorderLayout());
         leftPlayerUnitPanel.setBackground(Color.RED);
         gbcLeftPlayerUnitPanel();
         mainPanel.add(leftPlayerUnitPanel, gbc);
@@ -155,11 +156,12 @@ public class GameBodyFrame extends JFrame {
 
 
         // Right player avatar panel
-        rightPlayerAvatarPanel.setLayout(new GridBagLayout());
+        rightPlayerAvatarPanel.setLayout(new BorderLayout());
+        rightPlayerAvatarPanel.setPreferredSize(new Dimension(100,100));
         rightPlayerAvatarPanel.setBackground(Color.BLUE);
         gbcRightPlayerAvatarPanel();
         mainPanel.add(rightPlayerAvatarPanel, gbc);
-        rightPlayerAvatarPanel.add(gameBodyModel.playerTwoLabel);
+        rightPlayerAvatarPanel.add(gameBodyModel.playerTwoAvatarButton);
 
 
         // Right player gold panel
@@ -172,7 +174,7 @@ public class GameBodyFrame extends JFrame {
         rightPlayerGoldPanel.add(rightPlayerGoldGrid);
 
         // Right player unit panel
-        rightPlayerUnitPanel.setLayout(new GridLayout());
+        rightPlayerUnitPanel.setLayout(new BorderLayout());
         rightPlayerUnitPanel.setBackground(Color.BLUE);
         gbcRightPlayerUnitPanel();
         mainPanel.add(rightPlayerUnitPanel, gbc);

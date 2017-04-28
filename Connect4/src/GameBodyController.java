@@ -5,7 +5,7 @@ import java.awt.event.WindowEvent;
 /**
  * Created by aslak on 03.04.17.
  */
-public class GameBodyController{
+public class GameBodyController {
 
     GameBodyFrame gameBodyFrame;
     GameBodyModel gameBodyModel;
@@ -32,6 +32,7 @@ public class GameBodyController{
         goldController = new GoldController(this);
         unitButtonController = new UnitButtonController(this);
         gameJMenuController = new GameJMenuController(this);
+
 
 
         // Window listener
@@ -67,4 +68,6 @@ public class GameBodyController{
                     }
                 });
     }
+
+
 }
