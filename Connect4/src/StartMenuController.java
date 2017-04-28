@@ -11,6 +11,9 @@ public class StartMenuController implements ActionListener{
 
     StartMenu View;
 
+
+
+
     public StartMenuController(){
 
         View = new StartMenu(this);
@@ -25,8 +28,8 @@ public class StartMenuController implements ActionListener{
             case "Play Game": {
                 View.leftPanel.removeAll();
                 View.PlayGame(this);
-                View.MainPanel.validate();
-                View.MainPanel.repaint();
+                View.leftPanel.validate();
+                View.leftPanel.repaint();
 
                 System.out.println("Trakk på play game");
                 break;
@@ -36,8 +39,12 @@ public class StartMenuController implements ActionListener{
                 View.rightPanel.removeAll();
                 View.leftPanel.removeAll();
                 View.HowToPlay(this);
-                View.MainPanel.validate();
-                View.MainPanel.repaint();
+
+                View.rightPanel.validate();
+                View.rightPanel.repaint();
+
+                View.leftPanel.validate();
+                View.leftPanel.repaint();
 
                 System.out.println("Trakk på How to Play");
                 break;
@@ -55,8 +62,8 @@ public class StartMenuController implements ActionListener{
 
                 View.rightPanel.removeAll();
                 View.Credits(this);
-                View.MainPanel.validate();
-                View.MainPanel.repaint();
+                View.rightPanel.validate();
+                View.rightPanel.repaint();
 
                 System.out.println("Trakk på Credits");
                 break;
@@ -82,8 +89,8 @@ public class StartMenuController implements ActionListener{
 
                 View.rightPanel.removeAll();
                 View.GameMode(this);
-                View.MainPanel.validate();
-                View.MainPanel.repaint();
+                View.rightPanel.validate();
+                View.rightPanel.repaint();
 
                 break;
 
@@ -93,8 +100,8 @@ public class StartMenuController implements ActionListener{
             case "Settings": {
                 View.rightPanel.removeAll();
                 View.Settings(this);
-                View.MainPanel.validate();
-                View.MainPanel.repaint();
+                View.rightPanel.validate();
+                View.rightPanel.repaint();
 
                 System.out.println("Trakk på Settings");
                 break;

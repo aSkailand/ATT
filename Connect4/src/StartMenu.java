@@ -74,19 +74,19 @@ public class StartMenu extends JFrame{
         MainPanel.add(rightPanel, GBC);
 
         PlayGameButton = new JButton("Play Game");
-        PlayGameButton.setFont(new Font("", Font.BOLD, 15));
+        PlayGameButton.setFont(new Font("", Font.BOLD, 20));
         PlayGameButton.addActionListener(c);
         GBCPlayGameButton();
         leftPanel.add(PlayGameButton, GBC);
 
         HowToPlayButton = new JButton("How To Play");
-        HowToPlayButton.setFont(new Font("",Font.BOLD,15));
+        HowToPlayButton.setFont(new Font("",Font.BOLD,20));
         HowToPlayButton.addActionListener(c);
         GBCHowToPlayButton();
         leftPanel.add(HowToPlayButton,GBC);
 
         ExitButton = new JButton("Exit Game");
-        ExitButton.setFont(new Font("", Font.BOLD,15));
+        ExitButton.setFont(new Font("", Font.BOLD,20));
         ExitButton.addActionListener(c);
         GBCExitButton();
         leftPanel.add(ExitButton, GBC);
@@ -128,7 +128,7 @@ public class StartMenu extends JFrame{
                                         +"Trong Duc Truong,\n\n"
                                         + "Aslak Frafjord Skailand,\n\n"
                                         + "Thanukan Jegatheeswaran\n");
-        CreditText.setFont(new Font("", Font.BOLD,10));
+        CreditText.setFont(new Font("", Font.BOLD,9));
         CreditText.setForeground(Color.BLACK);
         GBCCreditText();
         rightPanel.add(CreditText,GBC);
@@ -138,19 +138,19 @@ public class StartMenu extends JFrame{
     public void PlayGame(StartMenuController c){
 
         GameModeButton = new JButton("Game Mode");
-        GameModeButton.setFont(new Font("", Font.BOLD, 15));
+        GameModeButton.setFont(new Font("", Font.BOLD, 20));
         GameModeButton.addActionListener(c);
         GBCGameModeButton();
         leftPanel.add(GameModeButton,GBC);
 
         SettingsButton = new JButton("Settings");
-        SettingsButton.setFont(new Font("", Font.BOLD, 15));
+        SettingsButton.setFont(new Font("", Font.BOLD, 20));
         SettingsButton.addActionListener(c);
         GBCSettingsButton();
         leftPanel.add(SettingsButton,GBC);
 
         Back2Button = new JButton("Back");
-        Back2Button.setFont(new Font("", Font.BOLD, 15));
+        Back2Button.setFont(new Font("", Font.BOLD, 20));
         Back2Button.addActionListener(c);
         GBCBack2Button();
         leftPanel.add(Back2Button,GBC);
@@ -167,19 +167,19 @@ public class StartMenu extends JFrame{
         rightPanel.add(TitleSelect,GBC);
 
         SoloButton = new JButton("Solo");
-        SoloButton.setFont(new Font("", Font.BOLD, 15));
+        SoloButton.setFont(new Font("", Font.BOLD, 20));
         SoloButton.addActionListener(c);
         GBCSoloButton();
         rightPanel.add(SoloButton, GBC);
 
         VersusButton = new JButton("Versus");
-        VersusButton.setFont(new Font("", Font.BOLD, 15));
+        VersusButton.setFont(new Font("", Font.BOLD, 20));
         VersusButton.addActionListener(c);
         GBCVersusButton();
         rightPanel.add(VersusButton, GBC);
 
         PlayButton = new JButton("Play");
-        PlayButton.setFont(new Font("", Font.BOLD, 15));
+        PlayButton.setFont(new Font("", Font.BOLD, 20));
         PlayButton.addActionListener(c);
         GBCPlayButton();
         rightPanel.add(PlayButton,GBC);
@@ -192,7 +192,7 @@ public class StartMenu extends JFrame{
 
         TitleHowToPlay = new JLabel("How To Play");
         TitleHowToPlay.setForeground(Color.BLACK);
-        TitleHowToPlay.setFont(new Font("", Font.BOLD, 22));
+        TitleHowToPlay.setFont(new Font("", Font.BOLD, 25));
         GBCTitleHowToPlay();
         rightPanel.add(TitleHowToPlay,GBC);
 
@@ -219,7 +219,7 @@ public class StartMenu extends JFrame{
 
 
         Back1Button = new JButton("Back");
-        Back1Button.setFont(new Font("", Font.BOLD,15));
+        Back1Button.setFont(new Font("", Font.BOLD,20));
         Back1Button.addActionListener(c);
         GBCBack1Button();
         leftPanel.add(Back1Button, GBC);
@@ -240,20 +240,20 @@ public class StartMenu extends JFrame{
         rightPanel.setBackground(Color.GREEN);
 
         SaveButton = new JButton("Save Game");
-        SaveButton.setFont(new Font("", Font.BOLD, 15));
+        SaveButton.setFont(new Font("", Font.BOLD, 20));
         SaveButton.addActionListener(c);
         GBCSaveButton();
         rightPanel.add(SaveButton,GBC);
 
         ResetButton = new JButton("Reset Game");
-        ResetButton.setFont(new Font("", Font.BOLD, 15));
+        ResetButton.setFont(new Font("", Font.BOLD, 20));
         ResetButton.addActionListener(c);
         GBCResetButton();
         rightPanel.add(ResetButton, GBC);
 
         TitleSettings = new JLabel("Settings");
         TitleSettings.setForeground(Color.BLACK);
-        TitleSettings.setFont(new Font("", Font.BOLD, 22));
+        TitleSettings.setFont(new Font("", Font.BOLD, 25));
         GBCTitleSettings();
         rightPanel.add(TitleSettings,GBC);
 
@@ -320,7 +320,7 @@ public class StartMenu extends JFrame{
         GBC.gridx = 0;
         GBC.gridy = 0;
         GBC.weightx = 0.4;
-        GBC.weighty = 1.0;
+        GBC.weighty = 1;
         GBC.fill = GridBagConstraints.BOTH;
     }
 
@@ -328,7 +328,7 @@ public class StartMenu extends JFrame{
         GBC.gridx = 1;
         GBC.gridy = 0;
         GBC.weightx = 0.6;
-        GBC.weighty = 1.0;
+        GBC.weighty = 1;
         GBC.fill = GridBagConstraints.BOTH;
     }
 
@@ -375,7 +375,7 @@ public class StartMenu extends JFrame{
         GBC.gridx = 0;
         GBC.gridy = 1;
         GBC.weightx = 0.6;
-        GBC.weighty = 1.0;
+        GBC.weighty = 0.75;
         GBC.fill = GridBagConstraints.VERTICAL;
     }
 
@@ -389,21 +389,21 @@ public class StartMenu extends JFrame{
     }
 
     void GBCCreditButton(){
-        GBC.insets = new Insets(100,350,5,5);
+        GBC.insets = new Insets(100,320,5,5);
         GBC.gridx = 0;
-        GBC.gridy = 2;
+        GBC.gridy = 3;
         GBC.weightx = 0.6;
-        GBC.weighty = 0.20;
+        GBC.weighty = 0.25;
         GBC.fill = GridBagConstraints.BOTH;
     }
 
     void GBCTitleHowToPlay(){
-        GBC.insets = new Insets(20,0,30,10);
+        GBC.insets = new Insets(20,140,30,10);
         GBC.gridx = 0;
         GBC.gridy = 0;
         GBC.weightx = 0.6;
         GBC.weightx = 0.25;
-        GBC.fill = GridBagConstraints.VERTICAL;
+        GBC.fill = GridBagConstraints.BOTH;
     }
 
     void GBCTextArea(){
@@ -433,7 +433,7 @@ public class StartMenu extends JFrame{
     }
 
     void GBCGameModeButton(){
-        GBC.insets = new Insets(20,5,5,5);
+        GBC.insets = new Insets(10,5,5,5);
         GBC.gridx = 0;
         GBC.gridy = 0;
         GBC.weightx = 0.4;
