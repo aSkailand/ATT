@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by TrongDT on 04/04/2017.
@@ -23,16 +25,20 @@ public class GamePieceSlot extends JPanel{
 
     // A JButton will behave as the slot piece for now
     private JButton piece;
-    private JButton empty;
 
+    private JButton empty;
     // Pre-load all pieces here
     private GamePiecePeasant peasantPiece;
-    private GamePieceKnight knightPiece;
 
+    private GamePieceKnight knightPiece;
     // If this slot is part of a winning row
     boolean win_part = false;
 
-    GamePieceSlot(){
+    GameBoardController gameBoardController;
+
+    GamePieceSlot(GameBoardController gameBoardController){
+
+        this.gameBoardController = gameBoardController;
 
         // JPanel Setup
         this.setLayout(new BorderLayout());
@@ -40,13 +46,18 @@ public class GamePieceSlot extends JPanel{
 
         // Preload Pieces
         peasantPiece = new GamePiecePeasant();
-        knightPiece = new GamePieceKnight();
+        peasantPiece.setActionCommand("Peasant");
+
+
+        knightPiece = new GamePieceKnight(this);
+
 
         //todo: preload color?
 
     }
 
     // Initializer Methods
+
     /**
      * Initializes the coordinates of this slot.
      * @param x: the x-coordinate.
@@ -55,8 +66,10 @@ public class GamePieceSlot extends JPanel{
     void setCoordinates(int x, int y){
         this.x = x;
         this.y = y;
-    }
 
+        knightPiece.x = x;
+        knightPiece.y = y;
+    }
     /**
      * Initialize an empty piece, making it ready for use when needed.
      */
@@ -74,6 +87,7 @@ public class GamePieceSlot extends JPanel{
     }
 
     // Piece Action Methods
+
     /**
      * Make the slot empty.
      */
@@ -81,12 +95,14 @@ public class GamePieceSlot extends JPanel{
         this.removeAll();
         this.add(empty);
     }
-
     /**
      * Attach the slot with the given piece.
      * @param pieceInfo: Info of given piece.
      */
     void setPiece(PieceInfo pieceInfo){
+
+        this.removeAll();
+        this.piece = null;
 
         if (pieceInfo.getOwner().equals(GameBoardModel.player.PLAYER_NONE)) {
             this.setEmpty();
@@ -97,7 +113,7 @@ public class GamePieceSlot extends JPanel{
         if(pieceInfo.getOwner() == GameBoardModel.player.PLAYER_1) ownerColor = Color.RED;
         else ownerColor = Color.BLUE;
 
-        switch (pieceInfo.getGamePieceType()){
+        switch (pieceInfo.getPieceType()){
             case Peasant:{
                 this.piece = this.peasantPiece;
                 this.piece.setBackground(ownerColor);
@@ -114,11 +130,16 @@ public class GamePieceSlot extends JPanel{
             }
         }
 
-        this.removeAll();
+
+
         this.add(piece);
         this.revalidate();
         this.repaint();
 
+    }
+
+    public JButton getPiece() {
+        return piece;
     }
 
     /**

@@ -19,7 +19,7 @@ public class GameBoardPanel extends JPanel {
     // JPanel list holding all the JPanels on the board in sorted fashion.
     private ArrayList<ArrayList<GamePieceSlot>> listJPanelGameBoardSlots = new ArrayList<>();
 
-    GameBoardPanel() {
+    GameBoardPanel(GameBoardController gameBoardController) {
 
         // JPanel Setup
         this.setLayout(new GridLayout(GameBoardModel.numRow, GameBoardModel.numCol));
@@ -28,7 +28,7 @@ public class GameBoardPanel extends JPanel {
         // Add JPanels to ArrayList
         ArrayList<GamePieceSlot> tempListPanels = new ArrayList<>();
         for (int i = 0; i < GameBoardModel.numCol * GameBoardModel.numRow; i++) {
-            tempListPanels.add(new GamePieceSlot());
+            tempListPanels.add(new GamePieceSlot(gameBoardController));
         }
 
 

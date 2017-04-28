@@ -9,10 +9,14 @@ class BoardSummonController {
     private GameBoardModel gameBoardModel;
     private GameBoardPanel gameBoardPanel;
 
+    GoldController goldController;
+
     BoardSummonController(GameBoardController gameBoardController) {
         this.gameBoardController = gameBoardController;
         gameBoardModel = gameBoardController.gameBoardModel;
         gameBoardPanel = gameBoardController.gameBoardPanel;
+
+        goldController = gameBoardController.gameBodyController.goldController;
     }
 
     /* SUMMON METHODS */
@@ -97,6 +101,21 @@ class BoardSummonController {
         // Add piece to slot
         gameBoardPanel.getSlot(chosenCol, GameBoardModel.numRow - 1).setPiece(currentPieceInfo);
 
+        // Cost
+        goldController.UpdateGoldValue(-getCost(currentPieceType), gameBoardModel.getCurrentPlayer());
+
+    }
+
+    int getCost(GamePieceTypes currentPieceType){
+
+        switch (currentPieceType){
+            case Peasant: return 1;
+            case Knight: return 3;
+            default:{
+                System.out.println("COST ERROR!");
+                return 0;
+            }
+        }
     }
 
 

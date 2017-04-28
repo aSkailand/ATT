@@ -10,9 +10,9 @@ public class GameBodyController{
     GameBodyFrame gameBodyFrame;
     GameBodyModel gameBodyModel;
 
-    GameBoardController gameBoardController;
     GameJMenuController gameJMenuController;
     GameTimerController gameTimerController;
+    GameBoardController gameBoardController;
 
     HitPointsModel hitPointsModel;
     HitPointsController hitPointsController;
@@ -25,11 +25,11 @@ public class GameBodyController{
         gameBodyFrame = new GameBodyFrame(this);
 
         // Instantiate classes
-        gameBoardController = new GameBoardController(this);
         gameTimerController = new GameTimerController(this);
         hitPointsController = new HitPointsController(this);
         goldController = new GoldController(this);
         gameJMenuController = new GameJMenuController(this);
+        gameBoardController = new GameBoardController(this);
 
         // Window listener
         gameBodyFrame.addWindowListener(

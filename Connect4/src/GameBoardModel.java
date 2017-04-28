@@ -14,10 +14,14 @@ public class GameBoardModel {
     static int winInRow = 4;    // Default: 4
 
     // GAME OPTIONS
+    // keeping track of current phase
+    boolean phase_1 = true;
+
     private int numMove = 0;
 
     // PIECE
-    GamePieceTypes currentSelectedPiece = GamePieceTypes.Peasant;
+//    GamePieceTypes currentSelectedPiece = GamePieceTypes.Peasant;
+    GamePieceTypes currentSelectedPiece = GamePieceTypes.Knight;
 
     // List that keeps track on which slots belong to whom
     private ArrayList<ArrayList<player>> listOccupancy = new ArrayList<>();
@@ -54,7 +58,7 @@ public class GameBoardModel {
 
     private player waitingPlayer;
     private boolean AI_player_1 = false;
-    private boolean AI_player_2 = true;
+    private boolean AI_player_2 = false;
     boolean getStatusAI(player player) {
         switch (player) {
             case PLAYER_1:
@@ -90,7 +94,6 @@ public class GameBoardModel {
 
     }
     // CONSTRUCTOR METHODS
-
 
     private void initializePlayers() {
         if (firstPlayer == player.PLAYER_1) {
@@ -147,7 +150,15 @@ public class GameBoardModel {
     void loadOccupancyListFromCombinedList() {
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
-                getListOccupancy().get(x).set(y, this.listCombined.get(x).get(y).getOwner());
+                getListOccupancy().get(x).set(y, getSlotCombined(x,y).getOwner());
+            }
+        }
+    }
+
+    void loadUnitListFromCombinedList() {
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                getListUnits().get(x).set(y, getSlotCombined(x,y).getPieceType());
             }
         }
     }
@@ -161,7 +172,7 @@ public class GameBoardModel {
                 if (this.getListOccupancy().get(j).get(i).equals(GameBoardModel.player.PLAYER_NONE))
                     System.out.print(" -- ");
                 else
-                    System.out.print(" " + this.listCombined.get(j).get(i).getCode() + " ");
+                    System.out.print(" " + getSlotCombined(j,i).getCode() + " ");
             }
             System.out.print("]\n");
         }

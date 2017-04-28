@@ -42,7 +42,22 @@ public class BoardWinController implements ActionListener {
 
         }
         // If there exist none
-        else gameBoardController.roundEnd();
+        else if(gameBoardController.gameBoardModel.phase_1){
+
+            gameBoardController.gameBoardModel.phase_1 = false;
+
+            System.out.println("PHASE 1 OVER");
+            gameBoardController.gameBoardModel.loadOccupancyListFromCombinedList();
+            for (int x = 0; x < GameBoardModel.numCol; x++) {
+                for (int y = 0; y < GameBoardModel.numRow; y++) {
+                    if(gameBoardController.gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardController.gameBoardModel.getWaitingPlayer()))
+                        gameBoardPanel.getSlot(x,y).getPiece().setEnabled(false);
+                    else if(gameBoardController.gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardController.gameBoardModel.getCurrentPlayer()))
+                        gameBoardPanel.getSlot(x,y).getPiece().setEnabled(true);
+                }
+            }
+//            gameBoardController.roundEnd();
+        }
 
     }
 
