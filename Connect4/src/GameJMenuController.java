@@ -125,6 +125,7 @@ public class GameJMenuController implements ActionListener {
                 hitpoints.HitpointsPercentage(20, GameBoardModel.player.PLAYER_2);
                 goldController.UpdateGoldValue(1, GameBoardModel.player.PLAYER_1);
                 goldController.UpdateGoldValue(1, GameBoardModel.player.PLAYER_2);
+                unitButtonController.disableButtons(GameBoardModel.player.PLAYER_1);
                 break;
             }
         }

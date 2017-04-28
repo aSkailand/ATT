@@ -46,7 +46,7 @@ public class HitPointsModel {
      * @param imageHeight: Sets the height of imageIcon.
      * @return the product imageIcon.
      */
-    ImageIcon loadImageIcon(File file, int imageWidth, int imageHeight){
+    ImageIcon loadImageIcon(File file, int imageWidth, int imageHeight) {
 
         BufferedImage bufferedImage;
         try {
@@ -59,8 +59,7 @@ public class HitPointsModel {
         if (bufferedImage == null) {
             System.out.println("Image is null!");
             return null;
-        }
-        else {
+        } else {
             Image image = bufferedImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_DEFAULT);
             return new ImageIcon(image);
         }

@@ -12,7 +12,18 @@ class UnitButtonView {
 
     private GridBagConstraints gbc = new GridBagConstraints();
 
-    JPanel CreateUnitButtonView(UnitButtonController unitButtonController, ArrayList<JButton> buttons,ArrayList<JLabel> labels,ImageIcon imageIcon, Color color, Color colorbutton) {
+    /**
+     * This method returns a JPanel with GridBagLayout and buttons and labels attached to it
+     *
+     * @param unitButtonController: controller
+     * @param buttons:              a array list of JButtons
+     * @param labels:               a array list of JLabels
+     * @param imageIcon:            test image icon // todo: remove this and add unique pictures for each button
+     * @param color:                color for the background
+     * @param colorbutton:          color for the buttons
+     * @return: returns a JPanel
+     */
+    JPanel CreateUnitButtonView(UnitButtonController unitButtonController, ArrayList<JButton> buttons, ArrayList<JLabel> labels, ImageIcon imageIcon, Color color, Color colorbutton) {
 
         JPanel unitButtonView = new JPanel();
 
@@ -36,16 +47,17 @@ class UnitButtonView {
             buttons.get(i).addActionListener(unitButtonController);
             buttons.get(i).setActionCommand("button" + i);
         }
-        for (int i = 0; i <8 ; i++) {
+        // Adds look for the JLabel text
+        for (int i = 0; i < 8; i++) {
             // Label setup
-            labels.get(i).setText(""+i);
+            labels.get(i).setText("" + i);
             labels.get(i).setHorizontalAlignment(SwingConstants.CENTER);
             labels.get(i).setVerticalAlignment(SwingConstants.TOP);
             labels.get(i).setForeground(Color.WHITE);
         }
 
         // This is the how the JPanel will look like
-        gbc.insets = new Insets(0,0,0,0);
+        gbc.insets = new Insets(0, 0, 0, 0);
 
         gbc.gridy = 0;
         gbc.gridx = 0;
@@ -113,7 +125,7 @@ class UnitButtonView {
         return unitButtonView;
     }
 
-    void gbc(){
+    void gbc() {
 
         gbc.gridx = 0;
         gbc.gridy = 0;

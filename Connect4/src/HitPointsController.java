@@ -19,8 +19,8 @@ public class HitPointsController {
         gameBodyFrame.leftPlayerHPPanel.add(hitPointsView.createAHeartJPanel(hitPointsModel.heartsLabelPlayer1, Color.red));
         gameBodyFrame.rightPlayerHPPanel.add(hitPointsView.createAHeartJPanel(hitPointsModel.heartsLabelPlayer2, Color.blue));
 
-        gameBodyFrame.leftPlayerHP.setText("HP:"+ hitPointsModel.getPlayer_1Hitpoints()+"/"+ hitPointsModel.getPlayersHitpoints());
-        gameBodyFrame.rightPlayerHP.setText("HP:"+ hitPointsModel.getPlayer_2Hitpoints()+"/"+ hitPointsModel.getPlayersHitpoints());
+        gameBodyFrame.leftPlayerHP.setText("HP:" + hitPointsModel.getPlayer_1Hitpoints() + "/" + hitPointsModel.getPlayersHitpoints());
+        gameBodyFrame.rightPlayerHP.setText("HP:" + hitPointsModel.getPlayer_2Hitpoints() + "/" + hitPointsModel.getPlayersHitpoints());
 
     }
 

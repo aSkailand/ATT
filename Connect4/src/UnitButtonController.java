@@ -10,15 +10,19 @@ public class UnitButtonController implements ActionListener {
     GameBodyFrame gameBodyFrame;
     UnitButtonView unitButtonView;
     UnitButtonModel unitButtonModel;
+    GoldModel goldModel;
 
     public UnitButtonController(GameBodyController gameBodyController) {
 
         // Declare MVC
+        goldModel = gameBodyController.goldController.goldModel;
+
         gameBodyFrame = gameBodyController.gameBodyFrame;
         unitButtonModel = new UnitButtonModel();
         unitButtonView = new UnitButtonView();
 
-        // Adds buttons to the left player unitpanel
+
+        // Adds buttons to the left player unit panel
         gameBodyFrame.leftPlayerUnitPanel.add(unitButtonView.CreateUnitButtonView(
                 this,
                 unitButtonModel.unitButtonsPlayer1,
@@ -27,7 +31,7 @@ public class UnitButtonController implements ActionListener {
                 Color.red,
                 Color.ORANGE));
 
-        // adds buttons to the right player unitpanel
+        // adds buttons to the right player unit panel
         gameBodyFrame.rightPlayerUnitPanel.add(unitButtonView.CreateUnitButtonView(
                 this,
                 unitButtonModel.unitButtonsPlayer2,
@@ -37,29 +41,170 @@ public class UnitButtonController implements ActionListener {
 
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
+
     }
 
-    // This alternates the unit buttons for each player, diables the buttons of the opposing player when its the current players turn.
+
+    /**
+     * This alternates the unit buttons for each player, disables the buttons of the opposing player when its the current players turn.
+     *
+     * @param currentPlayer
+     */
     public void disableButtons(GameBoardModel.player currentPlayer) {
 
         if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
             for (int i = 0; i < 6; i++) {
                 unitButtonModel.unitButtonsPlayer1.get(i).setEnabled(true);
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(false);
+                checkUnitsAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
+                checkMagicAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
             }
-        }
-        if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
+        } else if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
             for (int i = 0; i < 6; i++) {
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(true);
                 unitButtonModel.unitButtonsPlayer1.get(i).setEnabled(false);
+                checkUnitsAffordability(GameBoardModel.player.PLAYER_2, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
+                checkMagicAffordability(GameBoardModel.player.PLAYER_2, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
+
             }
         }
     }
 
-    public void checkAffordability(GameBoardModel.player currentPlayer) {
+    /**
+     * This method checks if the current player can afford the different units
+     *
+     * @param currentPlayer: player turn
+     * @param player_1Gold:  player 1 gold
+     * @param player_2Gold:  player 2 gold
+     */
+    public void checkUnitsAffordability(GameBoardModel.player currentPlayer, int player_1Gold, int player_2Gold) {
 
+        int p1Gold = player_1Gold;
+        int p2Gold = player_2Gold;
+
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
+            if (p1Gold >= unitButtonModel.getUnit3Cost()) {
+                unitButtonModel.unitButtonsPlayer1.get(0).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(2).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(4).setEnabled(true);
+            }
+            if (p1Gold < unitButtonModel.getUnit3Cost()) {
+
+                unitButtonModel.unitButtonsPlayer1.get(0).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(2).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(4).setEnabled(false);
+
+            }
+            if (p1Gold < unitButtonModel.getUnit2Cost()) {
+                unitButtonModel.unitButtonsPlayer1.get(0).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(2).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(4).setEnabled(false);
+
+            }
+            if (p1Gold < unitButtonModel.getUnit1Cost()) {
+                unitButtonModel.unitButtonsPlayer1.get(0).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(2).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(4).setEnabled(false);
+
+            }
+        }
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
+            if (p2Gold >= unitButtonModel.getUnit3Cost()) {
+                unitButtonModel.unitButtonsPlayer2.get(0).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(2).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(4).setEnabled(true);
+            }
+            if (p2Gold < unitButtonModel.getUnit3Cost()) {
+
+                unitButtonModel.unitButtonsPlayer2.get(0).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(2).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(4).setEnabled(false);
+
+            }
+            if (p2Gold < unitButtonModel.getUnit2Cost()) {
+                unitButtonModel.unitButtonsPlayer2.get(0).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(2).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(4).setEnabled(false);
+
+            }
+            if (p2Gold < unitButtonModel.getUnit1Cost()) {
+                unitButtonModel.unitButtonsPlayer2.get(0).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(2).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(4).setEnabled(false);
+
+            }
+        }
+        gameBodyFrame.revalidate();
+        gameBodyFrame.repaint();
     }
 
+    /**
+     * This metod checks if the current player can afford the different magic spells
+     *
+     * @param currentPlayer: player turn
+     * @param player_1Gold:  player 1 gold
+     * @param player_2Gold:  player 2 gold
+     */
+    public void checkMagicAffordability(GameBoardModel.player currentPlayer, int player_1Gold, int player_2Gold) {
+
+        int p1Gold = player_1Gold;
+        int p2Gold = player_2Gold;
+
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
+            if (p1Gold >= unitButtonModel.getMagic3Cost()) {
+                unitButtonModel.unitButtonsPlayer1.get(1).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(3).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(5).setEnabled(true);
+            }
+            if (p1Gold < unitButtonModel.getMagic3Cost()) {
+
+                unitButtonModel.unitButtonsPlayer1.get(1).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(3).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(5).setEnabled(false);
+
+            }
+            if (p1Gold < unitButtonModel.getMagic2Cost()) {
+                unitButtonModel.unitButtonsPlayer1.get(1).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(3).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(5).setEnabled(false);
+
+            }
+            if (p1Gold < unitButtonModel.getMagic1Cost()) {
+                unitButtonModel.unitButtonsPlayer1.get(1).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(3).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(5).setEnabled(false);
+
+            }
+        }
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
+            if (p2Gold >= unitButtonModel.getMagic3Cost()) {
+                unitButtonModel.unitButtonsPlayer2.get(1).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(3).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(5).setEnabled(true);
+            }
+            if (p2Gold < unitButtonModel.getMagic3Cost()) {
+
+                unitButtonModel.unitButtonsPlayer2.get(1).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(3).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(5).setEnabled(false);
+
+            }
+            if (p2Gold < unitButtonModel.getMagic2Cost()) {
+                unitButtonModel.unitButtonsPlayer2.get(1).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(3).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(5).setEnabled(false);
+
+            }
+            if (p2Gold < unitButtonModel.getMagic1Cost()) {
+                unitButtonModel.unitButtonsPlayer2.get(1).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(3).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(5).setEnabled(false);
+
+            }
+        }
+    }
+
+    // Action listener
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
