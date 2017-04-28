@@ -95,6 +95,9 @@ class BoardSummonController {
         // Reference copy
         PieceInfo currentPieceInfo = gameBoardModel.getSlotCombined(chosenCol,GameBoardModel.numRow-1);
 
+        // Update Chosen Column
+        gameBoardModel.currentPlayedColumn = chosenCol;
+
         // Tick list
         currentPieceInfo.setInfo(player, currentPieceType);
 

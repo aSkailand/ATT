@@ -15,11 +15,12 @@ public class GamePieceKnight extends GamePiece implements ActionListener {
 
     GamePieceKnight(GamePieceSlot gamePieceSlot) {
 
+        // Declare MVC
         this.gameBoardController = gamePieceSlot.gameBoardController;
 
+        // JButton Setup
         this.setText("Knight");
         this.setEnabled(true);
-        this.setActionCommand("Knight");
         this.addActionListener(this);
     }
 
@@ -31,10 +32,10 @@ public class GamePieceKnight extends GamePiece implements ActionListener {
         System.out.println("I'm a knight!");
 
         if (0 <= x - 1)
-            if(!gameBoardController.gameBoardModel.getSlotOccupancy(x-1,y).equals(GameBoardModel.player.PLAYER_NONE))
+            if (!gameBoardController.gameBoardModel.getSlotOccupancy(x - 1, y).equals(GameBoardModel.player.PLAYER_NONE))
                 gameBoardController.gameBoardPanel.getSlot(x - 1, y).setPieceColor(Color.GREEN);
         if (x + 1 <= GameBoardModel.numCol - 1)
-            if(!gameBoardController.gameBoardModel.getSlotOccupancy(x+1,y).equals(GameBoardModel.player.PLAYER_NONE))
+            if (!gameBoardController.gameBoardModel.getSlotOccupancy(x + 1, y).equals(GameBoardModel.player.PLAYER_NONE))
                 gameBoardController.gameBoardPanel.getSlot(x + 1, y).setPieceColor(Color.GREEN);
 
         // Activate Knight Animations
@@ -51,10 +52,10 @@ public class GamePieceKnight extends GamePiece implements ActionListener {
                 System.out.println("First");
 
                 if (0 <= x - 1)
-                    if(!gameBoardController.gameBoardModel.getSlotOccupancy(x-1,y).equals(GameBoardModel.player.PLAYER_NONE))
+                    if (!gameBoardController.gameBoardModel.getSlotOccupancy(x - 1, y).equals(GameBoardModel.player.PLAYER_NONE))
                         gameBoardController.gameBoardModel.getSlotCombined(x - 1, y).clearInfo();
                 if (x + 1 <= GameBoardModel.numCol - 1)
-                    if(!gameBoardController.gameBoardModel.getSlotOccupancy(x-1,y).equals(GameBoardModel.player.PLAYER_NONE))
+                    if (!gameBoardController.gameBoardModel.getSlotOccupancy(x + 1, y).equals(GameBoardModel.player.PLAYER_NONE))
                         gameBoardController.gameBoardModel.getSlotCombined(x + 1, y).clearInfo();
 
                 gameBoardController.gameBoardModel.loadOccupancyListFromCombinedList();

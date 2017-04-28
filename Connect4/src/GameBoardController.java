@@ -120,6 +120,8 @@ public class GameBoardController implements ActionListener {
             }
         }
 
+        gameBoardModel.phase_1 = true;
+
         // Swap player
         alternatePlayers();
 

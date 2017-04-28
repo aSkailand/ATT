@@ -17,6 +17,8 @@ public class GameBoardModel {
     // keeping track of current phase
     boolean phase_1 = true;
 
+    int currentPlayedColumn = 0;
+
     private int numMove = 0;
 
     // PIECE
