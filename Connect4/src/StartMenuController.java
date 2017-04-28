@@ -18,8 +18,6 @@ public class StartMenuController implements ActionListener{
 
     }
 
-
-    @Override
     public void actionPerformed(ActionEvent e) {
 
         switch(e.getActionCommand()){
@@ -65,10 +63,16 @@ public class StartMenuController implements ActionListener{
 
             }
 
+            case "Back": {
 
-            case "Start Game": {
+                View.leftPanel.removeAll();
+                View.rightPanel.removeAll();
+                View.BackToMenu(this);
+                View.MainPanel.validate();
+                View.MainPanel.repaint();
 
-                System.out.println("Trakk på start game");
+                System.out.println("Trakk på Back");
+
                 break;
 
             }
@@ -97,35 +101,6 @@ public class StartMenuController implements ActionListener{
 
             }
 
-            case "Back": {
-
-                View.leftPanel.removeAll();
-                View.rightPanel.removeAll();
-                View.BackToMenu(this);
-                View.MainPanel.validate();
-                View.MainPanel.repaint();
-
-
-
-                System.out.println("Trakk på Back");
-
-                break;
-
-            }
-
-
-            case "Save Game": {
-                System.out.println("Trakk på save");
-                break;
-
-            }
-
-            case "Reset Game": {
-                System.out.println("Trakk på reset");
-                break;
-            }
-
-
             case "Solo": {
 
                 System.out.println("Trakk på Solo");
@@ -138,16 +113,21 @@ public class StartMenuController implements ActionListener{
                 break;
             }
 
-            case "Back to Menu":{
+            case "Play": {
 
-                View.leftPanel.removeAll();
-                View.rightPanel.removeAll();
-                View.BackToMenu(this);
-                View.MainPanel.validate();
-                View.MainPanel.repaint();
+                System.out.println("Trakk på Play");
+                break;
+            }
 
-                System.out.println("Trakk på back to menu");
 
+            case "Save Game": {
+                System.out.println("Trakk på save");
+                break;
+
+            }
+
+            case "Reset Game": {
+                System.out.println("Trakk på reset");
                 break;
             }
 
