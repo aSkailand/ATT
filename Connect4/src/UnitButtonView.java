@@ -10,66 +10,54 @@ import java.util.ArrayList;
 
 class UnitButtonView {
 
-    JPanel UnitButtonView(UnitButtonController unitButtonController, Boolean buttonEnabled,Color color) {
+    private GridBagConstraints gbc = new GridBagConstraints();
 
+    JPanel CreateUnitButtonView(UnitButtonController unitButtonController, ArrayList<JButton> buttons,ArrayList<JLabel> labels,ImageIcon imageIcon, Color color, Color colorbutton) {
 
         JPanel unitButtonView = new JPanel();
-        ArrayList<JButton> buttons = new ArrayList<>();
-        ArrayList<JLabel> labels = new ArrayList<>();
 
         // JPanel setup
-        unitButtonView.setSize(200, 500);
         unitButtonView.setLayout(new GridBagLayout());
         unitButtonView.setBackground(color);
 
         //GBC
-        GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc();
 
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-
-        gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-
-        // Adds 6 buttons to a arraylist
+        // Adds look and action commands to the buttons
         for (int i = 0; i < 6; i++) {
-            JButton tempButton = new JButton();
-            tempButton.setEnabled(buttonEnabled);
-            tempButton.addActionListener(unitButtonController);
-            tempButton.setText("" + i);
-            tempButton.setActionCommand("button" + i);
-            buttons.add(tempButton);
+            // Button setup
+            buttons.get(i).setVerticalAlignment(SwingConstants.BOTTOM);
+            buttons.get(i).setContentAreaFilled(false);
+            buttons.get(i).setBorderPainted(false);
+            buttons.get(i).setFocusPainted(true);
+            buttons.get(i).setIcon(imageIcon);
+            buttons.get(i).setBackground(colorbutton);
+            buttons.get(i).addActionListener(unitButtonController);
+            buttons.get(i).setActionCommand("button" + i);
         }
-        // Adds 6 labes to a arraylist
-        for (int i = 0; i < 8; i++) {
-
-            JLabel tempLabel = new JLabel("test" + i);
-            tempLabel.setForeground(Color.white);
-
-            tempLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            tempLabel.setBackground(new Color(0,0,0,0));
-            tempLabel.setVerticalAlignment(SwingConstants.TOP);
-            labels.add(tempLabel);
+        for (int i = 0; i <8 ; i++) {
+            // Label setup
+            labels.get(i).setText(""+i);
+            labels.get(i).setHorizontalAlignment(SwingConstants.CENTER);
+            labels.get(i).setVerticalAlignment(SwingConstants.TOP);
+            labels.get(i).setForeground(Color.WHITE);
         }
 
         // This is the how the JPanel will look like
-
-        gbc.insets = new Insets(10, 10, 0, 10);
+        gbc.insets = new Insets(0,0,0,0);
 
         gbc.gridy = 0;
         gbc.gridx = 0;
 
         gbc.weighty = 0.0625;
+
+        // Top labels
+        labels.get(0).setVerticalAlignment(SwingConstants.BOTTOM);
+        labels.get(1).setVerticalAlignment(SwingConstants.BOTTOM);
+        labels.get(0).setText("Units");
+        labels.get(1).setText("Magic");
+
         unitButtonView.add(labels.get(0), gbc);
         gbc.gridx = 2;
         unitButtonView.add(labels.get(1), gbc);
@@ -78,6 +66,7 @@ class UnitButtonView {
         gbc.gridx = 0;
 
         gbc.weighty = 0.25;
+
         unitButtonView.add(buttons.get(0), gbc);
         gbc.gridx = 2;
         unitButtonView.add(buttons.get(1), gbc);
@@ -122,5 +111,24 @@ class UnitButtonView {
         unitButtonView.add(labels.get(7), gbc);
 
         return unitButtonView;
+    }
+
+    void gbc(){
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.ipadx = 0;
+        gbc.ipady = 0;
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.PAGE_END;
     }
 }
