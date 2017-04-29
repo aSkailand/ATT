@@ -31,9 +31,9 @@ public class GameBodyController {
         gameTimerController = new GameTimerController(this);
         hitPointsController = new HitPointsController(this);
         goldController = new GoldController(this);
+        gameBoardController = new GameBoardController(this);
         unitButtonController = new UnitButtonController(this);
         gameJMenuController = new GameJMenuController(this);
-        gameBoardController = new GameBoardController(this);
 
       
 
