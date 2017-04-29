@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class BoardWinController implements ActionListener {
 
     private GameBoardController gameBoardController;
+    private GameBoardModel gameBoardModel;
     private GameBoardPanel gameBoardPanel;
 
     private Timer timerBlink;
@@ -18,6 +19,7 @@ public class BoardWinController implements ActionListener {
 
     BoardWinController(GameBoardController gameBoardController) {
         this.gameBoardController = gameBoardController;
+        gameBoardModel = gameBoardController.gameBoardModel;
         gameBoardPanel = gameBoardController.gameBoardPanel;
 
         timerBlink = new Timer(50, this);
@@ -41,8 +43,31 @@ public class BoardWinController implements ActionListener {
             timerBlink.start();
 
         }
-        // If there exist none
-        else gameBoardController.roundEnd();
+        // If there exist none, and it was still phase 1
+        else if(gameBoardModel.phase_1){
+
+            gameBoardModel.phase_1 = false;
+
+            // Open all pieces for use.
+            System.out.println("PHASE 1 OVER");
+            gameBoardModel.loadOccupancyListFromCombinedList();
+            for (int x = 0; x < GameBoardModel.numCol; x++) {
+                for (int y = 0; y < GameBoardModel.numRow; y++) {
+                    if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getWaitingPlayer()))
+                        gameBoardPanel.getSlot(x,y).getPiece().setEnabled(false);
+                    else if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getCurrentPlayer()))
+                        gameBoardPanel.getSlot(x,y).getPiece().setEnabled(true);
+                }
+            }
+
+            // Run Summoning Sickness
+            int indexOfLowestNone = gameBoardModel.getListOccupancy().get(gameBoardModel.currentPlayedColumn).indexOf(GameBoardModel.player.PLAYER_NONE);
+            if(0 < indexOfLowestNone){
+                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, indexOfLowestNone - 1).getPiece().setEnabled(false);
+            }
+
+//            gameBoardController.roundEnd();
+        }
 
     }
 

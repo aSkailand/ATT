@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -39,14 +41,20 @@ public class GameBoardController implements ActionListener {
     BoardGravityController boardGravityController;
     BoardWinController boardWinController;
 
+    HitPointsController hitPointsController;
+
+
     GameBoardController(GameBodyController gameBodyController) {
+
+        hitPointsController = gameBodyController.hitPointsController;
+
         // Declare upper MVC
         this.gameBodyController = gameBodyController;
         gameBodyFrame = gameBodyController.gameBodyFrame;
 
         // Declare current MVC
         gameBoardModel = new GameBoardModel();
-        gameBoardPanel = new GameBoardPanel();
+        gameBoardPanel = new GameBoardPanel(this);
 
         // todo: send this gameBodyController
         gameOptionPanel = new GameOptionPanel(this);
@@ -58,6 +66,7 @@ public class GameBoardController implements ActionListener {
         boardSummonController = new BoardSummonController(this);
         boardWinController = new BoardWinController(this);
         boardGravityController = new BoardGravityController(this);
+
 
         gameBoardModel.printCombinedList();
 
@@ -101,6 +110,17 @@ public class GameBoardController implements ActionListener {
     }
 
     void roundEnd() {
+        
+        // Disable all pieces
+        gameBoardModel.loadOccupancyListFromCombinedList();
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if(!gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_NONE))
+                    gameBoardPanel.getSlot(x,y).getPiece().setEnabled(false);
+            }
+        }
+
+        gameBoardModel.phase_1 = true;
 
 
         // Swap player
@@ -110,16 +130,16 @@ public class GameBoardController implements ActionListener {
         // Add a move
         gameBoardModel.addMove();
 
+        // Print OccupancyList
+        gameBoardModel.printCombinedList();
+        gameBoardModel.printOccupancyList();
+        gameBoardModel.printUnitList();
+
         // Change option buttons' color to current player
         colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
         // Check if any columns are full
         disableFullColumns();
-
-        // Print OccupancyList
-//        gameBoardModel.printOccupancyList();
-        gameBoardModel.printCombinedList();
-        gameBoardModel.printUnitList();
 
         // Wake up the AI if it's her turn
         wakeupAI();
@@ -549,8 +569,11 @@ public class GameBoardController implements ActionListener {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
                     gameBoardPanel.getSlot(x, y).setEmpty();
-//                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_1)) HP_player_2--;
-//                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_2)) HP_player_1--;
+
+                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_1))
+                        hitPointsController.HitpointsPercentage(-5, GameBoardModel.player.PLAYER_2);
+                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_2))
+                        hitPointsController.HitpointsPercentage(-5, GameBoardModel.player.PLAYER_1);
 
                     gameBoardModel.getListOccupancy().get(x).set(y, GameBoardModel.player.PLAYER_NONE);
                 }
@@ -572,8 +595,6 @@ public class GameBoardController implements ActionListener {
             }
         }
     }
-
-    // GETTERS
 
 
 }

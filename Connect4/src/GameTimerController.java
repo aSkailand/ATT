@@ -30,6 +30,12 @@ public class GameTimerController implements ActionListener {
         timer.setBorderPainted(false);
         timer.setBackground(Color.LIGHT_GRAY);
         timer.setFont(new Font("Consolas", Font.BOLD, 40));
+
+        //todo: DELETE? Temporary Function by Trong:
+        timer.addActionListener(
+                e -> gameBodyController.gameBoardController.roundEnd());
+
+
         gameBodyFrame.timerPanel.add(timer);
 
     }
@@ -54,8 +60,8 @@ public class GameTimerController implements ActionListener {
             System.out.println("Time is up");
             currentTime = 29;
         }
-        if (currentTime < 10 ) {
-            timer.setText("0"+currentTime);
+        if (currentTime < 10) {
+            timer.setText("0" + currentTime);
         }
 
     }

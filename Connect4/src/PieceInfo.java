@@ -3,13 +3,7 @@
  */
 
 class PieceInfo {
-    public GameBoardModel.player getOwner() {
-        return owner;
-    }
 
-    public GamePieceTypes getGamePieceType() {
-        return gamePieceType;
-    }
 
     private GameBoardModel.player owner;
     private GamePieceTypes gamePieceType;
@@ -24,9 +18,13 @@ class PieceInfo {
         this.gamePieceType = unit;
     }
 
+    boolean checkIf(GameBoardModel.player player, GamePieceTypes unit){
+        return owner.equals(player) && gamePieceType.equals(unit);
+    }
+
     void copyInfo(PieceInfo sourcePiece) {
         this.owner = sourcePiece.getOwner();
-        this.gamePieceType = sourcePiece.getGamePieceType();
+        this.gamePieceType = sourcePiece.getPieceType();
     }
 
     void setInfo(GameBoardModel.player player, GamePieceTypes unit) {
@@ -41,6 +39,14 @@ class PieceInfo {
 
     String getCode() {
         return "" + owner.getNumVal() + gamePieceType.getaChar();
+    }
+
+    public GameBoardModel.player getOwner() {
+        return owner;
+    }
+
+    public GamePieceTypes getPieceType() {
+        return gamePieceType;
     }
 }
 
