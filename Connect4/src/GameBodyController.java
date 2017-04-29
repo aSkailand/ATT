@@ -7,7 +7,7 @@ import java.awt.event.WindowEvent;
 /**
  * Created by aslak on 03.04.17.
  */
-public class GameBodyController implements MouseListener {
+public class GameBodyController {
 
     GameBodyFrame gameBodyFrame;
     GameBodyModel gameBodyModel;
@@ -35,7 +35,7 @@ public class GameBodyController implements MouseListener {
         unitButtonController = new UnitButtonController(this);
         gameJMenuController = new GameJMenuController(this);
 
-        gameBodyFrame.addMouseListener(this);
+      
 
 
         // Window listener
@@ -70,34 +70,5 @@ public class GameBodyController implements MouseListener {
                         }
                     }
                 });
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("mouse clicked: " + e.getX() + "," + e.getY());
-        if (e.getX() >= 245 && e.getX() <= 340 ){
-            System.out.println("slot1");
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        System.out.println("mouse pressed at: " + e.getX() + "," + e.getY());
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        System.out.println("mouse released at: " + e.getX() + "," + e.getY());
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        //System.out.println("mouse entered at: ( x = " + e.getX() + ", y = " + e.getY() + " 5)");
-        //System.out.println();
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }
