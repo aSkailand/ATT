@@ -29,6 +29,7 @@ public class UnitButtonController implements ActionListener {
         gameBoardModel = gameBodyController.gameBoardController.gameBoardModel;
 
 
+
         // Adds buttons to the left player unit panel
         gameBodyFrame.leftPlayerUnitPanel.add(unitButtonView.CreateUnitButtonView(
                 this,
@@ -70,8 +71,13 @@ public class UnitButtonController implements ActionListener {
                 unitButtonModel.unitButtonsPlayer1.get(i).setEnabled(true);
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(false);
 
+
+
                 checkUnitsAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
                 checkMagicAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
+
+                gameBodyFrame.labelNotifications.setText(setPlayerTurnNotificationText(currentPlayer));
+                gameBodyFrame.centerStatusPanel.setBackground(Color.RED);
 
             }
             for (int i = 0; i < 6; i++) {
@@ -88,8 +94,12 @@ public class UnitButtonController implements ActionListener {
 
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(true);
                 unitButtonModel.unitButtonsPlayer1.get(i).setEnabled(false);
+
                 checkUnitsAffordability(GameBoardModel.player.PLAYER_2, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
                 checkMagicAffordability(GameBoardModel.player.PLAYER_2, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
+
+                gameBodyFrame.labelNotifications.setText(setPlayerTurnNotificationText(currentPlayer));
+                gameBodyFrame.centerStatusPanel.setBackground(Color.BLUE);
 
             }
             for (int i = 0; i < 6; i++) {
@@ -236,7 +246,6 @@ public class UnitButtonController implements ActionListener {
 
     }
 
-
     void selectedButton(int buttonPressed, GameBoardModel.player currentPlayer) {
         if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
             for (int i = 0; i < 6; i++) {
@@ -250,6 +259,19 @@ public class UnitButtonController implements ActionListener {
             }
             unitButtonModel.unitButtonsPlayer2.get(buttonPressed).setContentAreaFilled(true);
         }
+    }
+
+
+    public String setPlayerTurnNotificationText(GameBoardModel.player currentPlayer ) {
+        String currentPlayerText = "";
+
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
+            currentPlayerText = "Player 1 turn!";
+        }
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
+            currentPlayerText = "Player 2 turn!";
+        }
+        return currentPlayerText;
     }
 
 

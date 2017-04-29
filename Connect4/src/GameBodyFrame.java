@@ -81,6 +81,7 @@ public class GameBodyFrame extends JFrame {
         // Center status panel
         centerStatusPanel.setLayout(new GridBagLayout());
         centerStatusPanel.setBackground(Color.LIGHT_GRAY);
+        labelNotifications.setForeground(Color.WHITE);
         centerStatusPanel.add(labelNotifications);
         gbcCenterStatusPanel();
         mainPanel.add(centerStatusPanel, gbc);
