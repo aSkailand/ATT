@@ -60,7 +60,7 @@ public class UnitButtonController implements ActionListener {
      */
     public void disableButtons(GameBoardModel.player currentPlayer) {
 
-        if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
             for (int i = 0; i < 6; i++) {
 
                 gameBodyFrame.gameBodyModel.playerTwoAvatarButton.setEnabled(false);
@@ -85,7 +85,7 @@ public class UnitButtonController implements ActionListener {
 
             }
 
-        } else if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
+        } else if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
             for (int i = 0; i < 6; i++) {
 
 
@@ -281,7 +281,7 @@ public class UnitButtonController implements ActionListener {
         switch (e.getActionCommand()) {
             case "button0": {
                 selectedButton(0, gameBoardModel.getCurrentPlayer());
-
+                gameBoardModel.currentSelectedPiece = GamePieceTypes.Peasant;
 
                 System.out.println("button0");
                 break;
@@ -290,12 +290,14 @@ public class UnitButtonController implements ActionListener {
 
                 selectedButton(1, gameBoardModel.getCurrentPlayer());
 
+
                 System.out.println("button1");
                 break;
             }
             case "button2": {
                 selectedButton(2, gameBoardModel.getCurrentPlayer());
                 System.out.println("button2");
+                gameBoardModel.currentSelectedPiece = GamePieceTypes.Knight;
                 break;
             }
             case "button3": {

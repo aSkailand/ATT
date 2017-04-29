@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -31,9 +29,14 @@ public class GameBodyController {
         gameTimerController = new GameTimerController(this);
         hitPointsController = new HitPointsController(this);
         goldController = new GoldController(this);
+
         gameBoardController = new GameBoardController(this);
+
         unitButtonController = new UnitButtonController(this);
         gameJMenuController = new GameJMenuController(this);
+
+        // This is preparing the game
+        gameBoardController.roundInitialRun();
 
       
 

@@ -113,7 +113,7 @@ class BoardSummonController {
 
         switch (currentPieceType){
             case Peasant: return 1;
-            case Knight: return 3;
+            case Knight: return 1;
             default:{
                 System.out.println("COST ERROR!");
                 return 0;

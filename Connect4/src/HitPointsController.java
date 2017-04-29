@@ -151,6 +151,9 @@ public class HitPointsController {
                 }
             }
         }
+
+        gameBodyFrame.revalidate();
+        gameBodyFrame.repaint();
     }
 
 }

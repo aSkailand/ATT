@@ -73,8 +73,9 @@ public class GameBoardController implements ActionListener {
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
 
-        // AI will wake up if it is her turn
-        wakeupAI();
+
+
+
     }
 
     @Override
@@ -99,7 +100,18 @@ public class GameBoardController implements ActionListener {
 
     /* ROUND CONTROL METHODS */
 
+    // Run ONCE
+    void roundInitialRun(){
+
+        gameBodyController.unitButtonController.disableButtons(gameBoardModel.getWaitingPlayer());
+
+        // AI will wake up if it is her turn
+        wakeupAI();
+    }
+
     void roundIntro() {
+
+
         // Turn Info
         System.out.println("\nMOVE: " + gameBoardModel.getNumMove());
         System.out.println("**********");
@@ -110,7 +122,10 @@ public class GameBoardController implements ActionListener {
     }
 
     void roundEnd() {
-        
+
+        // Close Unit Buttons
+        gameBodyController.unitButtonController.disableButtons(gameBoardModel.getCurrentPlayer());
+
         // Disable all pieces
         gameBoardModel.loadOccupancyListFromCombinedList();
         for (int x = 0; x < GameBoardModel.numCol; x++) {
@@ -140,6 +155,9 @@ public class GameBoardController implements ActionListener {
 
         // Check if any columns are full
         disableFullColumns();
+
+        // Get gold
+        gameBodyController.goldController.UpdateGoldValue(1, gameBoardModel.getCurrentPlayer());
 
         // Wake up the AI if it's her turn
         wakeupAI();
