@@ -43,7 +43,7 @@ public class BoardWinController implements ActionListener {
             timerBlink.start();
 
         }
-        // If there exist none
+        // If there exist none, and it was still phase 1
         else if(gameBoardModel.phase_1){
 
             gameBoardModel.phase_1 = false;
