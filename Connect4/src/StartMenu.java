@@ -45,6 +45,8 @@ public class StartMenu extends JFrame{
     JButton VersusButton;
     JButton PlayButton;
 
+    Font JButtonFontSize = new Font("", Font.BOLD, 20);
+
     GridBagConstraints GBC = new GridBagConstraints();
     
 
@@ -74,32 +76,32 @@ public class StartMenu extends JFrame{
         MainPanel.add(rightPanel, GBC);
 
         PlayGameButton = new JButton("Play Game");
-        PlayGameButton.setFont(new Font("", Font.BOLD, 20));
+        PlayGameButton.setFont(JButtonFontSize);
         PlayGameButton.addActionListener(c);
         GBCPlayGameButton();
         leftPanel.add(PlayGameButton, GBC);
 
         HowToPlayButton = new JButton("How To Play");
-        HowToPlayButton.setFont(new Font("",Font.BOLD,20));
+        HowToPlayButton.setFont(JButtonFontSize);
         HowToPlayButton.addActionListener(c);
         GBCHowToPlayButton();
         leftPanel.add(HowToPlayButton,GBC);
 
         ExitButton = new JButton("Exit Game");
-        ExitButton.setFont(new Font("", Font.BOLD,20));
+        ExitButton.setFont(JButtonFontSize);
         ExitButton.addActionListener(c);
         GBCExitButton();
         leftPanel.add(ExitButton, GBC);
 
         CreditButton = new JButton("Credits");
-        CreditButton.setFont(new Font("", Font.BOLD, 15));
+        CreditButton.setFont(JButtonFontSize);
         CreditButton.addActionListener(c);
         GBCCreditButton();
         rightPanel.add(CreditButton, GBC);
 
         TitleWelcome = new JLabel("WELCOME TO CONNECT4!");
         TitleWelcome.setForeground(Color.BLACK);
-        TitleWelcome.setFont(new Font("", Font.BOLD, 22));
+        TitleWelcome.setFont(new Font("", Font.BOLD, 25));
         GBCTitleWelcome();
         rightPanel.add(TitleWelcome,GBC);
 
@@ -120,7 +122,7 @@ public class StartMenu extends JFrame{
 
         TitleWelcome = new JLabel("WELCOME TO CONNECT4!");
         TitleWelcome.setForeground(Color.BLACK);
-        TitleWelcome.setFont(new Font("", Font.BOLD, 22));
+        TitleWelcome.setFont(new Font("", Font.BOLD, 25));
         GBCTitleWelcome();
         rightPanel.add(TitleWelcome,GBC);
 
@@ -138,19 +140,19 @@ public class StartMenu extends JFrame{
     public void PlayGame(StartMenuController c){
 
         GameModeButton = new JButton("Game Mode");
-        GameModeButton.setFont(new Font("", Font.BOLD, 20));
+        GameModeButton.setFont(JButtonFontSize);
         GameModeButton.addActionListener(c);
         GBCGameModeButton();
         leftPanel.add(GameModeButton,GBC);
 
         SettingsButton = new JButton("Settings");
-        SettingsButton.setFont(new Font("", Font.BOLD, 20));
+        SettingsButton.setFont(JButtonFontSize);
         SettingsButton.addActionListener(c);
         GBCSettingsButton();
         leftPanel.add(SettingsButton,GBC);
 
         Back2Button = new JButton("Back");
-        Back2Button.setFont(new Font("", Font.BOLD, 20));
+        Back2Button.setFont(JButtonFontSize);
         Back2Button.addActionListener(c);
         GBCBack2Button();
         leftPanel.add(Back2Button,GBC);
@@ -162,24 +164,24 @@ public class StartMenu extends JFrame{
         rightPanel.setBackground(Color.RED);
 
         TitleSelect = new JLabel("Select Gaming Mode");
-        TitleSelect.setFont(new Font("",Font.BOLD, 22));
+        TitleSelect.setFont(new Font("", Font.BOLD, 25));
         GBCTitleSelect();
         rightPanel.add(TitleSelect,GBC);
 
         SoloButton = new JButton("Solo");
-        SoloButton.setFont(new Font("", Font.BOLD, 20));
+        SoloButton.setFont(JButtonFontSize);
         SoloButton.addActionListener(c);
         GBCSoloButton();
         rightPanel.add(SoloButton, GBC);
 
         VersusButton = new JButton("Versus");
-        VersusButton.setFont(new Font("", Font.BOLD, 20));
+        VersusButton.setFont(JButtonFontSize);
         VersusButton.addActionListener(c);
         GBCVersusButton();
         rightPanel.add(VersusButton, GBC);
 
         PlayButton = new JButton("Play");
-        PlayButton.setFont(new Font("", Font.BOLD, 20));
+        PlayButton.setFont(JButtonFontSize);
         PlayButton.addActionListener(c);
         GBCPlayButton();
         rightPanel.add(PlayButton,GBC);
@@ -219,7 +221,7 @@ public class StartMenu extends JFrame{
 
 
         Back1Button = new JButton("Back");
-        Back1Button.setFont(new Font("", Font.BOLD,20));
+        Back1Button.setFont(JButtonFontSize);
         Back1Button.addActionListener(c);
         GBCBack1Button();
         leftPanel.add(Back1Button, GBC);
@@ -240,13 +242,13 @@ public class StartMenu extends JFrame{
         rightPanel.setBackground(Color.GREEN);
 
         SaveButton = new JButton("Save Game");
-        SaveButton.setFont(new Font("", Font.BOLD, 20));
+        SaveButton.setFont(JButtonFontSize);
         SaveButton.addActionListener(c);
         GBCSaveButton();
         rightPanel.add(SaveButton,GBC);
 
         ResetButton = new JButton("Reset Game");
-        ResetButton.setFont(new Font("", Font.BOLD, 20));
+        ResetButton.setFont(JButtonFontSize);
         ResetButton.addActionListener(c);
         GBCResetButton();
         rightPanel.add(ResetButton, GBC);
@@ -276,32 +278,32 @@ public class StartMenu extends JFrame{
 
 
         PlayGameButton = new JButton("Play Game");
-        PlayGameButton.setFont(new Font("", Font.BOLD, 15));
+        PlayGameButton.setFont(JButtonFontSize);
         PlayGameButton.addActionListener(c);
         GBCPlayGameButton();
         leftPanel.add(PlayGameButton, GBC);
 
         HowToPlayButton = new JButton("How To Play");
-        HowToPlayButton.setFont(new Font("",Font.BOLD,15));
+        HowToPlayButton.setFont(JButtonFontSize);
         HowToPlayButton.addActionListener(c);
         GBCHowToPlayButton();
         leftPanel.add(HowToPlayButton,GBC);
 
         ExitButton = new JButton("Exit Game");
-        ExitButton.setFont(new Font("", Font.BOLD,15));
+        ExitButton.setFont(JButtonFontSize);
         ExitButton.addActionListener(c);
         GBCExitButton();
         leftPanel.add(ExitButton, GBC);
 
         CreditButton = new JButton("Credits");
-        CreditButton.setFont(new Font("", Font.BOLD, 15));
+        CreditButton.setFont(JButtonFontSize);
         CreditButton.addActionListener(c);
         GBCCreditButton();
         rightPanel.add(CreditButton, GBC);
 
         TitleWelcome = new JLabel("WELCOME TO CONNECT4!");
         TitleWelcome.setForeground(Color.BLACK);
-        TitleWelcome.setFont(new Font("", Font.BOLD, 22));
+        TitleWelcome.setFont(new Font("", Font.BOLD, 25));
         GBCTitleWelcome();
         rightPanel.add(TitleWelcome,GBC);
 

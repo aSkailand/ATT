@@ -90,6 +90,7 @@ public class StartMenuController implements ActionListener{
                 View.rightPanel.removeAll();
                 View.GameMode(this);
                 View.rightPanel.validate();
+                View.PlayButton.setEnabled(false);
                 View.rightPanel.repaint();
 
                 break;
@@ -110,11 +111,18 @@ public class StartMenuController implements ActionListener{
 
             case "Solo": {
 
+                View.VersusButton.setEnabled(false);
+                View.PlayButton.setEnabled(true);
+
+
                 System.out.println("Trakk på Solo");
                 break;
             }
 
             case "Versus": {
+
+                View.VersusButton.setEnabled(false);
+                View.PlayButton.setEnabled(true);
 
                 System.out.println("Trakk på Versus");
                 break;
