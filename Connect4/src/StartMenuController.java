@@ -114,14 +114,13 @@ public class StartMenuController implements ActionListener{
                 View.VersusButton.setEnabled(false);
                 View.PlayButton.setEnabled(true);
 
-
                 System.out.println("Trakk på Solo");
                 break;
             }
 
             case "Versus": {
 
-                View.VersusButton.setEnabled(false);
+                View.SoloButton.setEnabled(false);
                 View.PlayButton.setEnabled(true);
 
                 System.out.println("Trakk på Versus");
@@ -129,6 +128,10 @@ public class StartMenuController implements ActionListener{
             }
 
             case "Play": {
+
+
+                View.SoloButton.setEnabled(true);
+                View.VersusButton.setEnabled(true);
 
                 System.out.println("Trakk på Play");
                 break;
