@@ -21,11 +21,14 @@ public class GamePiecePeasant extends GamePiece implements ActionListener{
         gameBoardController = gamePieceSlot.gameBoardController;
     }
 
+    // Peasant Action
     @Override
     public void actionPerformed(ActionEvent e) {
         this.setEnabled(false);
+
         GameBoardModel.player ownerOfPiece = gameBoardController.gameBoardModel.getSlotCombined(x,y).getOwner();
-        gameBoardController.gameBodyController.goldController.UpdateGoldValue(-5, ownerOfPiece);
-        gameBoardController.gameBodyController.hitPointsController.HitpointsPercentage(1, ownerOfPiece);
+
+        gameBoardController.gameBodyController.goldController.UpdateGoldValue(5, ownerOfPiece);
+        gameBoardController.gameBodyController.hitPointsController.HitpointsPercentage(-5, ownerOfPiece);
     }
 }
