@@ -33,6 +33,8 @@ public class GamePieceSlot extends JPanel{
     // If this slot is part of a winning row
     boolean win_part = false;
 
+    // todo add ImageBuffering here
+
     GameBoardController gameBoardController;
 
     GamePieceSlot(GameBoardController gameBoardController){
@@ -44,8 +46,7 @@ public class GamePieceSlot extends JPanel{
         this.setBorder(new EmptyBorder(2, 2, 2, 2));
 
         // Preload Pieces
-        peasantPiece = new GamePiecePeasant();
-        peasantPiece.setActionCommand("Peasant");
+        peasantPiece = new GamePiecePeasant(this);
 
         assassinPiece = new GamePieceAssassin(this);
 
@@ -66,6 +67,9 @@ public class GamePieceSlot extends JPanel{
     void setCoordinates(int x, int y){
         this.x = x;
         this.y = y;
+
+        peasantPiece.x = x;
+        peasantPiece.y = y;
 
         assassinPiece.x = x;
         assassinPiece.y = y;

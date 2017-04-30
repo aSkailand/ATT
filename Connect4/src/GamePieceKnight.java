@@ -36,15 +36,6 @@ public class GamePieceKnight extends GamePiece implements ActionListener{
 
         knightAnimationTimer.start();
 
-//
-//        for (int y = this.y-1; y >= 0 ; y--) {
-//            gameBoardController.gameBoardModel.getSlotCombined(x, y).clearInfo();
-//        }
-//        gameBoardController.gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
-//        gameBoardController.gameBoardModel.loadOccupancyListFromCombinedList();
-//        gameBoardController.boardGravityController.runGravity();
-
-
     }
 
     int temp_x;

@@ -62,10 +62,13 @@ public class BoardWinController implements ActionListener {
 
             // Run Summoning Sickness
             int indexOfLowestNone = gameBoardModel.getListOccupancy().get(gameBoardModel.currentPlayedColumn).indexOf(GameBoardModel.player.PLAYER_NONE);
-            if(indexOfLowestNone != -1){
+
+            if(0 < indexOfLowestNone){
                 gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, indexOfLowestNone - 1).getPiece().setEnabled(false);
             }
-            else gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, GameBoardModel.numRow-1).getPiece().setEnabled(false);
+            else if(indexOfLowestNone == -1) {
+                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, GameBoardModel.numRow - 1).getPiece().setEnabled(false);
+            }
 
         }
 
