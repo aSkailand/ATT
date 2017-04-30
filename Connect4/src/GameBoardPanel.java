@@ -49,7 +49,7 @@ public class GameBoardPanel extends JPanel {
                 listJPanelGameBoardSlots.get(x).add(tempListPanels.get(currentSquareIndex));
                 getSlot(x,y).setCoordinates(x,y);
                 getSlot(x,y).initializeEmpty();
-                getSlot(x,y).setEmpty();
+                getSlot(x,y).switchToEmpty();
 
             }
         }

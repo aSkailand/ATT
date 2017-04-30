@@ -15,20 +15,23 @@ import java.awt.*;
  *  USAGE:
  *      Used for simplifying accessing the slot's content.
  */
-public class GamePieceSlot extends JPanel{
+public class GamePieceSlot extends JPanel {
 
     // Coordinate of this slot
     private int x;
     private int y;
 
-    // A JButton will behave as the slot piece for now
-    private JButton piece;
-    private JButton empty;
+    // Holders for button info
+    private JButton pieceUnit;  // Info about current unit on this site (null if no unit)
+    private JButton pieceMagic; // Temporary button for Battle Phase.
+    private JButton empty;      // Empty slot info
 
     // Pre-load all pieces here
     private GamePiecePeasant peasantPiece;
     private GamePieceAssassin assassinPiece;
     private GamePieceKnight knightPiece;
+
+    private GamePieceMagic magicPiece;
 
     // If this slot is part of a winning row
     boolean win_part = false;
@@ -47,10 +50,11 @@ public class GamePieceSlot extends JPanel{
 
         // Preload Pieces
         peasantPiece = new GamePiecePeasant(this);
-
         assassinPiece = new GamePieceAssassin(this);
-
         knightPiece = new GamePieceKnight(this);
+        magicPiece = new GamePieceMagic(this);
+
+
 
 
         //todo: preload color?
@@ -65,6 +69,7 @@ public class GamePieceSlot extends JPanel{
      * @param y: the y-coordinate.
      */
     void setCoordinates(int x, int y){
+
         this.x = x;
         this.y = y;
 
@@ -76,9 +81,13 @@ public class GamePieceSlot extends JPanel{
 
         knightPiece.x = x;
         knightPiece.y = y;
+
+        magicPiece.x = x;
+        magicPiece.y = y;
+
     }
     /**
-     * Initialize an empty piece, making it ready for use when needed.
+     * Initialize an empty pieceUnit, making it ready for use when needed.
      */
     void initializeEmpty(){
 
@@ -98,21 +107,32 @@ public class GamePieceSlot extends JPanel{
     /**
      * Make the slot empty.
      */
-    void setEmpty(){
+    void switchToEmpty(){
         this.removeAll();
         this.add(empty);
     }
+
+    void switchToMagic(){
+        this.removeAll();
+        this.add(pieceMagic);
+    }
+
+    void switchToUnit(){
+        this.removeAll();
+        this.add(pieceUnit);
+    }
+
     /**
-     * Attach the slot with the given piece.
-     * @param pieceInfo: Info of given piece.
+     * Attach the slot with the given pieceUnit.
+     * @param pieceInfo: Info of given pieceUnit.
      */
-    void setPiece(PieceInfo pieceInfo){
+    void setPieceUnit(PieceInfo pieceInfo){
 
         this.removeAll();
-        this.piece = null;
+        this.pieceUnit = null;
 
         if (pieceInfo.getOwner().equals(GameBoardModel.player.PLAYER_NONE)) {
-            this.setEmpty();
+            this.switchToEmpty();
             return;
         }
 
@@ -122,47 +142,50 @@ public class GamePieceSlot extends JPanel{
 
         switch (pieceInfo.getPieceType()){
             case Peasant:{
-                this.piece = this.peasantPiece;
-                this.piece.setBackground(ownerColor);
-                this.piece.setEnabled(pieceInfo.isEnabled());
+                this.pieceUnit = this.peasantPiece;
+                this.pieceUnit.setBackground(ownerColor);
+                this.pieceUnit.setEnabled(pieceInfo.isEnabled());
                 break;
             }
             case Assassin:{
-                this.piece = this.assassinPiece;
-                this.piece.setBackground(ownerColor);
-                this.piece.setEnabled(pieceInfo.isEnabled());
+                this.pieceUnit = this.assassinPiece;
+                this.pieceUnit.setBackground(ownerColor);
+                this.pieceUnit.setEnabled(pieceInfo.isEnabled());
                 break;
             }
             case Knight:{
-                this.piece = this.knightPiece;
-                this.piece.setBackground(ownerColor);
-                this.piece.setEnabled(pieceInfo.isEnabled());
+                this.pieceUnit = this.knightPiece;
+                this.pieceUnit.setBackground(ownerColor);
+                this.pieceUnit.setEnabled(pieceInfo.isEnabled());
                 break;
             }
             default:{
-                System.out.println("setPiece Error!");
+                System.out.println("setPieceUnit Error!");
                 break;
             }
         }
 
+        this.magicPiece.setText(pieceUnit.getText() + "- Magic");
+        this.magicPiece.ownerColor = ownerColor;
+        this.magicPiece.setBackground(ownerColor);
+        this.pieceMagic = this.magicPiece;
 
-
-        this.add(piece);
+        this.add(pieceUnit);
         this.revalidate();
         this.repaint();
 
     }
 
-    JButton getPiece() {
-        return piece;
+    JButton getPieceUnit() {
+        return pieceUnit;
     }
 
     /**
-     * Set the color of the piece.
-     * @param color: the color to color the piece with.
+     * Set the color of the pieceUnit.
+     * @param color: the color to color the pieceUnit with.
      */
     void setPieceColor(Color color) {
-        piece.setBackground(color);
+        pieceUnit.setBackground(color);
     }
 
 }

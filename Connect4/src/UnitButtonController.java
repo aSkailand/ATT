@@ -31,9 +31,6 @@ public class UnitButtonController implements ActionListener {
         unitButtonView = new UnitButtonView();
 
 
-
-
-
         // Adds buttons to the left player unit panel
         gameBodyFrame.leftPlayerUnitPanel.add(unitButtonView.CreateUnitButtonView(
                 this,
@@ -71,10 +68,8 @@ public class UnitButtonController implements ActionListener {
                 gameBodyFrame.gameBodyModel.playerOneAvatarButton.setEnabled(true);
 
 
-
                 unitButtonModel.unitButtonsPlayer1.get(i).setEnabled(true);
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(false);
-
 
 
                 checkUnitsAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
@@ -266,7 +261,7 @@ public class UnitButtonController implements ActionListener {
     }
 
 
-    public String setPlayerTurnNotificationText(GameBoardModel.player currentPlayer ) {
+    public String setPlayerTurnNotificationText(GameBoardModel.player currentPlayer) {
         String currentPlayerText = "";
 
         if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
@@ -285,7 +280,7 @@ public class UnitButtonController implements ActionListener {
         switch (e.getActionCommand()) {
             case "button0": {
                 selectedButton(0, gameBoardModel.getCurrentPlayer());
-                gameBoardModel.currentSelectedPiece = GamePieceTypes.Peasant;
+                gameBoardModel.currentSelectedAction = GamePieceTypes.Peasant;
                 gameBoardController.openPlayableColumns();
                 System.out.println("button0 - Peasant is chosen.");
                 break;
@@ -294,12 +289,48 @@ public class UnitButtonController implements ActionListener {
 
                 selectedButton(1, gameBoardModel.getCurrentPlayer());
 
-                System.out.println("button1");
+                // Updating Occupancy List
+                gameBoardModel.loadOccupancyListFromCombinedList();
+
+                // Enabling all except opponent + empty slots
+                for (int x = 0; x < GameBoardModel.numCol; x++) {
+                    for (int y = 0; y < GameBoardModel.numRow; y++) {
+                        if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)) {
+                            gameBoardController.gameBoardPanel.getSlot(x, y).switchToMagic();
+//                            gameBoardController.gameBoardPanel.revalidate();
+//                            gameBoardController.gameBoardPanel.repaint();
+                        }
+                    }
+                }
+
+//
+//                for (int x = 0; x < GameBoardModel.numCol; x++) {
+//                    for (int y = 0; y < GameBoardModel.numRow; y++) {
+//                        if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getCurrentPlayer())){
+//                            gameBoardModel.getSlotCombined(x,y).setEnabled(true);
+//                        }
+//                        else if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_NEUTRAL)){
+//                            gameBoardModel.getSlotCombined(x,y).setEnabled(true);
+//                        }
+//                        else {
+//                            gameBoardModel.getSlotCombined(x,y).setEnabled(false);
+//                        }
+//                    }
+//                }
+
+//                // Load it to visual
+//                gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
+
+                // Changing current selection
+                gameBoardModel.currentSelectedAction = GamePieceTypes.Swap;
+
+
+                System.out.println("button1 - Swap is chosen");
                 break;
             }
             case "button2": {
                 selectedButton(2, gameBoardModel.getCurrentPlayer());
-                gameBoardModel.currentSelectedPiece = GamePieceTypes.Assassin;
+                gameBoardModel.currentSelectedAction = GamePieceTypes.Assassin;
                 gameBoardController.openPlayableColumns();
                 System.out.println("button2 - Assassin is chosen.");
                 break;
@@ -311,7 +342,7 @@ public class UnitButtonController implements ActionListener {
             }
             case "button4": {
                 selectedButton(4, gameBoardModel.getCurrentPlayer());
-                gameBoardModel.currentSelectedPiece = GamePieceTypes.Knight;
+                gameBoardModel.currentSelectedAction = GamePieceTypes.Knight;
                 gameBoardController.openPlayableColumns();
                 System.out.println("button4 - Knight is chosen.");
                 break;
@@ -329,6 +360,9 @@ public class UnitButtonController implements ActionListener {
                 break;
             }
         }
+
+        gameBoardController.autoSwitchActionPanel();
+
 
 
     }

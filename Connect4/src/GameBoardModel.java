@@ -22,8 +22,8 @@ public class GameBoardModel {
     private int numMove = 0;
 
     // PIECE
-//    GamePieceTypes currentSelectedPiece = GamePieceTypes.Peasant;
-    GamePieceTypes currentSelectedPiece = GamePieceTypes.Peasant;
+    // The current selected piece
+    GamePieceTypes currentSelectedAction;
 
     // List that keeps track on which slots belong to whom
     private ArrayList<ArrayList<player>> listOccupancy = new ArrayList<>();
@@ -143,7 +143,7 @@ public class GameBoardModel {
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 gameBoardPanel.getSlot(x,y)
-                        .setPiece(listCombined.get(x).get(y));
+                        .setPieceUnit(listCombined.get(x).get(y));
             }
         }
         gameBoardPanel.revalidate();
@@ -173,7 +173,7 @@ public class GameBoardModel {
             System.out.print("[");
             for (int j = 0; j < GameBoardModel.numCol; j++) {
                 if (this.getListOccupancy().get(j).get(i).equals(GameBoardModel.player.PLAYER_NONE))
-                    System.out.print(" -- ");
+                    System.out.print(" --- ");
                 else
                     System.out.print(" " + getSlotCombined(j,i).getCode() + " ");
             }

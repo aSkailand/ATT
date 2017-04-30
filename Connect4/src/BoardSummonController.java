@@ -45,7 +45,7 @@ class BoardSummonController {
      * @param x: Column to be summoned on.
      */
     private void summonPiece(int x) {
-        placePiece(x, gameBoardModel.currentSelectedPiece, gameBoardModel.getCurrentPlayer());
+        placePiece(x, gameBoardModel.currentSelectedAction, gameBoardModel.getCurrentPlayer());
     }
 
     /**
@@ -102,7 +102,7 @@ class BoardSummonController {
         currentPieceInfo.setInfo(player, currentPieceType, false);
 
         // Add piece to slot
-        gameBoardPanel.getSlot(chosenCol, GameBoardModel.numRow - 1).setPiece(currentPieceInfo);
+        gameBoardPanel.getSlot(chosenCol, GameBoardModel.numRow - 1).setPieceUnit(currentPieceInfo);
 
         // Cost
         goldController.UpdateGoldValue(-getCost(currentPieceType), gameBoardModel.getCurrentPlayer());
@@ -144,7 +144,7 @@ class BoardSummonController {
                 System.out.println("");
 
                 // AI play the winning move
-                placePiece(x, gameBoardModel.currentSelectedPiece ,gameBoardModel.getCurrentPlayer());
+                placePiece(x, gameBoardModel.currentSelectedAction,gameBoardModel.getCurrentPlayer());
                 placed = true;
 
                 // break or else AI plays more if it sees it can win multiple times
@@ -165,7 +165,7 @@ class BoardSummonController {
 
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             if (gameBoardController.playableCol(x) && gameBoardController.checkIfWinningMove(x, gameBoardModel.getWaitingPlayer())) {
-                placePiece(x, gameBoardModel.currentSelectedPiece, gameBoardModel.getCurrentPlayer());
+                placePiece(x, gameBoardModel.currentSelectedAction, gameBoardModel.getCurrentPlayer());
                 return true;
             }
         }
@@ -212,7 +212,7 @@ class BoardSummonController {
             gameBoardController.removePieceSoft(random); // remove temporary piece
 
         }
-        placePiece(random, gameBoardModel.currentSelectedPiece, AI);
+        placePiece(random, gameBoardModel.currentSelectedAction, AI);
         return true;
     }
 

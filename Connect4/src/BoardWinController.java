@@ -55,10 +55,10 @@ public class BoardWinController implements ActionListener {
                 for (int y = 0; y < GameBoardModel.numRow; y++) {
                     if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getWaitingPlayer())) {
                         gameBoardModel.getSlotCombined(x,y).setEnabled(false);
-//                        gameBoardPanel.getSlot(x, y).getPiece().setEnabled(false);
+//                        gameBoardPanel.getSlot(x, y).getPieceUnit().setEnabled(false);
                     }
                     else if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getCurrentPlayer())) {
-//                        gameBoardPanel.getSlot(x, y).getPiece().setEnabled(true);
+//                        gameBoardPanel.getSlot(x, y).getPieceUnit().setEnabled(true);
                         gameBoardModel.getSlotCombined(x,y).setEnabled(true);
                     }
                 }
@@ -69,17 +69,21 @@ public class BoardWinController implements ActionListener {
 
             if(0 < indexOfLowestNone){
                 gameBoardModel.getSlotCombined(gameBoardModel.currentPlayedColumn, indexOfLowestNone - 1).setEnabled(false);
-//                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, indexOfLowestNone - 1).getPiece().setEnabled(false);
+//                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, indexOfLowestNone - 1).getPieceUnit().setEnabled(false);
             }
             else if(indexOfLowestNone == -1) {
                 gameBoardModel.getSlotCombined(gameBoardModel.currentPlayedColumn, GameBoardModel.numRow - 1).setEnabled(false);
-//                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, GameBoardModel.numRow - 1).getPiece().setEnabled(false);
+//                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, GameBoardModel.numRow - 1).getPieceUnit().setEnabled(false);
             }
 
             System.out.println("PHASE 2:");
             System.out.println("CURRENT BOARD:");
             gameBoardModel.loadSlotListFromCombinedList(gameBoardPanel);
             gameBoardModel.printCombinedList();
+
+            gameBoardModel.currentSelectedAction = null;
+
+            gameBoardController.autoSwitchActionPanel();
 
         }
 

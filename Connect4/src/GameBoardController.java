@@ -103,6 +103,8 @@ public class GameBoardController implements ActionListener {
 
         gameBodyController.unitButtonController.disableButtons(gameBoardModel.getWaitingPlayer());
 
+        disableAllColumns();
+
         // AI will wake up if it is her turn
         wakeupAI();
     }
@@ -130,7 +132,7 @@ public class GameBoardController implements ActionListener {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if(!gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_NONE)) {
                     gameBoardModel.getSlotCombined(x, y).setEnabled(false);
-//                    gameBoardPanel.getSlot(x, y).getPiece().setEnabled(false);
+//                    gameBoardPanel.getSlot(x, y).getPieceUnit().setEnabled(false);
                 }
             }
         }
@@ -172,7 +174,10 @@ public class GameBoardController implements ActionListener {
         }
         gameBodyController.goldController.UpdateGoldValue(peasantCount, gameBoardModel.getCurrentPlayer());
 
-        gameBoardModel.currentSelectedPiece = null;
+        gameBoardModel.currentSelectedAction = null;
+
+        autoSwitchActionPanel();
+
         disableAllColumns();
 
         // Wake up the AI if it's her turn
@@ -602,7 +607,7 @@ public class GameBoardController implements ActionListener {
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
-                    gameBoardPanel.getSlot(x, y).setEmpty();
+                    gameBoardPanel.getSlot(x, y).switchToEmpty();
 
                     if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_1))
                         hitPointsController.HitpointsPercentage(-5, GameBoardModel.player.PLAYER_2);
@@ -628,6 +633,19 @@ public class GameBoardController implements ActionListener {
                 gameBoardPanel.getSlot(i, j).win_part = false;
             }
         }
+    }
+
+    void autoSwitchActionPanel(){
+        if (gameBoardModel.currentSelectedAction == null) {
+            gameOptionPanel.switchToIdlePanel();
+        } else if (gameBoardModel.phase_1) {
+            gameOptionPanel.switchToOptionPanel();
+        } else {
+            gameOptionPanel.switchToCastSpellPanel();
+        }
+
+        gameOptionPanel.revalidate();
+        gameOptionPanel.repaint();
     }
 
 
