@@ -71,9 +71,6 @@ public class GameBoardController implements ActionListener {
         gameBodyFrame.revalidate();
         gameBodyFrame.repaint();
 
-
-
-
     }
 
     @Override

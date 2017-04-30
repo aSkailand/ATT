@@ -292,34 +292,24 @@ public class UnitButtonController implements ActionListener {
                 // Updating Occupancy List
                 gameBoardModel.loadOccupancyListFromCombinedList();
 
-                // Enabling all except opponent + empty slots
+                // Convert all over to magic
                 for (int x = 0; x < GameBoardModel.numCol; x++) {
                     for (int y = 0; y < GameBoardModel.numRow; y++) {
                         if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)) {
                             gameBoardController.gameBoardPanel.getSlot(x, y).switchToMagic();
-//                            gameBoardController.gameBoardPanel.revalidate();
-//                            gameBoardController.gameBoardPanel.repaint();
                         }
                     }
                 }
 
-//
-//                for (int x = 0; x < GameBoardModel.numCol; x++) {
-//                    for (int y = 0; y < GameBoardModel.numRow; y++) {
-//                        if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getCurrentPlayer())){
-//                            gameBoardModel.getSlotCombined(x,y).setEnabled(true);
-//                        }
-//                        else if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_NEUTRAL)){
-//                            gameBoardModel.getSlotCombined(x,y).setEnabled(true);
-//                        }
-//                        else {
-//                            gameBoardModel.getSlotCombined(x,y).setEnabled(false);
-//                        }
-//                    }
-//                }
-
-//                // Load it to visual
-//                gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
+                // Enabling all except opponent + empty slots
+                for (int x = 0; x < GameBoardModel.numCol; x++) {
+                    for (int y = 0; y < GameBoardModel.numRow; y++) {
+                        if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)
+                                && gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getWaitingPlayer())) {
+                            gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().setEnabled(false);
+                        }
+                    }
+                }
 
                 // Changing current selection
                 gameBoardModel.currentSelectedAction = GamePieceTypes.Swap;

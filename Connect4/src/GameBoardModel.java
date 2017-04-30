@@ -25,6 +25,10 @@ public class GameBoardModel {
     // The current selected piece
     GamePieceTypes currentSelectedAction;
 
+    // SWAP INFO
+    GameBoardModel.player selectedPlayer; // Either current Player or neutral.
+    int numSelected = 0; // Max 2
+
     // List that keeps track on which slots belong to whom
     private ArrayList<ArrayList<player>> listOccupancy = new ArrayList<>();
 

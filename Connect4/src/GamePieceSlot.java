@@ -23,14 +23,15 @@ public class GamePieceSlot extends JPanel {
 
     // Holders for button info
     private JButton pieceUnit;  // Info about current unit on this site (null if no unit)
-    private JButton pieceMagic; // Temporary button for Battle Phase.
-    private JButton empty;      // Empty slot info
 
+    private JButton pieceMagic; // Temporary button for Battle Phase.
+
+    private JButton empty;      // Empty slot info
     // Pre-load all pieces here
     private GamePiecePeasant peasantPiece;
+
     private GamePieceAssassin assassinPiece;
     private GamePieceKnight knightPiece;
-
     private GamePieceMagic magicPiece;
 
     // If this slot is part of a winning row
@@ -86,6 +87,7 @@ public class GamePieceSlot extends JPanel {
         magicPiece.y = y;
 
     }
+
     /**
      * Initialize an empty pieceUnit, making it ready for use when needed.
      */
@@ -101,7 +103,6 @@ public class GamePieceSlot extends JPanel {
 
         empty.setEnabled(false);
     }
-
     // Piece Action Methods
 
     /**
@@ -178,6 +179,10 @@ public class GamePieceSlot extends JPanel {
 
     JButton getPieceUnit() {
         return pieceUnit;
+    }
+
+    public JButton getPieceMagic() {
+        return this.pieceMagic;
     }
 
     /**
