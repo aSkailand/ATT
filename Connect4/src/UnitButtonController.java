@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -282,22 +281,20 @@ public class UnitButtonController implements ActionListener {
             case "button0": {
                 selectedButton(0, gameBoardModel.getCurrentPlayer());
                 gameBoardModel.currentSelectedPiece = GamePieceTypes.Peasant;
-
-                System.out.println("button0");
+                System.out.println("button0 - Peasant is chosen.");
                 break;
             }
             case "button1": {
 
                 selectedButton(1, gameBoardModel.getCurrentPlayer());
 
-
                 System.out.println("button1");
                 break;
             }
             case "button2": {
                 selectedButton(2, gameBoardModel.getCurrentPlayer());
-                System.out.println("button2");
-                gameBoardModel.currentSelectedPiece = GamePieceTypes.Knight;
+                gameBoardModel.currentSelectedPiece = GamePieceTypes.Assassin;
+                System.out.println("button2 - Assassin is chosen.");
                 break;
             }
             case "button3": {
@@ -307,8 +304,8 @@ public class UnitButtonController implements ActionListener {
             }
             case "button4": {
                 selectedButton(4, gameBoardModel.getCurrentPlayer());
-
-                System.out.println("button4");
+                gameBoardModel.currentSelectedPiece = GamePieceTypes.Knight;
+                System.out.println("button4 - Knight is chosen.");
                 break;
             }
             case "button5": {

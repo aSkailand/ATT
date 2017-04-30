@@ -1,8 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by TrongDT on 04/04/2017.
@@ -25,12 +23,13 @@ public class GamePieceSlot extends JPanel{
 
     // A JButton will behave as the slot piece for now
     private JButton piece;
-
     private JButton empty;
+
     // Pre-load all pieces here
     private GamePiecePeasant peasantPiece;
-
+    private GamePieceAssassin assassinPiece;
     private GamePieceKnight knightPiece;
+
     // If this slot is part of a winning row
     boolean win_part = false;
 
@@ -48,6 +47,7 @@ public class GamePieceSlot extends JPanel{
         peasantPiece = new GamePiecePeasant();
         peasantPiece.setActionCommand("Peasant");
 
+        assassinPiece = new GamePieceAssassin(this);
 
         knightPiece = new GamePieceKnight(this);
 
@@ -66,6 +66,9 @@ public class GamePieceSlot extends JPanel{
     void setCoordinates(int x, int y){
         this.x = x;
         this.y = y;
+
+        assassinPiece.x = x;
+        assassinPiece.y = y;
 
         knightPiece.x = x;
         knightPiece.y = y;
@@ -116,6 +119,11 @@ public class GamePieceSlot extends JPanel{
         switch (pieceInfo.getPieceType()){
             case Peasant:{
                 this.piece = this.peasantPiece;
+                this.piece.setBackground(ownerColor);
+                break;
+            }
+            case Assassin:{
+                this.piece = this.assassinPiece;
                 this.piece.setBackground(ownerColor);
                 break;
             }

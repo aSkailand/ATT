@@ -23,7 +23,7 @@ public class GameBoardModel {
 
     // PIECE
 //    GamePieceTypes currentSelectedPiece = GamePieceTypes.Peasant;
-    GamePieceTypes currentSelectedPiece = GamePieceTypes.Knight;
+    GamePieceTypes currentSelectedPiece = GamePieceTypes.Peasant;
 
     // List that keeps track on which slots belong to whom
     private ArrayList<ArrayList<player>> listOccupancy = new ArrayList<>();
@@ -38,6 +38,7 @@ public class GameBoardModel {
 
         PLAYER_1(1),
         PLAYER_2(2),
+        PLAYER_NEUTRAL(3),
         PLAYER_NONE(0);
 
         private int numVal;
@@ -57,10 +58,11 @@ public class GameBoardModel {
 
 
     private player currentPlayer;
-
     private player waitingPlayer;
+
     private boolean AI_player_1 = false;
     private boolean AI_player_2 = false;
+
     boolean getStatusAI(player player) {
         switch (player) {
             case PLAYER_1:
@@ -74,12 +76,11 @@ public class GameBoardModel {
 
     // COLORS
     private Color colorPlayer1 = Color.RED;
-
     private Color colorPlayer2 = Color.BLUE;
-
 
     private Color colorWin1 = new Color(255, 119, 134);
     private Color colorWin2 = new Color(127, 167, 255);
+
     GameBoardModel() {
 
         // Set current + waiting player
@@ -201,7 +202,7 @@ public class GameBoardModel {
         for (int i = GameBoardModel.numRow - 1; i >= 0; i--) {
             System.out.print("[");
             for (int j = 0; j < GameBoardModel.numCol; j++) {
-                System.out.print(" " + this.listUnits.get(j).get(i).getaChar() + " ");
+                System.out.print(" " + this.listUnits.get(j).get(i).getCharCode() + " ");
             }
             System.out.print("]\n");
         }

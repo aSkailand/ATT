@@ -6,7 +6,7 @@ public class GamePiecePeasant extends GamePiece{
 
     GamePiecePeasant(){
         this.setText("Peasant");
-        this.setEnabled(true);
+        this.setEnabled(false);
     }
 
 }

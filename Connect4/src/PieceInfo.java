@@ -38,7 +38,7 @@ class PieceInfo {
     }
 
     String getCode() {
-        return "" + owner.getNumVal() + gamePieceType.getaChar();
+        return "" + owner.getNumVal() + gamePieceType.getCharCode();
     }
 
     public GameBoardModel.player getOwner() {

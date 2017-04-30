@@ -4,71 +4,86 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Trong on 27/04/2017.
+ * Created by Trong on 30/04/2017.
  */
-public class GamePieceKnight extends GamePiece implements ActionListener {
+public class GamePieceKnight extends GamePiece implements ActionListener{
 
     int x;
     int y;
 
     private GameBoardController gameBoardController;
 
-    GamePieceKnight(GamePieceSlot gamePieceSlot) {
+    public GamePieceKnight(GamePieceSlot gamePieceSlot) {
 
-        // Declare MVC
-        this.gameBoardController = gamePieceSlot.gameBoardController;
+        gameBoardController = gamePieceSlot.gameBoardController;
 
         // JButton Setup
         this.setText("Knight");
-        this.setEnabled(true);
+        this.setEnabled(false);
         this.addActionListener(this);
     }
 
-    // KNIGHT ACTION
     @Override
     public void actionPerformed(ActionEvent e) {
 
         this.setEnabled(false);
-        System.out.println("I'm a knight!");
 
-        if (0 <= x - 1)
-            if (!gameBoardController.gameBoardModel.getSlotOccupancy(x - 1, y).equals(GameBoardModel.player.PLAYER_NONE))
-                gameBoardController.gameBoardPanel.getSlot(x - 1, y).setPieceColor(Color.GREEN);
-        if (x + 1 <= GameBoardModel.numCol - 1)
-            if (!gameBoardController.gameBoardModel.getSlotOccupancy(x + 1, y).equals(GameBoardModel.player.PLAYER_NONE))
-                gameBoardController.gameBoardPanel.getSlot(x + 1, y).setPieceColor(Color.GREEN);
+        System.out.println("I'm a Knight!");
+        System.out.println("x: "+x+", y: "+y);
 
-        // Activate Knight Animations
-        knightTimer.start();
+        temp_x = this.x;
+        temp_y = this.y - 1;
+
+        knightAnimationTimer.start();
+
+//
+//        for (int y = this.y-1; y >= 0 ; y--) {
+//            gameBoardController.gameBoardModel.getSlotCombined(x, y).clearInfo();
+//        }
+//        gameBoardController.gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
+//        gameBoardController.gameBoardModel.loadOccupancyListFromCombinedList();
+//        gameBoardController.boardGravityController.runGravity();
+
 
     }
 
-    // KNIGHT ANIMATIONS
-    private boolean hasAttacked = false;
-    private Timer knightTimer = new Timer(500, new ActionListener() {
+    int temp_x;
+    int temp_y;
+    boolean colored = false;
+
+    Timer knightAnimationTimer = new Timer(100, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!hasAttacked) {
-                System.out.println("First");
 
-                if (0 <= x - 1)
-                    if (!gameBoardController.gameBoardModel.getSlotOccupancy(x - 1, y).equals(GameBoardModel.player.PLAYER_NONE))
-                        gameBoardController.gameBoardModel.getSlotCombined(x - 1, y).clearInfo();
-                if (x + 1 <= GameBoardModel.numCol - 1)
-                    if (!gameBoardController.gameBoardModel.getSlotOccupancy(x + 1, y).equals(GameBoardModel.player.PLAYER_NONE))
-                        gameBoardController.gameBoardModel.getSlotCombined(x + 1, y).clearInfo();
+            if (y != 0) {
+                if (temp_y != -1 && !colored) {
+                    gameBoardController.gameBoardPanel.getSlot(temp_x, temp_y).setPieceColor(Color.GREEN);
+                    gameBoardController.gameBoardPanel.revalidate();
+                    gameBoardController.gameBoardPanel.repaint();
+                    temp_y--;
+                } else if (!colored) {
+                    colored = true;
+                    temp_x = x;
+                    temp_y = y - 1;
+                } else {
+                    gameBoardController.gameBoardModel.getSlotCombined(temp_x, temp_y).clearInfo();
+                    gameBoardController.gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
+                    gameBoardController.gameBoardPanel.revalidate();
+                    gameBoardController.gameBoardPanel.repaint();
+                    temp_y--;
 
-                gameBoardController.gameBoardModel.loadOccupancyListFromCombinedList();
-                gameBoardController.gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
+                    if (temp_y == -1) {
+                        knightAnimationTimer.stop();
 
-                hasAttacked = true;
-            } else {
-                knightTimer.stop();
-                System.out.println("Second");
+                        colored = false;
+                        temp_x = x;
+                        temp_y = y - 1;
 
-                hasAttacked = false;
+                        gameBoardController.gameBoardModel.loadOccupancyListFromCombinedList();
+                        gameBoardController.boardGravityController.runGravity();
+                    }
+                }
 
-                gameBoardController.boardGravityController.runGravity();
             }
         }
     });
