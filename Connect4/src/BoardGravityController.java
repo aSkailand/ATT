@@ -37,6 +37,8 @@ public class BoardGravityController implements ActionListener {
 
         if (ticks > 0) {
 
+            gameBoardModel.loadSlotListFromCombinedList(gameBoardPanel);
+
             for (int x = 0; x < GameBoardModel.numCol; x++) {
                 gravityPullOnce(x);
             }

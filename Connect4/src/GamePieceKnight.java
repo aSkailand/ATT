@@ -27,6 +27,7 @@ public class GamePieceKnight extends GamePiece implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
         this.setEnabled(false);
+        gameBoardController.gameBoardModel.getSlotCombined(x,y).setEnabled(false);
 
         System.out.println("I'm a Knight!");
         System.out.println("x: "+x+", y: "+y);

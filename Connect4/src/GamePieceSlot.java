@@ -124,16 +124,19 @@ public class GamePieceSlot extends JPanel{
             case Peasant:{
                 this.piece = this.peasantPiece;
                 this.piece.setBackground(ownerColor);
+                this.piece.setEnabled(pieceInfo.isEnabled());
                 break;
             }
             case Assassin:{
                 this.piece = this.assassinPiece;
                 this.piece.setBackground(ownerColor);
+                this.piece.setEnabled(pieceInfo.isEnabled());
                 break;
             }
             case Knight:{
                 this.piece = this.knightPiece;
                 this.piece.setBackground(ownerColor);
+                this.piece.setEnabled(pieceInfo.isEnabled());
                 break;
             }
             default:{
@@ -150,7 +153,7 @@ public class GamePieceSlot extends JPanel{
 
     }
 
-    public JButton getPiece() {
+    JButton getPiece() {
         return piece;
     }
 

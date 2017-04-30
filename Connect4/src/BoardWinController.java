@@ -53,10 +53,14 @@ public class BoardWinController implements ActionListener {
             gameBoardModel.loadOccupancyListFromCombinedList();
             for (int x = 0; x < GameBoardModel.numCol; x++) {
                 for (int y = 0; y < GameBoardModel.numRow; y++) {
-                    if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getWaitingPlayer()))
-                        gameBoardPanel.getSlot(x,y).getPiece().setEnabled(false);
-                    else if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getCurrentPlayer()))
-                        gameBoardPanel.getSlot(x,y).getPiece().setEnabled(true);
+                    if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getWaitingPlayer())) {
+                        gameBoardModel.getSlotCombined(x,y).setEnabled(false);
+//                        gameBoardPanel.getSlot(x, y).getPiece().setEnabled(false);
+                    }
+                    else if(gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getCurrentPlayer())) {
+//                        gameBoardPanel.getSlot(x, y).getPiece().setEnabled(true);
+                        gameBoardModel.getSlotCombined(x,y).setEnabled(true);
+                    }
                 }
             }
 
@@ -64,11 +68,18 @@ public class BoardWinController implements ActionListener {
             int indexOfLowestNone = gameBoardModel.getListOccupancy().get(gameBoardModel.currentPlayedColumn).indexOf(GameBoardModel.player.PLAYER_NONE);
 
             if(0 < indexOfLowestNone){
-                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, indexOfLowestNone - 1).getPiece().setEnabled(false);
+                gameBoardModel.getSlotCombined(gameBoardModel.currentPlayedColumn, indexOfLowestNone - 1).setEnabled(false);
+//                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, indexOfLowestNone - 1).getPiece().setEnabled(false);
             }
             else if(indexOfLowestNone == -1) {
-                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, GameBoardModel.numRow - 1).getPiece().setEnabled(false);
+                gameBoardModel.getSlotCombined(gameBoardModel.currentPlayedColumn, GameBoardModel.numRow - 1).setEnabled(false);
+//                gameBoardPanel.getSlot(gameBoardModel.currentPlayedColumn, GameBoardModel.numRow - 1).getPiece().setEnabled(false);
             }
+
+            System.out.println("PHASE 2:");
+            System.out.println("CURRENT BOARD:");
+            gameBoardModel.loadSlotListFromCombinedList(gameBoardPanel);
+            gameBoardModel.printCombinedList();
 
         }
 

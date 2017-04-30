@@ -7,15 +7,20 @@ import java.awt.event.ActionListener;
  */
 public class UnitButtonController implements ActionListener {
 
+    GameBodyController gameBodyController;
     GameBodyFrame gameBodyFrame;
     UnitButtonView unitButtonView;
     UnitButtonModel unitButtonModel;
     GoldModel goldModel;
     GameBoardModel gameBoardModel;
+    GameBoardController gameBoardController;
     GoldController goldController;
 
     public UnitButtonController(GameBodyController gameBodyController) {
 
+        this.gameBodyController = gameBodyController;
+        gameBoardController = gameBodyController.gameBoardController;
+        gameBoardModel = gameBoardController.gameBoardModel;
 
         // Declare MVC
         goldModel = gameBodyController.goldController.goldModel;
@@ -25,7 +30,7 @@ public class UnitButtonController implements ActionListener {
         unitButtonModel = new UnitButtonModel();
         unitButtonView = new UnitButtonView();
 
-        gameBoardModel = gameBodyController.gameBoardController.gameBoardModel;
+
 
 
 
@@ -281,6 +286,7 @@ public class UnitButtonController implements ActionListener {
             case "button0": {
                 selectedButton(0, gameBoardModel.getCurrentPlayer());
                 gameBoardModel.currentSelectedPiece = GamePieceTypes.Peasant;
+                gameBoardController.openPlayableColumns();
                 System.out.println("button0 - Peasant is chosen.");
                 break;
             }
@@ -294,6 +300,7 @@ public class UnitButtonController implements ActionListener {
             case "button2": {
                 selectedButton(2, gameBoardModel.getCurrentPlayer());
                 gameBoardModel.currentSelectedPiece = GamePieceTypes.Assassin;
+                gameBoardController.openPlayableColumns();
                 System.out.println("button2 - Assassin is chosen.");
                 break;
             }
@@ -305,6 +312,7 @@ public class UnitButtonController implements ActionListener {
             case "button4": {
                 selectedButton(4, gameBoardModel.getCurrentPlayer());
                 gameBoardModel.currentSelectedPiece = GamePieceTypes.Knight;
+                gameBoardController.openPlayableColumns();
                 System.out.println("button4 - Knight is chosen.");
                 break;
             }
@@ -321,5 +329,7 @@ public class UnitButtonController implements ActionListener {
                 break;
             }
         }
+
+
     }
 }

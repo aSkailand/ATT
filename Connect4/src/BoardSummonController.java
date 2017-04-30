@@ -99,7 +99,7 @@ class BoardSummonController {
         gameBoardModel.currentPlayedColumn = chosenCol;
 
         // Tick list
-        currentPieceInfo.setInfo(player, currentPieceType);
+        currentPieceInfo.setInfo(player, currentPieceType, false);
 
         // Add piece to slot
         gameBoardPanel.getSlot(chosenCol, GameBoardModel.numRow - 1).setPiece(currentPieceInfo);

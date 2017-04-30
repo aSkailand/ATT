@@ -29,6 +29,8 @@ public class GamePieceAssassin extends GamePiece implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         this.setEnabled(false);
+        gameBoardController.gameBoardModel.getSlotCombined(x,y).setEnabled(false);
+
         System.out.println("I'm an Assassin!");
 
         if (0 <= x - 1)

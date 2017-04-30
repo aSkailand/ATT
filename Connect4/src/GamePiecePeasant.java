@@ -25,6 +25,7 @@ public class GamePiecePeasant extends GamePiece implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         this.setEnabled(false);
+        gameBoardController.gameBoardModel.getSlotCombined(x,y).setEnabled(false);
 
         GameBoardModel.player ownerOfPiece = gameBoardController.gameBoardModel.getSlotCombined(x,y).getOwner();
 

@@ -1,8 +1,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -130,16 +128,21 @@ public class GameBoardController implements ActionListener {
         gameBoardModel.loadOccupancyListFromCombinedList();
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
-                if(!gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_NONE))
-                    gameBoardPanel.getSlot(x,y).getPiece().setEnabled(false);
+                if(!gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_NONE)) {
+                    gameBoardModel.getSlotCombined(x, y).setEnabled(false);
+//                    gameBoardPanel.getSlot(x, y).getPiece().setEnabled(false);
+                }
             }
         }
+        gameBoardModel.loadSlotListFromCombinedList(gameBoardPanel);
 
         gameBoardModel.phase_1 = true;
 
 
         // Swap player
         alternatePlayers();
+
+
 
 
         // Add a move
@@ -154,10 +157,23 @@ public class GameBoardController implements ActionListener {
         colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
 
         // Check if any columns are full
-        disableFullColumns();
+        openPlayableColumns();
 
         // Get gold
         gameBodyController.goldController.UpdateGoldValue(1, gameBoardModel.getCurrentPlayer());
+
+        // count peasants
+        int peasantCount = 0;
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if(gameBoardModel.getSlotCombined(x,y).checkIf(gameBoardModel.getCurrentPlayer(), GamePieceTypes.Peasant, false))
+                    peasantCount++;
+            }
+        }
+        gameBodyController.goldController.UpdateGoldValue(peasantCount, gameBoardModel.getCurrentPlayer());
+
+        gameBoardModel.currentSelectedPiece = null;
+        disableAllColumns();
 
         // Wake up the AI if it's her turn
         wakeupAI();
@@ -176,7 +192,7 @@ public class GameBoardController implements ActionListener {
     }
 
     // Disable all unplayable columns
-    void disableFullColumns() {
+    void openPlayableColumns() {
         for (int i = 0; i < GameBoardModel.numCol; i++) {
             if (!playableCol(i)) {
                 gameOptionPanel.optionList.get(i).setEnabled(false);
