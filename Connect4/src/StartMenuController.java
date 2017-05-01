@@ -114,7 +114,8 @@ public class StartMenuController implements ActionListener{
 
             case "Solo": {
 
-                View.VersusButton.setEnabled(false);
+                View.SoloButton.setEnabled(false);
+                View.VersusButton.setEnabled(true);
                 View.PlayButton.setEnabled(true);
 
                 startMenuModel.setAI_Bool(true);
@@ -125,7 +126,8 @@ public class StartMenuController implements ActionListener{
 
             case "Versus": {
 
-                View.SoloButton.setEnabled(false);
+                View.SoloButton.setEnabled(true);
+                View.VersusButton.setEnabled(false);
                 View.PlayButton.setEnabled(true);
 
                 startMenuModel.setAI_Bool(false);
