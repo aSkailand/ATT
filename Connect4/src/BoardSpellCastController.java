@@ -22,34 +22,55 @@ public class BoardSpellCastController implements ActionListener {
             case Swap: {
                 System.out.println("Casting Swap");
                 castSwap();
+                gameBoardController.gameBodyController.goldController.UpdateGoldValue(
+                        -gameBoardController.gameBodyController.unitButtonController.unitButtonModel.getMagic1Cost(),
+                        gameBoardModel.getCurrentPlayer());
+                gameBoardController.gameBodyController.unitButtonController.buttonDisablerWrapper(1);
                 break;
             }
             case Mute: {
                 System.out.println("Casting Mute");
-                for (int x = 0; x < GameBoardModel.numCol; x++) {
-                    for (int y = 0; y < GameBoardModel.numRow; y++) {
-                        if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE))
-                            if (gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().isSelected()) {
-                                gameBoardModel.getSlotCombined(x, y).setMuteStatus(true);
-                            }
-                    }
-                }
-                System.out.println("After Mute:");
-                gameBoardModel.printCombinedList();
-                gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
-
-
-                // Clean Up after cast
-                gameBoardModel.currentSelectedAction = null;
-                gameBoardModel.selectedPlayer = null;
-                gameBoardModel.numSelected = 0;
-                gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
-                gameBoardController.gameOptionPanel.switchToIdlePanel();
-
+                castMute();
+                gameBoardController.gameBodyController.goldController.UpdateGoldValue(
+                        -gameBoardController.gameBodyController.unitButtonController.unitButtonModel.getMagic2Cost(),
+                        gameBoardModel.getCurrentPlayer());
+                gameBoardController.gameBodyController.unitButtonController.buttonDisablerWrapper(3);
+                break;
+            }
+            case Bomb: {
+                System.out.println("Casting Bomb");
+                castBomb();
+                gameBoardController.gameBodyController.goldController.UpdateGoldValue(
+                        -gameBoardController.gameBodyController.unitButtonController.unitButtonModel.getMagic3Cost(),
+                        gameBoardModel.getCurrentPlayer());
+                gameBoardController.gameBodyController.unitButtonController.buttonDisablerWrapper(5);
                 break;
             }
 
         }
+
+    }
+
+    void castBomb(){
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE))
+                    if (gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().isSelected()) {
+                        gameBoardModel.getSlotCombined(x, y).setInfo(GameBoardModel.player.PLAYER_NEUTRAL, GamePieceTypes.Bomb, false);
+                        gameBoardModel.getSlotCombined(x, y).setBombStatus(true);
+                        break;
+                    }
+            }
+        }
+
+        gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
+
+        // Clean Up after cast
+        gameBoardModel.currentSelectedAction = null;
+        gameBoardModel.selectedPlayer = null;
+        gameBoardModel.numSelected = 0;
+        gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
+        gameBoardController.gameOptionPanel.switchToIdlePanel();
 
     }
 
@@ -97,6 +118,31 @@ public class BoardSpellCastController implements ActionListener {
         gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
         gameBoardController.gameOptionPanel.switchToIdlePanel();
 
+
+    }
+
+    void castMute() {
+
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE))
+                    if (gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().isSelected()) {
+                        gameBoardModel.getSlotCombined(x, y).setMuteStatus(true);
+                    }
+            }
+        }
+
+        System.out.println("After Mute:");
+        gameBoardModel.printCombinedList();
+        gameBoardModel.loadSlotListFromCombinedList(gameBoardController.gameBoardPanel);
+
+
+        // Clean Up after cast
+        gameBoardModel.currentSelectedAction = null;
+        gameBoardModel.selectedPlayer = null;
+        gameBoardModel.numSelected = 0;
+        gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
+        gameBoardController.gameOptionPanel.switchToIdlePanel();
 
     }
 }

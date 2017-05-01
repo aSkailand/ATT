@@ -35,61 +35,119 @@ public class GamePieceMagic extends GamePiece implements ActionListener {
                 break;
             }
             case Mute: {
-                gameBoardModel.loadOccupancyListFromCombinedList();
-
-                // IF CLICKED PIECE IS NOT SELECTED
-                if (!selected) {
-                    selected = true;
-                    gameBoardModel.numSelected++;
-                    this.setBackground(ownerColor.darker().darker());
-
-
-                }
-                // IF CLICKED PIECE IS ALREADY SELECTED
-                else {
-                    selected = false;
-                    gameBoardModel.numSelected--;
-                    this.setBackground(ownerColor);
-
-                }
-
-                // LOCK MANAGEMENT
-                if (gameBoardModel.numSelected == 0) {
-
-                    // Update Selected Player
-                    gameBoardModel.selectedPlayer = null;
-
-                    // Open all except legal pieces to swap on
-                    openMagicPieces(gameBoardModel.getWaitingPlayer());
-                    openMagicPieces(gameBoardModel.getCurrentPlayer());
-                    lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
-
-                    // Lock Cast Spell Button
-                    gameBoardController.gameOptionPanel.castSpellButton.setText("Please Select 1 Piece");
-                    gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
-
-                } else if (gameBoardModel.numSelected == 1) {
-
-                    // Update Selected Player
-                    gameBoardModel.selectedPlayer = gameBoardModel.getSlotOccupancy(x, y);
-
-                    // Lock all except selected team
-                    lockMagicPieces(gameBoardModel.getWaitingPlayer());
-                    lockMagicPieces(gameBoardModel.getCurrentPlayer());
-                    lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
-                    openSelectedMagicPieces();
-
-                    // Open Cast Spell Button
-                    gameBoardController.gameOptionPanel.castSpellButton.setText("CAST SPELL");
-                    gameBoardController.gameOptionPanel.castSpellButton.setEnabled(true);
-
-                }
+                System.out.println("Mute Select");
+                runMute();
+                break;
             }
+            case Bomb:{
+                System.out.println("Bomb Select");
+                runBomb();
+                break;
+            }
+        }
+    }
+
+    void runBomb(){
+        gameBoardModel.loadOccupancyListFromCombinedList();
+
+        // IF CLICKED PIECE IS NOT SELECTED
+        if (!selected) {
+            selected = true;
+            gameBoardModel.numSelected++;
+            this.setBackground(ownerColor.darker().darker());
+        }
+        // IF CLICKED PIECE IS ALREADY SELECTED
+        else {
+            selected = false;
+            gameBoardModel.numSelected--;
+            this.setBackground(ownerColor);
+        }
+
+        // LOCK MANAGEMENT
+        if (gameBoardModel.numSelected == 0) {
+
+            // Update Selected Player
+            gameBoardModel.selectedPlayer = null;
+
+            // Open all except legal pieces to select
+            lockMagicPieces(gameBoardModel.getWaitingPlayer());
+            lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
+            openMagicPieces(gameBoardModel.getCurrentPlayer());
+
+            // Lock Cast Spell Button
+            gameBoardController.gameOptionPanel.castSpellButton.setText("Please Select 1 Piece");
+            gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
+
+        } else if (gameBoardModel.numSelected == 1) {
+
+            // Update Selected Player
+            gameBoardModel.selectedPlayer = gameBoardModel.getSlotOccupancy(x, y);
+
+            // Lock all except selected team
+            lockMagicPieces(gameBoardModel.getWaitingPlayer());
+            lockMagicPieces(gameBoardModel.getCurrentPlayer());
+            lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
+            openSelectedMagicPieces();
+
+            // Open Cast Spell Button
+            gameBoardController.gameOptionPanel.castSpellButton.setText("CAST SPELL");
+            gameBoardController.gameOptionPanel.castSpellButton.setEnabled(true);
 
         }
     }
 
-    void runSwap(){
+    void runMute() {
+        gameBoardModel.loadOccupancyListFromCombinedList();
+        // IF CLICKED PIECE IS NOT SELECTED
+        if (!selected) {
+            selected = true;
+            gameBoardModel.numSelected++;
+            this.setBackground(ownerColor.darker().darker());
+
+
+        }
+        // IF CLICKED PIECE IS ALREADY SELECTED
+        else {
+            selected = false;
+            gameBoardModel.numSelected--;
+            this.setBackground(ownerColor);
+
+        }
+
+        // LOCK MANAGEMENT
+        if (gameBoardModel.numSelected == 0) {
+
+            // Update Selected Player
+            gameBoardModel.selectedPlayer = null;
+
+            // Open all except legal pieces to swap on
+            openMagicPieces(gameBoardModel.getWaitingPlayer());
+            openMagicPieces(gameBoardModel.getCurrentPlayer());
+            lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
+
+            // Lock Cast Spell Button
+            gameBoardController.gameOptionPanel.castSpellButton.setText("Please Select 1 Piece");
+            gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
+
+        } else if (gameBoardModel.numSelected == 1) {
+
+            // Update Selected Player
+            gameBoardModel.selectedPlayer = gameBoardModel.getSlotOccupancy(x, y);
+
+            // Lock all except selected team
+            lockMagicPieces(gameBoardModel.getWaitingPlayer());
+            lockMagicPieces(gameBoardModel.getCurrentPlayer());
+            lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
+            openSelectedMagicPieces();
+
+            // Open Cast Spell Button
+            gameBoardController.gameOptionPanel.castSpellButton.setText("CAST SPELL");
+            gameBoardController.gameOptionPanel.castSpellButton.setEnabled(true);
+
+        }
+    }
+
+    void runSwap() {
         gameBoardModel.loadOccupancyListFromCombinedList();
 
         // IF CLICKED PIECE IS NOT SELECTED
@@ -123,7 +181,7 @@ public class GamePieceMagic extends GamePiece implements ActionListener {
             gameBoardController.gameOptionPanel.castSpellButton.setText("Please Select 2 Pieces");
             gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
 
-        }else if (gameBoardModel.numSelected == 1) {
+        } else if (gameBoardModel.numSelected == 1) {
 
             // Update Selected Player
             gameBoardModel.selectedPlayer = gameBoardModel.getSlotOccupancy(x, y);
@@ -157,7 +215,7 @@ public class GamePieceMagic extends GamePiece implements ActionListener {
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)) {
-                    if(gameBoardModel.getSlotOccupancy(x, y).equals(lockPlayer)){
+                    if (gameBoardModel.getSlotOccupancy(x, y).equals(lockPlayer)) {
                         gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().setEnabled(false);
                     }
                 }
@@ -165,12 +223,12 @@ public class GamePieceMagic extends GamePiece implements ActionListener {
         }
     }
 
-    void openSelectedMagicPieces(){
+    void openSelectedMagicPieces() {
         // Lock all except selected players
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE))
-                    if(gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().isSelected())
+                    if (gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().isSelected())
                         gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().setEnabled(true);
             }
         }
@@ -181,7 +239,7 @@ public class GamePieceMagic extends GamePiece implements ActionListener {
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
                 if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)) {
-                    if(gameBoardModel.getSlotOccupancy(x, y).equals(openPlayer)){
+                    if (gameBoardModel.getSlotOccupancy(x, y).equals(openPlayer)) {
                         gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().setEnabled(true);
                     }
                 }

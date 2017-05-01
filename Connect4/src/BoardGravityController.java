@@ -61,7 +61,12 @@ public class BoardGravityController implements ActionListener {
      * Main method, this is the one to run if one wants to initiate gravity.
      */
     void runGravity() {
+
+
+
+
         calcMaxTicks();
+
         gravityTimer.start();
     }
 

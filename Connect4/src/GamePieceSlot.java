@@ -27,12 +27,13 @@ public class GamePieceSlot extends JPanel {
     private JButton pieceMagic; // Temporary button for Battle Phase.
 
     private JButton empty;      // Empty slot info
+
     // Pre-load all pieces here
     private GamePiecePeasant peasantPiece;
-
     private GamePieceAssassin assassinPiece;
     private GamePieceKnight knightPiece;
     private GamePieceMagic magicPiece;
+    private GamePieceBomb bombPiece;
 
     // If this slot is part of a winning row
     boolean win_part = false;
@@ -54,9 +55,7 @@ public class GamePieceSlot extends JPanel {
         assassinPiece = new GamePieceAssassin(this);
         knightPiece = new GamePieceKnight(this);
         magicPiece = new GamePieceMagic(this);
-
-
-
+        bombPiece = new GamePieceBomb(this);
 
         //todo: preload color?
 
@@ -82,6 +81,9 @@ public class GamePieceSlot extends JPanel {
 
         knightPiece.x = x;
         knightPiece.y = y;
+
+        bombPiece.x = x;
+        bombPiece.y = y;
 
 
 
@@ -140,7 +142,10 @@ public class GamePieceSlot extends JPanel {
         if(pieceInfo.getOwner() == GameBoardModel.player.PLAYER_1) ownerColor = Color.RED;
         else if(pieceInfo.getOwner() == GameBoardModel.player.PLAYER_2) ownerColor = Color.BLUE;
         else{
-            ownerColor = gameBoardController.gameBoardModel.getPlayerMuteColor(pieceInfo.getBackupOwner());
+            if (pieceInfo.getPieceType() == GamePieceTypes.Bomb)
+                ownerColor = Color.darkGray;
+            else
+                ownerColor = gameBoardController.gameBoardModel.getPlayerMuteColor(pieceInfo.getBackupOwner());
         }
 
         switch (pieceInfo.getPieceType()){
@@ -158,6 +163,12 @@ public class GamePieceSlot extends JPanel {
             }
             case Knight:{
                 this.pieceUnit = this.knightPiece;
+                this.pieceUnit.setBackground(ownerColor);
+                this.pieceUnit.setEnabled(pieceInfo.isEnabled());
+                break;
+            }
+            case Bomb:{
+                this.pieceUnit = this.bombPiece;
                 this.pieceUnit.setBackground(ownerColor);
                 this.pieceUnit.setEnabled(pieceInfo.isEnabled());
                 break;
