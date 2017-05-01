@@ -38,8 +38,8 @@ public class StartMenu extends JFrame{
     JPanel leftPanel = new JPanel();
     JPanel rightPanel = new JPanel();
 
-    JButton SaveButton;
-    JButton ResetButton;
+    JButton ColumnButton;
+    JButton RowButton;
 
     JButton SoloButton;
     JButton VersusButton;
@@ -214,10 +214,9 @@ public class StartMenu extends JFrame{
         String HowToPlayConnect4 = (" Connect4 is a two-player game in which the players\n" +
                 " choose a color and then take turns dropping colored\n" +
                 " boxes from the top into a seven-colum, six-row grid.\n\n" +
-                " The pieces fall straight down, occupying the next\n" +
-                " available space within the column. The objectiv of the\n" +
-                " game is to be the first to form a horizontal,\n" +
-                " vertical, or diagonal line of four of one'a own boxes.\n\n" +
+                " The objectiv of the game is to be the first to form a\n" +
+                " horizontal, vertical, or diagonal line of four of one's\n" +
+                " own boxes.\n\n" +
                 " Try it out!\n");
 
         TextArea.setText(HowToPlayConnect4);
@@ -246,17 +245,19 @@ public class StartMenu extends JFrame{
 
         rightPanel.setBackground(Color.GRAY);
 
-        SaveButton = new JButton("Save Game");
-        SaveButton.setFont(JButtonFontSize);
-        SaveButton.addActionListener(c);
-        GBCSaveButton();
-        rightPanel.add(SaveButton,GBC);
+        ColumnButton = new JButton("Numbers of Columns");
+        ColumnButton.setFont(JButtonFontSize);
+        ColumnButton.addActionListener(c);
+        GBCColumnButton();
+        rightPanel.add(ColumnButton,GBC);
 
-        ResetButton = new JButton("Reset Game");
-        ResetButton.setFont(JButtonFontSize);
-        ResetButton.addActionListener(c);
-        GBCResetButton();
-        rightPanel.add(ResetButton, GBC);
+        RowButton = new JButton("Numbers of rows");
+        RowButton.setFont(JButtonFontSize);
+        RowButton.addActionListener(c);
+        GBCRowButton();
+        rightPanel.add(RowButton, GBC);
+
+
 
         TitleSettings = new JLabel("Settings");
         TitleSettings.setForeground(Color.BLACK);
@@ -278,7 +279,7 @@ public class StartMenu extends JFrame{
 
     public void BackToMenu(StartMenuController c){
 
-        leftPanel.setBackground(Color.GRAY);
+        leftPanel.setBackground(Color.lightGray);
         rightPanel.setBackground(Color.GRAY);
 
 
@@ -516,7 +517,7 @@ public class StartMenu extends JFrame{
         GBC.fill = GridBagConstraints.BOTH;
     }
 
-    void GBCSaveButton(){
+    void GBCColumnButton(){
         GBC.insets = new Insets(20,20,0,50);
         GBC.gridx = 0;
         GBC.gridy = 1;
@@ -525,7 +526,7 @@ public class StartMenu extends JFrame{
         GBC.fill = GridBagConstraints.BOTH;
     }
 
-    void GBCResetButton(){
+    void GBCRowButton(){
         GBC.insets = new Insets(20,20,20,50);
         GBC.gridx = 0;
         GBC.gridy = 2;

@@ -138,14 +138,20 @@ public class StartMenuController implements ActionListener{
             }
 
 
-            case "Save Game": {
-                System.out.println("Trakk på save");
+            case "Numbers of Columns": {
+
+                String ColumnNumer = JOptionPane.showInputDialog(null, "Add how many Columns:");
+                JOptionPane.showMessageDialog(null, "You chose " +ColumnNumer +" columns");
+                System.out.println("Trakk på Numbers of Columns");
                 break;
 
             }
 
-            case "Reset Game": {
-                System.out.println("Trakk på reset");
+            case "Numbers of rows": {
+
+                String RowNumber = JOptionPane.showInputDialog(null, "Add how many Rows:");
+                JOptionPane.showMessageDialog(null,"You chose "+RowNumber +" rows");
+                System.out.println("Trakk på Numbers of rows");
                 break;
             }
 
