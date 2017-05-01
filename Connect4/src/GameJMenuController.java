@@ -18,6 +18,7 @@ public class GameJMenuController implements ActionListener {
     HighscoreView highscoreView;
 
     // TODO: temporary unitButtonController
+    GoldModel goldModel;
 
     UnitButtonController unitButtonController;
 
@@ -37,6 +38,7 @@ public class GameJMenuController implements ActionListener {
         gameBodyFrame.setJMenuBar(gameJMenu);
 
         unitButtonController = this.gameBodyController.unitButtonController;
+        goldModel = this.gameBodyController.goldController.goldModel;
 
         // todo: have common repaint in GameBodyController
         gameBodyFrame.revalidate();
@@ -101,6 +103,7 @@ public class GameJMenuController implements ActionListener {
                 break;
             }
             case "restartGame": {
+                goldModel.setPlayer1Gold(-5);
                 System.out.println("Restarted game...");
                 break;
             }

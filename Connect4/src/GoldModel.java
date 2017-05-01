@@ -9,8 +9,8 @@ import java.io.IOException;
  */
 public class GoldModel {
 
-    int player1Gold = 10;
-    int player2Gold = 10;
+    int player1Gold = 1;
+    int player2Gold = 1;
 
 
     public GoldModel() {

@@ -171,6 +171,17 @@ public class GameBoardController implements ActionListener {
         }
         gameBodyController.goldController.UpdateGoldValue(peasantCount, gameBoardModel.getCurrentPlayer());
 
+        // Checks unit affordability
+        gameBodyController.unitButtonController.checkUnitsAffordability(
+                gameBoardModel.getCurrentPlayer(),
+                gameBodyController.goldController.goldModel.getPlayer1Gold(),
+                gameBodyController.goldController.goldModel.getPlayer2Gold());
+        // Checks magic affordability
+        gameBodyController.unitButtonController.checkMagicAffordability(
+                gameBoardModel.getCurrentPlayer(),
+                gameBodyController.goldController.goldModel.getPlayer1Gold(),
+                gameBodyController.goldController.goldModel.getPlayer2Gold());
+
         gameBoardModel.currentSelectedAction = null;
 
         autoSwitchActionPanel();
