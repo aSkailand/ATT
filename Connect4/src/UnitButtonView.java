@@ -105,7 +105,7 @@ class UnitButtonView {
         labels.get(2).setText("Peasant: " + unitButtonController.unitButtonModel.getUnit1Cost() + " g");
         unitButtonView.add(labels.get(2), gbc);
         gbc.gridx = 2;
-        labels.get(3).setText("Swap: 4515" + unitButtonController.unitButtonModel.getMagic1Cost() + " g");
+        labels.get(3).setText("Swap: " + unitButtonController.unitButtonModel.getMagic1Cost() + " g");
         unitButtonView.add(labels.get(3), gbc);
 
         gbc.gridy = 3;

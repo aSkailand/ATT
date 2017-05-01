@@ -7,7 +7,9 @@ import java.awt.event.WindowEvent;
  */
 public class GameBodyController {
 
+    StartMenuController startMenuController;
     StartMenuModel startMenuModel;
+
 
     GameBodyFrame gameBodyFrame;
     GameBodyModel gameBodyModel;
@@ -21,10 +23,11 @@ public class GameBodyController {
     GoldController goldController;
     UnitButtonController unitButtonController;
 
-    public GameBodyController(StartMenuModel startMenuModel) {
+    public GameBodyController(StartMenuController startMenuController) {
 
         // Declare MVC
-        this.startMenuModel = new StartMenuModel();
+        this.startMenuController = startMenuController;
+        this.startMenuModel = startMenuController.startMenuModel;
 
         gameBodyModel = new GameBodyModel();
         gameBodyFrame = new GameBodyFrame(this);
