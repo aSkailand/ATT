@@ -314,6 +314,9 @@ public class UnitButtonController implements ActionListener {
                 // Changing current selection
                 gameBoardModel.currentSelectedAction = GamePieceTypes.Swap;
 
+                gameBoardController.gameBoardPanel.revalidate();
+                gameBoardController.gameBoardPanel.repaint();
+
 
                 System.out.println("button1 - Swap is chosen");
                 break;

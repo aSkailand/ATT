@@ -16,6 +16,7 @@ public class GameOptionPanel extends JPanel{
     private JPanel castSpellPanel;
 
     ArrayList<JButton> optionList = new ArrayList<>();
+    JButton castSpellButton;
 
     GameBoardController gameBoardController;
     GameBoardModel gameBoardModel;
@@ -45,6 +46,8 @@ public class GameOptionPanel extends JPanel{
         this.removeAll();
         idlePanel.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()).darker());
         this.add(idlePanel);
+        this.revalidate();
+        this.repaint();
     }
 
     void switchToOptionPanel(){
@@ -57,12 +60,16 @@ public class GameOptionPanel extends JPanel{
         }
 
         this.add(optionPanel);
+        this.revalidate();
+        this.repaint();
     }
 
     void switchToCastSpellPanel(){
         this.removeAll();
-        castSpellPanel.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()).darker());
+        castSpellButton.setBackground(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()).darker());
         this.add(castSpellPanel);
+        this.revalidate();
+        this.repaint();
     }
 
     /* Panel Initialize Methods */
@@ -108,7 +115,11 @@ public class GameOptionPanel extends JPanel{
         JPanel magicCastPanel = new JPanel();
         magicCastPanel.setLayout(new BorderLayout());
 
-        JButton castSpellButton = new JButton("Cast Spell");
+        castSpellButton = new JButton("Cast Spell");
+        castSpellButton.setForeground(Color.white);
+        castSpellButton.setEnabled(false);
+        castSpellButton.setBorderPainted(false);
+        castSpellButton.addActionListener(gameBoardController.boardSpellCastController);
         magicCastPanel.add(castSpellButton);
 
         return magicCastPanel;

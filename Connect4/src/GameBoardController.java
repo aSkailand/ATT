@@ -38,8 +38,10 @@ public class GameBoardController implements ActionListener {
     BoardSummonController boardSummonController;
     BoardGravityController boardGravityController;
     BoardWinController boardWinController;
+    BoardSpellCastController boardSpellCastController;
 
     HitPointsController hitPointsController;
+
 
 
     GameBoardController(GameBodyController gameBodyController) {
@@ -53,18 +55,17 @@ public class GameBoardController implements ActionListener {
         // Declare current MVC
         gameBoardModel = new GameBoardModel();
         gameBoardPanel = new GameBoardPanel(this);
-
-        // todo: send this gameBodyController
-        gameOptionPanel = new GameOptionPanel(this);
-        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
-
         gameBodyFrame.centerPanel.add(gameBoardPanel);
-        gameBodyFrame.topPanel.add(gameOptionPanel);
 
         boardSummonController = new BoardSummonController(this);
         boardWinController = new BoardWinController(this);
         boardGravityController = new BoardGravityController(this);
+        boardSpellCastController = new BoardSpellCastController(this);
 
+        // todo: send this gameBodyController
+        gameOptionPanel = new GameOptionPanel(this);
+        colorOptionButtons(gameBoardModel.getPlayerColor(gameBoardModel.getCurrentPlayer()));
+        gameBodyFrame.topPanel.add(gameOptionPanel);
 
         gameBoardModel.printCombinedList();
 
@@ -140,8 +141,6 @@ public class GameBoardController implements ActionListener {
 
         // Swap player
         alternatePlayers();
-
-
 
 
         // Add a move

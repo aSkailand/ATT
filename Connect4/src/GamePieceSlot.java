@@ -83,8 +83,7 @@ public class GamePieceSlot extends JPanel {
         knightPiece.x = x;
         knightPiece.y = y;
 
-        magicPiece.x = x;
-        magicPiece.y = y;
+
 
     }
 
@@ -165,6 +164,10 @@ public class GamePieceSlot extends JPanel {
                 break;
             }
         }
+
+        magicPiece = new GamePieceMagic(this);
+        this.magicPiece.x = x;
+        this.magicPiece.y = y;
 
         this.magicPiece.setText(pieceUnit.getText() + "- Magic");
         this.magicPiece.ownerColor = ownerColor;
