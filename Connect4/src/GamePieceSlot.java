@@ -138,7 +138,10 @@ public class GamePieceSlot extends JPanel {
 
         Color ownerColor;
         if(pieceInfo.getOwner() == GameBoardModel.player.PLAYER_1) ownerColor = Color.RED;
-        else ownerColor = Color.BLUE;
+        else if(pieceInfo.getOwner() == GameBoardModel.player.PLAYER_2) ownerColor = Color.BLUE;
+        else{
+            ownerColor = gameBoardController.gameBoardModel.getPlayerMuteColor(pieceInfo.getBackupOwner());
+        }
 
         switch (pieceInfo.getPieceType()){
             case Peasant:{

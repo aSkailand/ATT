@@ -34,8 +34,59 @@ public class GamePieceMagic extends GamePiece implements ActionListener {
                 runSwap();
                 break;
             }
-        }
+            case Mute: {
+                gameBoardModel.loadOccupancyListFromCombinedList();
 
+                // IF CLICKED PIECE IS NOT SELECTED
+                if (!selected) {
+                    selected = true;
+                    gameBoardModel.numSelected++;
+                    this.setBackground(ownerColor.darker().darker());
+
+
+                }
+                // IF CLICKED PIECE IS ALREADY SELECTED
+                else {
+                    selected = false;
+                    gameBoardModel.numSelected--;
+                    this.setBackground(ownerColor);
+
+                }
+
+                // LOCK MANAGEMENT
+                if (gameBoardModel.numSelected == 0) {
+
+                    // Update Selected Player
+                    gameBoardModel.selectedPlayer = null;
+
+                    // Open all except legal pieces to swap on
+                    openMagicPieces(gameBoardModel.getWaitingPlayer());
+                    openMagicPieces(gameBoardModel.getCurrentPlayer());
+                    lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
+
+                    // Lock Cast Spell Button
+                    gameBoardController.gameOptionPanel.castSpellButton.setText("Please Select 1 Piece");
+                    gameBoardController.gameOptionPanel.castSpellButton.setEnabled(false);
+
+                } else if (gameBoardModel.numSelected == 1) {
+
+                    // Update Selected Player
+                    gameBoardModel.selectedPlayer = gameBoardModel.getSlotOccupancy(x, y);
+
+                    // Lock all except selected team
+                    lockMagicPieces(gameBoardModel.getWaitingPlayer());
+                    lockMagicPieces(gameBoardModel.getCurrentPlayer());
+                    lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
+                    openSelectedMagicPieces();
+
+                    // Open Cast Spell Button
+                    gameBoardController.gameOptionPanel.castSpellButton.setText("CAST SPELL");
+                    gameBoardController.gameOptionPanel.castSpellButton.setEnabled(true);
+
+                }
+            }
+
+        }
     }
 
     void runSwap(){

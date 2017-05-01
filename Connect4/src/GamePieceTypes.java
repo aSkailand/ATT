@@ -6,6 +6,8 @@ public enum  GamePieceTypes {
     Assassin('a'),
     Knight('k'),
     Swap('s'),
+    Mute('m'),
+    Bomb('b'),
     None('-');
 
     private char aChar;

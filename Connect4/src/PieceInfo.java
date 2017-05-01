@@ -6,8 +6,11 @@ class PieceInfo {
 
     private GameBoardModel.player owner;
     private GamePieceTypes gamePieceType;
-
     private boolean enabled;
+
+    private boolean muted = false;
+
+    private GameBoardModel.player backupOwner;
 
     PieceInfo() {
         this.owner = GameBoardModel.player.PLAYER_NONE;
@@ -29,6 +32,8 @@ class PieceInfo {
         this.owner = sourcePiece.getOwner();
         this.gamePieceType = sourcePiece.getPieceType();
         this.enabled = sourcePiece.isEnabled();
+        this.backupOwner = sourcePiece.backupOwner;
+        this.muted = sourcePiece.muted;
     }
 
     void setInfo(GameBoardModel.player player, GamePieceTypes unit, boolean isEnabled) {
@@ -41,6 +46,21 @@ class PieceInfo {
         this.owner = GameBoardModel.player.PLAYER_NONE;
         this.gamePieceType = GamePieceTypes.None;
         this.enabled = false;
+        this.backupOwner = null;
+        this.muted = false;
+    }
+
+    void setMuteStatus(boolean muteTick){
+        if(muteTick) {
+            this.muted = true;
+            this.backupOwner = this.owner;
+            this.owner = GameBoardModel.player.PLAYER_NEUTRAL;
+        }
+        else{
+            this.muted = false;
+            this.owner = this.backupOwner;
+            this.backupOwner = null;
+        }
     }
 
     /**
@@ -66,6 +86,18 @@ class PieceInfo {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void setMuted(boolean muted) {
+        this.muted = muted;
+    }
+
+    public boolean isMuted() {
+        return muted;
+    }
+
+    public GameBoardModel.player getBackupOwner() {
+        return backupOwner;
     }
 }
 
