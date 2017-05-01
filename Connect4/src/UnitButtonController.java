@@ -352,27 +352,17 @@ public class UnitButtonController implements ActionListener {
                 // Updating Occupancy List
                 gameBoardModel.loadOccupancyListFromCombinedList();
 
-                // Convert all over to magic
-                for (int x = 0; x < GameBoardModel.numCol; x++) {
-                    for (int y = 0; y < GameBoardModel.numRow; y++) {
-                        if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)) {
-                            gameBoardController.gameBoardPanel.getSlot(x, y).switchToMagic();
-                        }
-                    }
-                }
+                // Convert all pieces to magic
+                convertAllToMagicPieces();
 
                 // Enabling all except opponent + empty slots
-                for (int x = 0; x < GameBoardModel.numCol; x++) {
-                    for (int y = 0; y < GameBoardModel.numRow; y++) {
-                        if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)
-                                && gameBoardModel.getSlotOccupancy(x, y).equals(gameBoardModel.getWaitingPlayer())) {
-                            gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().setEnabled(false);
-                        }
-                    }
-                }
+                lockMagicPieces(gameBoardModel.getWaitingPlayer());
 
                 // Changing current selection
                 gameBoardModel.currentSelectedAction = GamePieceTypes.Swap;
+
+                // Switch to Spell Cast Panel
+                gameBoardController.autoSwitchActionPanel();
 
                 gameBoardController.gameBoardPanel.revalidate();
                 gameBoardController.gameBoardPanel.repaint();
@@ -390,7 +380,22 @@ public class UnitButtonController implements ActionListener {
             }
             case "button3": {
                 selectedButton(3, gameBoardModel.getCurrentPlayer());
-                System.out.println("button3");
+
+                convertAllToMagicPieces();
+
+                // Enabling all except Neutral
+                lockMagicPieces(GameBoardModel.player.PLAYER_NEUTRAL);
+
+                // Changing current selection
+                gameBoardModel.currentSelectedAction = GamePieceTypes.Mute;
+
+                // Switch to Spell Cast Panel
+                gameBoardController.autoSwitchActionPanel();
+
+                gameBoardController.gameBoardPanel.revalidate();
+                gameBoardController.gameBoardPanel.repaint();
+
+                System.out.println("button3 - Mute is chosen.");
                 break;
             }
             case "button4": {
@@ -417,5 +422,29 @@ public class UnitButtonController implements ActionListener {
         gameBoardController.autoSwitchActionPanel();
 
 
+    }
+
+    void convertAllToMagicPieces(){
+        // Convert all over to magic
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)) {
+                    gameBoardController.gameBoardPanel.getSlot(x, y).switchToMagic();
+                }
+            }
+        }
+    }
+
+    void lockMagicPieces(GameBoardModel.player lockPlayer) {
+        // Lock all except selected players
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)) {
+                    if(gameBoardModel.getSlotOccupancy(x, y).equals(lockPlayer)){
+                        gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().setEnabled(false);
+                    }
+                }
+            }
+        }
     }
 }

@@ -112,8 +112,8 @@ class BoardSummonController {
     int getCost(GamePieceTypes currentPieceType){
 
         switch (currentPieceType){
-            case Peasant: return 1;
-            case Assassin: return 1;
+            case Peasant: return gameBoardController.gameBodyController.unitButtonController.unitButtonModel.getUnit1Cost();
+            case Assassin: return gameBoardController.gameBodyController.unitButtonController.unitButtonModel.getUnit2Cost();
             default:{
                 System.out.println("COST ERROR!");
                 return 0;

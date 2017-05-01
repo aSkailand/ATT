@@ -135,7 +135,9 @@ public class GameBoardController implements ActionListener {
         }
         gameBoardModel.loadSlotListFromCombinedList(gameBoardPanel);
 
-        gameBoardModel.phase_1 = true;
+        // TODO: PHASE_1 = true was here!
+
+//        gameBoardModel.phase_1 = true;
 
 
         // Swap player
@@ -163,11 +165,38 @@ public class GameBoardController implements ActionListener {
         int peasantCount = 0;
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
-                if (gameBoardModel.getSlotCombined(x, y).checkIf(gameBoardModel.getCurrentPlayer(), GamePieceTypes.Peasant, false))
+                if (gameBoardModel.getSlotCombined(x, y).checkIf(gameBoardModel.getCurrentPlayer(), GamePieceTypes.Peasant, false)) {
                     peasantCount++;
+                }
             }
         }
         gameBodyController.goldController.UpdateGoldValue(peasantCount, gameBoardModel.getCurrentPlayer());
+
+
+
+        // Mute de-ticker
+        gameBoardModel.loadOccupancyListFromCombinedList();
+        System.out.println("Check for mute:");
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NEUTRAL)
+                        && !gameBoardModel.getSlotCombined(x,y).getPieceType().equals(GamePieceTypes.Bomb)) {
+                    if (gameBoardModel.getSlotCombined(x, y).isMuted()) {
+                        gameBoardModel.getSlotCombined(x, y).setMuted(false);
+                    }
+                    else{
+                        gameBoardModel.getSlotCombined(x,y).setMuteStatus(false);
+                    }
+                }
+            }
+        }
+        gameBoardModel.loadSlotListFromCombinedList(gameBoardPanel);
+
+        gameBoardModel.loadOccupancyListFromCombinedList();
+        boardWinController.runWinCheck();
+
+        gameBoardModel.phase_1 = true;
+
 
         // Disable buttons for Phase 1
         gameBodyController.unitButtonController.phaseDisableButtons(
@@ -180,6 +209,7 @@ public class GameBoardController implements ActionListener {
         gameBodyController.unitButtonController.checkMagicAffordability(gameBoardModel.getCurrentPlayer());
 
         gameBoardModel.currentSelectedAction = null;
+
 
         autoSwitchActionPanel();
 
