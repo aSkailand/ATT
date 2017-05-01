@@ -108,6 +108,70 @@ public class UnitButtonController implements ActionListener {
     }
 
     /**
+     * This method disables buttons depending on which phase is ongoing
+     * @param currentPlayer: player turn
+     * @param phase: phase1 = true, phase 2 = false
+     */
+    public void phaseDisableButtons(GameBoardModel.player currentPlayer, boolean phase) {
+        if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
+            // Phase 1
+            if (phase) {
+
+                // Disables magic buttons when starting a new round
+                unitButtonModel.unitButtonsPlayer1.get(1).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(3).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(5).setEnabled(false);
+            }
+            // Phase 2
+            else {
+                // Removes selected color on units
+                unitButtonModel.unitButtonsPlayer1.get(0).setContentAreaFilled(false);
+                unitButtonModel.unitButtonsPlayer1.get(2).setContentAreaFilled(false);
+                unitButtonModel.unitButtonsPlayer1.get(4).setContentAreaFilled(false);
+
+                // Disables unit buttons after phase 1
+                unitButtonModel.unitButtonsPlayer1.get(0).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(2).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer1.get(4).setEnabled(false);
+
+                // Enables magic buttons in phase 2
+                unitButtonModel.unitButtonsPlayer1.get(1).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(3).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer1.get(5).setEnabled(true);
+            }
+        } else if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {
+            // Phase 1
+            if (phase) {
+
+                // Disables magic buttons when starting a new round
+                unitButtonModel.unitButtonsPlayer2.get(1).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(3).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(5).setEnabled(false);
+
+            }
+            // Phase 2
+            else {
+
+                // Removes selected color on units
+                unitButtonModel.unitButtonsPlayer2.get(0).setContentAreaFilled(false);
+                unitButtonModel.unitButtonsPlayer2.get(2).setContentAreaFilled(false);
+                unitButtonModel.unitButtonsPlayer2.get(4).setContentAreaFilled(false);
+
+                // Disables unit buttons after phase 1
+                unitButtonModel.unitButtonsPlayer2.get(0).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(2).setEnabled(false);
+                unitButtonModel.unitButtonsPlayer2.get(4).setEnabled(false);
+
+                // Enables magic buttons in phase 2
+                unitButtonModel.unitButtonsPlayer2.get(1).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(3).setEnabled(true);
+                unitButtonModel.unitButtonsPlayer2.get(5).setEnabled(true);
+            }
+        }
+    }
+
+
+    /**
      * This method checks if the current player can afford the different units
      *
      * @param currentPlayer: player turn
@@ -305,7 +369,7 @@ public class UnitButtonController implements ActionListener {
                 for (int x = 0; x < GameBoardModel.numCol; x++) {
                     for (int y = 0; y < GameBoardModel.numRow; y++) {
                         if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)
-                                && gameBoardModel.getSlotOccupancy(x,y).equals(gameBoardModel.getWaitingPlayer())) {
+                                && gameBoardModel.getSlotOccupancy(x, y).equals(gameBoardModel.getWaitingPlayer())) {
                             gameBoardController.gameBoardPanel.getSlot(x, y).getPieceMagic().setEnabled(false);
                         }
                     }
@@ -352,7 +416,6 @@ public class UnitButtonController implements ActionListener {
         }
 
         gameBoardController.autoSwitchActionPanel();
-
 
 
     }

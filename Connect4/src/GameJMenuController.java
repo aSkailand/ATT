@@ -17,6 +17,10 @@ public class GameJMenuController implements ActionListener {
     GameBodyModel gameBodyModel;
     HighscoreView highscoreView;
 
+    // TODO: temporary unitButtonController
+
+    UnitButtonController unitButtonController;
+
     //This boolean is for the pause/unpause button, when its true its unpaused, if its false its paused
     boolean pauseBoolean = true;
 
@@ -31,6 +35,8 @@ public class GameJMenuController implements ActionListener {
 
         gameJMenu = new GameJMenu(this);
         gameBodyFrame.setJMenuBar(gameJMenu);
+
+        unitButtonController = this.gameBodyController.unitButtonController;
 
         // todo: have common repaint in GameBodyController
         gameBodyFrame.revalidate();
@@ -47,7 +53,7 @@ public class GameJMenuController implements ActionListener {
                 System.out.println("Main menu...");
 
 
-
+                unitButtonController.phaseDisableButtons(GameBoardModel.player.PLAYER_1,true);
                                 break;
             }
             case "highscore": {
@@ -63,7 +69,9 @@ public class GameJMenuController implements ActionListener {
             }
             case "openGame": {
                 System.out.println("Open game...");
+                unitButtonController.phaseDisableButtons(GameBoardModel.player.PLAYER_1,false);
                 break;
+
             }
             case "pauseGame": {
                 System.out.println("Paused game...");
