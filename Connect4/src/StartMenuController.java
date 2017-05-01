@@ -142,7 +142,8 @@ public class StartMenuController implements ActionListener{
 
                 String ColumnNumber = JOptionPane.showInputDialog(null, "Add how many Columns:");
                 int Column = Integer.parseInt(ColumnNumber);
-                JOptionPane.showMessageDialog(null, "You chose " +Column +" columns");
+                JOptionPane.showMessageDialog(null, "You chose " +Column +" columns.");
+
 
 
                 System.out.println("Trakk på Numbers of Columns");
