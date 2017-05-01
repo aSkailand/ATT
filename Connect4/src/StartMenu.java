@@ -47,6 +47,8 @@ public class StartMenu extends JFrame{
 
     Font JButtonFontSize = new Font("", Font.BOLD, 20);
 
+    Color ButtonColor = new Color(0*65536+0*256+255);//RGB Color system
+
     GridBagConstraints GBC = new GridBagConstraints();
     
 
@@ -66,29 +68,32 @@ public class StartMenu extends JFrame{
         //Legger til panel over main, jobber ikke på main panel lenger
         //Jobber på leftPanel og rightPanel
         leftPanel.setLayout(new GridBagLayout());
-        leftPanel.setBackground(Color.CYAN);
+        leftPanel.setBackground(Color.LIGHT_GRAY);
         GBCleftPanel();
         MainPanel.add(leftPanel, GBC);
 
         rightPanel.setLayout(new GridBagLayout());
-        rightPanel.setBackground(Color.RED);
+        rightPanel.setBackground(Color.GRAY);
         GBCrightPanel();
         MainPanel.add(rightPanel, GBC);
 
         PlayGameButton = new JButton("Play Game");
         PlayGameButton.setFont(JButtonFontSize);
+        PlayGameButton.setBackground(ButtonColor);
         PlayGameButton.addActionListener(c);
         GBCPlayGameButton();
         leftPanel.add(PlayGameButton, GBC);
 
         HowToPlayButton = new JButton("How To Play");
         HowToPlayButton.setFont(JButtonFontSize);
+        HowToPlayButton.setBackground(ButtonColor);
         HowToPlayButton.addActionListener(c);
         GBCHowToPlayButton();
         leftPanel.add(HowToPlayButton,GBC);
 
         ExitButton = new JButton("Exit Game");
         ExitButton.setFont(JButtonFontSize);
+        ExitButton.setBackground(ButtonColor);
         ExitButton.addActionListener(c);
         GBCExitButton();
         leftPanel.add(ExitButton, GBC);
@@ -161,7 +166,7 @@ public class StartMenu extends JFrame{
 
     public void GameMode(StartMenuController c) {
 
-        rightPanel.setBackground(Color.RED);
+        rightPanel.setBackground(Color.GRAY);
 
         TitleSelect = new JLabel("Select Gaming Mode");
         TitleSelect.setFont(new Font("", Font.BOLD, 25));
@@ -239,7 +244,7 @@ public class StartMenu extends JFrame{
     public void Settings(StartMenuController c){
 
 
-        rightPanel.setBackground(Color.GREEN);
+        rightPanel.setBackground(Color.GRAY);
 
         SaveButton = new JButton("Save Game");
         SaveButton.setFont(JButtonFontSize);
@@ -273,24 +278,27 @@ public class StartMenu extends JFrame{
 
     public void BackToMenu(StartMenuController c){
 
-        leftPanel.setBackground(Color.CYAN);
-        rightPanel.setBackground(Color.RED);
+        leftPanel.setBackground(Color.GRAY);
+        rightPanel.setBackground(Color.GRAY);
 
 
         PlayGameButton = new JButton("Play Game");
         PlayGameButton.setFont(JButtonFontSize);
+        PlayGameButton.setBackground(ButtonColor);
         PlayGameButton.addActionListener(c);
         GBCPlayGameButton();
         leftPanel.add(PlayGameButton, GBC);
 
         HowToPlayButton = new JButton("How To Play");
         HowToPlayButton.setFont(JButtonFontSize);
+        HowToPlayButton.setBackground(ButtonColor);
         HowToPlayButton.addActionListener(c);
         GBCHowToPlayButton();
         leftPanel.add(HowToPlayButton,GBC);
 
         ExitButton = new JButton("Exit Game");
         ExitButton.setFont(JButtonFontSize);
+        ExitButton.setBackground(ButtonColor);
         ExitButton.addActionListener(c);
         GBCExitButton();
         leftPanel.add(ExitButton, GBC);
