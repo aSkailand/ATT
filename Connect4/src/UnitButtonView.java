@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +29,7 @@ class UnitButtonView {
     JPanel CreateUnitButtonView(UnitButtonController unitButtonController, ArrayList<JButton> buttons, ArrayList<JLabel> labels, ImageIcon imageIcon, Color color, Color colorbutton) {
 
 
+
         JPanel unitButtonView = new JPanel();
 
         // JPanel setup
@@ -45,6 +47,8 @@ class UnitButtonView {
             buttons.get(i).setContentAreaFilled(false);
             buttons.get(i).setBorderPainted(false);
             buttons.get(i).setFocusPainted(true);
+            // TODO: maybe remove after choosing pictures
+            buttons.get(i).setBorder(BorderFactory.createEmptyBorder());
             buttons.get(i).setIcon(imageIcon);
             buttons.get(i).setBackground(colorbutton);
             buttons.get(i).addActionListener(unitButtonController);
@@ -72,9 +76,12 @@ class UnitButtonView {
 
         // Top labels
         labels.get(0).setVerticalAlignment(SwingConstants.BOTTOM);
+        labels.get(0).setFont(unitButtonController.unitButtonModel.loadFontLabels());
         labels.get(1).setVerticalAlignment(SwingConstants.BOTTOM);
-        labels.get(0).setText("Units");
-        labels.get(1).setText("Magic");
+        labels.get(1).setFont(unitButtonController.unitButtonModel.loadFontLabels());
+
+        labels.get(0).setText("UNITS");
+        labels.get(1).setText("MAGIC");
 
         unitButtonView.add(labels.get(0), gbc);
         gbc.gridx = 2;
@@ -96,7 +103,7 @@ class UnitButtonView {
         labels.get(2).setText("Peasant: " + unitButtonController.unitButtonModel.getUnit1Cost() + " g");
         unitButtonView.add(labels.get(2), gbc);
         gbc.gridx = 2;
-        labels.get(3).setText("Swap unit:" + unitButtonController.unitButtonModel.getMagic1Cost() + " g");
+        labels.get(3).setText("Swap unit: " + unitButtonController.unitButtonModel.getMagic1Cost() + " g");
         unitButtonView.add(labels.get(3), gbc);
 
         gbc.gridy = 3;
@@ -139,6 +146,7 @@ class UnitButtonView {
 
         return unitButtonView;
     }
+
 
     void gbc() {
 

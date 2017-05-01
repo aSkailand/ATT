@@ -15,12 +15,15 @@ public class GameBodyModel {
 
     JButton playerOneAvatarButton = new JButton();
     JButton playerTwoAvatarButton = new JButton();
+    Font hpFont = loadFont();
 
 
     public GameBodyModel() {
 
         playerOneAvatarButton.setBorder(new EmptyBorder(0, 0, 0, 0));
         playerOneAvatarButton.setBorderPainted(false);
+        playerOneAvatarButton.setFocusPainted(false);
+        playerOneAvatarButton.setBorder(BorderFactory.createEmptyBorder());
         playerOneAvatarButton.setContentAreaFilled(false);
 
         ImageIcon p1_avatar = loadImageIcon(new File("man.png"), 150, 150);
@@ -28,6 +31,8 @@ public class GameBodyModel {
 
         playerTwoAvatarButton.setBorder(new EmptyBorder(0, 0, 0, 0));
         playerTwoAvatarButton.setBorderPainted(false);
+        playerOneAvatarButton.setFocusPainted(false);
+        playerTwoAvatarButton.setBorder(BorderFactory.createEmptyBorder());
         playerTwoAvatarButton.setContentAreaFilled(false);
 
         ImageIcon p2_avatar = loadImageIcon(new File("link.png"),150,150);
@@ -35,6 +40,28 @@ public class GameBodyModel {
 
 
 
+
+
+    }
+
+    Font loadFont(){
+        Font font = null;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("PrStart.ttf"));
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+        return font.deriveFont(30f);
+    }
+
+    Font loadFontHP(){
+        Font font = null;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("PrStart.ttf"));
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+        return font.deriveFont(18f);
     }
 
     ImageIcon loadImageIcon(File file, int imageWidth, int imageHeight) {

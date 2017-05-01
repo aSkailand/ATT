@@ -14,7 +14,7 @@ public class GameBodyController {
     GameTimerController gameTimerController;
     GameBoardController gameBoardController;
 
-    HitPointsModel hitPointsModel;
+
     HitPointsController hitPointsController;
     GoldController goldController;
     UnitButtonController unitButtonController;
@@ -39,7 +39,6 @@ public class GameBodyController {
         gameBoardController.roundInitialRun();
 
       
-
 
         // Window listener
         gameBodyFrame.addWindowListener(

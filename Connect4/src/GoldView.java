@@ -10,13 +10,15 @@ public class GoldView {
     JLabel player1GoldLabel;
     JLabel player2GoldLabel;
 
-    public GoldView() {
+    public GoldView(GoldController goldController) {
 
         // Gold label setup
         player1GoldLabel = new JLabel();
         player1GoldLabel.setForeground(Color.WHITE);
+        player1GoldLabel.setFont(goldController.goldModel.loadFontGold());
         player2GoldLabel = new JLabel();
         player2GoldLabel.setForeground(Color.WHITE);
+        player2GoldLabel.setFont(goldController.goldModel.loadFontGold());
     }
 
     /**

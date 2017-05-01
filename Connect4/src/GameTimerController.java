@@ -26,10 +26,14 @@ public class GameTimerController implements ActionListener {
         gameBodyFrame = this.gameBodyController.gameBodyFrame;
 
         // JButton Setup
-        timer = new JButton("30");
+        timer = new JButton("<html>END<br/>TURN</html>" +currentTime);
+
         timer.setBorderPainted(false);
-        timer.setBackground(Color.LIGHT_GRAY);
-        timer.setFont(new Font("Consolas", Font.BOLD, 40));
+        timer.setFocusPainted(false);
+        timer.setBorder(BorderFactory.createEmptyBorder());
+        timer.setBackground(Color.DARK_GRAY.darker());
+        timer.setForeground(new Color(124, 255, 0, 255));
+        timer.setFont(gameBodyController.gameBodyModel.loadFont());
 
         //todo: DELETE? Temporary Function by Trong:
         timer.addActionListener(
@@ -56,7 +60,7 @@ public class GameTimerController implements ActionListener {
         }
         if (currentTime < 0) {
 
-            timer.setText("30");
+            timer.setText("End turn");
             System.out.println("Time is up");
             currentTime = 29;
         }

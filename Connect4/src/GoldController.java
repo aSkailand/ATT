@@ -17,7 +17,7 @@ public class GoldController {
         // Declare MVC
         gameBodyFrame = gameBodyController.gameBodyFrame;
         goldModel = new GoldModel();
-        goldView = new GoldView();
+        goldView = new GoldView(this);
 
         Image goldImage = goldModel.loadGoldIcon(new File("gold.png"), 30, 30);
 
@@ -28,12 +28,12 @@ public class GoldController {
 
         // Player 1
         gameBodyFrame.leftPlayerGoldGrid.add(goldIconPanelPlayer1);
-        goldView.player1GoldLabel.setText("x " + goldModel.getPlayer1Gold());
+        goldView.player1GoldLabel.setText("X" + goldModel.getPlayer1Gold());
         gameBodyFrame.leftPlayerGoldGrid.add(goldView.player1GoldLabel);
 
         // Player 2
         gameBodyFrame.rightPlayerGoldGrid.add(goldIconPanelPlayer2);
-        goldView.player2GoldLabel.setText("x " + goldModel.getPlayer2Gold());
+        goldView.player2GoldLabel.setText("X" + goldModel.getPlayer2Gold());
         gameBodyFrame.rightPlayerGoldGrid.add(goldView.player2GoldLabel);
 
         gameBodyFrame.revalidate();
@@ -53,6 +53,7 @@ public class GoldController {
             int player_1Gold = goldModel.getPlayer1Gold();
             player_1Gold += gold;
             goldModel.setPlayer1Gold(player_1Gold);
+            goldView.player1GoldLabel.setFont(goldModel.loadFontGold());
             goldView.player1GoldLabel.setText("x " + goldModel.getPlayer1Gold());
             System.out.println("player 1");
 
@@ -61,6 +62,7 @@ public class GoldController {
             int player_2Gold = goldModel.getPlayer2Gold();
             player_2Gold += gold;
             goldModel.setPlayer2Gold(player_2Gold);
+            goldView.player2GoldLabel.setFont(goldModel.loadFontGold());
             goldView.player2GoldLabel.setText("x " + goldModel.getPlayer2Gold());
             System.out.println("player 2");
         }

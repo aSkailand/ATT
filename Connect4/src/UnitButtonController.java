@@ -26,6 +26,7 @@ public class UnitButtonController implements ActionListener {
     boolean player2button3 = false;
     boolean player2button5 = false;
 
+//    Font font = unitButtonModel.loadFont();
 
     public UnitButtonController(GameBodyController gameBodyController) {
 

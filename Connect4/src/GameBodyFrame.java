@@ -38,7 +38,7 @@ public class GameBodyFrame extends JFrame {
     JPanel rightPlayerHPPanel = new JPanel();
     JPanel rightPlayerGoldGrid = new JPanel();
 
-    JLabel rightPlayerHP = new JLabel("");
+    JLabel rightPlayerHP = new JLabel();
 
     /**
      * This is the Game Frame, which contains all in-game elements.
@@ -128,8 +128,8 @@ public class GameBodyFrame extends JFrame {
         mainPanel.add(leftPlayerPanel, gbc);
 
         // HP FONT
-        //leftPlayerHP.setText(""+gameBodyModel.getPlayerHP());
-        leftPlayerHP.setFont(new Font(null, Font.BOLD, 20));
+        leftPlayerHP.setHorizontalAlignment(SwingConstants.CENTER);
+        leftPlayerHP.setFont(gameBodyModel.loadFontHP());
         leftPlayerHP.setForeground(Color.white);
 
         gbc.gridx = 0;
@@ -187,7 +187,8 @@ public class GameBodyFrame extends JFrame {
         mainPanel.add(rightPlayerPanel, gbc);
 
         //HP FONT
-        rightPlayerHP.setFont(new Font(null, Font.BOLD, 20));
+        rightPlayerHP.setFont(gameBodyModel.loadFontHP());
+        rightPlayerHP.setHorizontalAlignment(SwingConstants.CENTER);
         rightPlayerHP.setForeground(Color.white);
 
         gbc.gridx = 3;

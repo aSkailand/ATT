@@ -47,6 +47,7 @@ public class HitPointsController {
 
             System.out.println("" + percentagePlayer_1HP + "%");
             hitPointsModel.setPlayer_1Hitpoints(player_1HPCurrent_view);
+
             gameBodyFrame.leftPlayerHP.setText("HP:" + player_1HPCurrent_view + "/" + hitPointsModel.getPlayersHitpoints());
 
         } else if (currentPlayer.equals(GameBoardModel.player.PLAYER_2)) {

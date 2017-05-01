@@ -44,6 +44,16 @@ public class GoldModel {
         }
     }
 
+    Font loadFontGold(){
+        Font font = null;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("PrStart.ttf"));
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+        return font.deriveFont(16f);
+    }
+
     // Getters and setters
     public int getPlayer1Gold() {
         return player1Gold;

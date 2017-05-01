@@ -38,7 +38,10 @@ public class UnitButtonModel {
 
         addButtonsToList(unitButtonsPlayer2);
         addLabelsToList(unitLabelPlayer2);
+
+
     }
+
 
     /**
      * stores 6 JButtons to a array list
@@ -91,6 +94,16 @@ public class UnitButtonModel {
             Image image = bufferedImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
             return new ImageIcon(image);
         }
+    }
+
+    Font loadFontLabels(){
+        Font font = null;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("PrStart.ttf"));
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+        return font.deriveFont(14f);
     }
 
     // getters and setters
