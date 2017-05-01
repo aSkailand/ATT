@@ -82,6 +82,9 @@ public class GameBoardModel {
     private Color colorPlayer1 = Color.RED;
     private Color colorPlayer2 = Color.BLUE;
 
+    private Color colorMutePlayer1 = new Color(178, 62, 54);
+    private Color colorMutePlayer2 = new Color(59, 67,150);
+
     private Color colorWin1 = new Color(255, 119, 134);
     private Color colorWin2 = new Color(127, 167, 255);
 
@@ -234,6 +237,12 @@ public class GameBoardModel {
         if (checkPlayer.equals(player.PLAYER_1)) {
             return colorPlayer1;
         } else return colorPlayer2;
+    }
+
+    Color getPlayerMuteColor(player checkPlayer) {
+        if (checkPlayer.equals(player.PLAYER_1)) {
+            return colorMutePlayer1;
+        } else return colorMutePlayer2;
     }
 
     // Get win color of given player
