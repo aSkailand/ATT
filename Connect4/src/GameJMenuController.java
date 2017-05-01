@@ -55,8 +55,8 @@ public class GameJMenuController implements ActionListener {
                 System.out.println("Main menu...");
 
 
-                unitButtonController.phaseDisableButtons(GameBoardModel.player.PLAYER_1,true);
-                                break;
+                unitButtonController.phaseDisableButtons(GameBoardModel.player.PLAYER_1, true);
+                break;
             }
             case "highscore": {
                 System.out.println("Highscore...");
@@ -71,7 +71,7 @@ public class GameJMenuController implements ActionListener {
             }
             case "openGame": {
                 System.out.println("Open game...");
-                unitButtonController.phaseDisableButtons(GameBoardModel.player.PLAYER_1,false);
+                unitButtonController.phaseDisableButtons(GameBoardModel.player.PLAYER_1, false);
                 break;
 
             }

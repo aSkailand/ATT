@@ -72,8 +72,8 @@ public class UnitButtonController implements ActionListener {
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(false);
 
 
-                checkUnitsAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
-                checkMagicAffordability(GameBoardModel.player.PLAYER_1, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
+                checkUnitsAffordability(GameBoardModel.player.PLAYER_1);
+                checkMagicAffordability(GameBoardModel.player.PLAYER_1);
 
                 gameBodyFrame.labelNotifications.setText(setPlayerTurnNotificationText(currentPlayer));
                 gameBodyFrame.centerStatusPanel.setBackground(Color.RED);
@@ -94,8 +94,8 @@ public class UnitButtonController implements ActionListener {
                 unitButtonModel.unitButtonsPlayer2.get(i).setEnabled(true);
                 unitButtonModel.unitButtonsPlayer1.get(i).setEnabled(false);
 
-                checkUnitsAffordability(GameBoardModel.player.PLAYER_2, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
-                checkMagicAffordability(GameBoardModel.player.PLAYER_2, goldModel.getPlayer1Gold(), goldModel.getPlayer2Gold());
+                checkUnitsAffordability(GameBoardModel.player.PLAYER_2);
+                checkMagicAffordability(GameBoardModel.player.PLAYER_2);
 
                 gameBodyFrame.labelNotifications.setText(setPlayerTurnNotificationText(currentPlayer));
                 gameBodyFrame.centerStatusPanel.setBackground(Color.BLUE);
@@ -175,13 +175,11 @@ public class UnitButtonController implements ActionListener {
      * This method checks if the current player can afford the different units
      *
      * @param currentPlayer: player turn
-     * @param player_1Gold:  player 1 gold
-     * @param player_2Gold:  player 2 gold
      */
-    public void checkUnitsAffordability(GameBoardModel.player currentPlayer, int player_1Gold, int player_2Gold) {
+    public void checkUnitsAffordability(GameBoardModel.player currentPlayer) {
 
-        int p1Gold = player_1Gold;
-        int p2Gold = player_2Gold;
+        int p1Gold = gameBodyController.goldController.goldModel.getPlayer1Gold();
+        int p2Gold = gameBodyController.goldController.goldModel.getPlayer2Gold();
 
         if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
             if (p1Gold >= unitButtonModel.getUnit3Cost()) {
@@ -245,13 +243,11 @@ public class UnitButtonController implements ActionListener {
      * This metod checks if the current player can afford the different magic spells
      *
      * @param currentPlayer: player turn
-     * @param player_1Gold:  player 1 gold
-     * @param player_2Gold:  player 2 gold
      */
-    public void checkMagicAffordability(GameBoardModel.player currentPlayer, int player_1Gold, int player_2Gold) {
+    public void checkMagicAffordability(GameBoardModel.player currentPlayer) {
 
-        int p1Gold = player_1Gold;
-        int p2Gold = player_2Gold;
+        int p1Gold = gameBodyController.goldController.goldModel.getPlayer1Gold();
+        int p2Gold = gameBodyController.goldController.goldModel.getPlayer2Gold();
 
         if (currentPlayer.equals(GameBoardModel.player.PLAYER_1)) {
             if (p1Gold >= unitButtonModel.getMagic3Cost()) {

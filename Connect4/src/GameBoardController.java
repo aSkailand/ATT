@@ -7,23 +7,23 @@ import java.util.Collections;
 /**
  * Created by aslak on 03.04.17.
  */
+
 /**
  * Manages all board-related actions. The initiator for all the board/piece-related controllers.
- *
- *      ILLUSTRATION:
- *
- *      (START) GameBoardController -> BoardSummonController -> BoardGravityController
- *                                                                  ^          |
- *                                                                  |          v
- *                                                               BoardWinController  -->  GameBoardController (END)
- *
- *      NOTES:
- *      GameBoardController:    Start Process
- *      BoardSummonController:  Places a piece, both Human and AI
- *      BoardGravityController: Drag down pieces if possible
- *      BoardWinController:     Check for win, claim them and runs Gravity again, or end if no win exists.
- *      GameBoardController:    End process
- *
+ * <p>
+ * ILLUSTRATION:
+ * <p>
+ * (START) GameBoardController -> BoardSummonController -> BoardGravityController
+ * ^          |
+ * |          v
+ * BoardWinController  -->  GameBoardController (END)
+ * <p>
+ * NOTES:
+ * GameBoardController:    Start Process
+ * BoardSummonController:  Places a piece, both Human and AI
+ * BoardGravityController: Drag down pieces if possible
+ * BoardWinController:     Check for win, claim them and runs Gravity again, or end if no win exists.
+ * GameBoardController:    End process
  */
 public class GameBoardController implements ActionListener {
 
@@ -41,7 +41,6 @@ public class GameBoardController implements ActionListener {
     BoardSpellCastController boardSpellCastController;
 
     HitPointsController hitPointsController;
-
 
 
     GameBoardController(GameBodyController gameBodyController) {
@@ -97,7 +96,7 @@ public class GameBoardController implements ActionListener {
     /* ROUND CONTROL METHODS */
 
     // Run ONCE
-    void roundInitialRun(){
+    void roundInitialRun() {
 
         gameBodyController.unitButtonController.disableButtons(gameBoardModel.getWaitingPlayer());
 
@@ -128,7 +127,7 @@ public class GameBoardController implements ActionListener {
         gameBoardModel.loadOccupancyListFromCombinedList();
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
-                if(!gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_NONE)) {
+                if (!gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NONE)) {
                     gameBoardModel.getSlotCombined(x, y).setEnabled(false);
 //                    gameBoardPanel.getSlot(x, y).getPieceUnit().setEnabled(false);
                 }
@@ -160,26 +159,25 @@ public class GameBoardController implements ActionListener {
         // Get gold
         gameBodyController.goldController.UpdateGoldValue(1, gameBoardModel.getCurrentPlayer());
 
-        // count peasants
+        // count peasants and reward gold
         int peasantCount = 0;
         for (int x = 0; x < GameBoardModel.numCol; x++) {
             for (int y = 0; y < GameBoardModel.numRow; y++) {
-                if(gameBoardModel.getSlotCombined(x,y).checkIf(gameBoardModel.getCurrentPlayer(), GamePieceTypes.Peasant, false))
+                if (gameBoardModel.getSlotCombined(x, y).checkIf(gameBoardModel.getCurrentPlayer(), GamePieceTypes.Peasant, false))
                     peasantCount++;
             }
         }
         gameBodyController.goldController.UpdateGoldValue(peasantCount, gameBoardModel.getCurrentPlayer());
 
+        // Disable buttons for Phase 1
+        gameBodyController.unitButtonController.phaseDisableButtons(
+                gameBoardModel.getCurrentPlayer(),
+                true);
+
         // Checks unit affordability
-        gameBodyController.unitButtonController.checkUnitsAffordability(
-                gameBoardModel.getCurrentPlayer(),
-                gameBodyController.goldController.goldModel.getPlayer1Gold(),
-                gameBodyController.goldController.goldModel.getPlayer2Gold());
+        gameBodyController.unitButtonController.checkUnitsAffordability(gameBoardModel.getCurrentPlayer());
         // Checks magic affordability
-        gameBodyController.unitButtonController.checkMagicAffordability(
-                gameBoardModel.getCurrentPlayer(),
-                gameBodyController.goldController.goldModel.getPlayer1Gold(),
-                gameBodyController.goldController.goldModel.getPlayer2Gold());
+        gameBodyController.unitButtonController.checkMagicAffordability(gameBoardModel.getCurrentPlayer());
 
         gameBoardModel.currentSelectedAction = null;
 
@@ -616,9 +614,9 @@ public class GameBoardController implements ActionListener {
                 if (gameBoardPanel.getSlot(x, y).win_part) {
                     gameBoardPanel.getSlot(x, y).switchToEmpty();
 
-                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_1))
+                    if (gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_1))
                         hitPointsController.HitpointsPercentage(-5, GameBoardModel.player.PLAYER_2);
-                    if(gameBoardModel.getSlotOccupancy(x,y).equals(GameBoardModel.player.PLAYER_2))
+                    if (gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_2))
                         hitPointsController.HitpointsPercentage(-5, GameBoardModel.player.PLAYER_1);
 
                     gameBoardModel.getListOccupancy().get(x).set(y, GameBoardModel.player.PLAYER_NONE);
@@ -642,7 +640,7 @@ public class GameBoardController implements ActionListener {
         }
     }
 
-    void autoSwitchActionPanel(){
+    void autoSwitchActionPanel() {
         if (gameBoardModel.currentSelectedAction == null) {
             gameOptionPanel.switchToIdlePanel();
         } else if (gameBoardModel.phase_1) {
