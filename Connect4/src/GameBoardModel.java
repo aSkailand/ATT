@@ -64,6 +64,7 @@ public class GameBoardModel {
     private player currentPlayer;
     private player waitingPlayer;
 
+
     private boolean AI_player_1 = false;
     private boolean AI_player_2 = true;
 
@@ -279,4 +280,11 @@ public class GameBoardModel {
     }
 
 
+    public void setAI_player_1(boolean AI_player_1) {
+        this.AI_player_1 = AI_player_1;
+    }
+
+    public void setAI_player_2(boolean AI_player_2) {
+        this.AI_player_2 = AI_player_2;
+    }
 }

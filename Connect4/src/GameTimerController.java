@@ -49,7 +49,7 @@ public class GameTimerController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        timer.setText("" + currentTime);
+        System.out.println(minutes +":" + seconds);
 
         currentTime--;
         totalTime++;
@@ -61,12 +61,12 @@ public class GameTimerController implements ActionListener {
         }
         if (currentTime < 0) {
 
-            timer.setText("End turn");
-            System.out.println("Time is up");
+
+
             currentTime = 29;
         }
         if (currentTime < 10) {
-            timer.setText("0" + currentTime);
+
         }
 
     }

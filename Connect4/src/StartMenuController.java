@@ -11,13 +11,16 @@ public class StartMenuController implements ActionListener{
 
     StartMenu View;
 
+    StartMenuModel startMenuModel;
 
 
 
     public StartMenuController(){
 
+        // MVC declare
         View = new StartMenu(this);
 
+        startMenuModel = new StartMenuModel();
 
     }
 
@@ -114,6 +117,8 @@ public class StartMenuController implements ActionListener{
                 View.VersusButton.setEnabled(false);
                 View.PlayButton.setEnabled(true);
 
+                startMenuModel.setAI_Bool(true);
+
                 System.out.println("Trakk på Solo");
                 break;
             }
@@ -122,6 +127,9 @@ public class StartMenuController implements ActionListener{
 
                 View.SoloButton.setEnabled(false);
                 View.PlayButton.setEnabled(true);
+
+                startMenuModel.setAI_Bool(false);
+
 
                 System.out.println("Trakk på Versus");
                 break;
@@ -133,6 +141,10 @@ public class StartMenuController implements ActionListener{
                 View.SoloButton.setEnabled(true);
                 View.VersusButton.setEnabled(true);
 
+
+                new GameBodyController(startMenuModel);
+
+
                 System.out.println("Trakk på Play");
                 break;
             }
@@ -143,6 +155,7 @@ public class StartMenuController implements ActionListener{
                 String ColumnNumber = JOptionPane.showInputDialog(null, "Add how many Columns:");
                 int Column = Integer.parseInt(ColumnNumber);
                 JOptionPane.showMessageDialog(null, "You chose " +Column +" columns.");
+                startMenuModel.setColumns(Column);
 
 
 
@@ -156,7 +169,7 @@ public class StartMenuController implements ActionListener{
                 String RowNumber = JOptionPane.showInputDialog(null, "Add how many Rows:");
                 int Row = Integer.parseInt(RowNumber);
                 JOptionPane.showMessageDialog(null,"You chose "+Row +" rows");
-
+                startMenuModel.setRows(Row);
 
                 System.out.println("Trakk på Numbers of rows");
                 break;

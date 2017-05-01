@@ -7,6 +7,8 @@ import java.awt.event.WindowEvent;
  */
 public class GameBodyController {
 
+    StartMenuModel startMenuModel;
+
     GameBodyFrame gameBodyFrame;
     GameBodyModel gameBodyModel;
 
@@ -19,9 +21,11 @@ public class GameBodyController {
     GoldController goldController;
     UnitButtonController unitButtonController;
 
-    public GameBodyController() {
+    public GameBodyController(StartMenuModel startMenuModel) {
 
         // Declare MVC
+        this.startMenuModel = new StartMenuModel();
+
         gameBodyModel = new GameBodyModel();
         gameBodyFrame = new GameBodyFrame(this);
 
@@ -40,6 +44,15 @@ public class GameBodyController {
 
 
         gameBodyFrame.setVisible(true);
+
+
+        // SETS AI TO TRUE OR FALSE
+        gameBoardController.gameBoardModel.setAI_player_2(startMenuModel.AI_Bool);
+
+        if(startMenuModel.AI_Bool){
+            gameTimerController.playerTurnTimer.start();
+
+        }
 
 
         // Window listener

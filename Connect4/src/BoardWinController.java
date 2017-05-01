@@ -46,6 +46,60 @@ public class BoardWinController implements ActionListener {
         // If there exist none, and it was still phase 1
         else if(gameBoardModel.phase_1){
 
+            // Check if anyone has won:
+
+            // AI
+            if(gameBoardModel.getStatusAI(GameBoardModel.player.PLAYER_2)){
+
+                if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_1Hitpoints() <= 0
+                        && gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_2Hitpoints() <= 0){
+                    System.out.println("DRAW against AI");
+                }
+                else{
+                    // WIN against AI
+                    if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_2Hitpoints() <= 0){
+                        System.out.println("AI lost against you");
+                        // todo: add winning screen then leave game.
+                    }
+
+
+                    // DEFEAT against AI
+                    if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_1Hitpoints() <= 0){
+                        System.out.println("You lost against AI");
+                    }
+
+
+                }
+
+
+            }
+            else{
+
+                if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_1Hitpoints() <= 0
+                        && gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_2Hitpoints() <= 0){
+                    System.out.println("DRAW");
+                }
+                else{
+
+                    if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_2Hitpoints() <= 0){
+                        System.out.println("Player 1 WON");
+                        // todo: add winning screen then leave game.
+                    }
+
+
+
+                    if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_1Hitpoints() <= 0){
+                        System.out.println("Player 2 WON");
+                    }
+
+
+                }
+
+
+            }
+
+
+
             gameBoardModel.phase_1 = false;
 
             // Open all pieces for use.
