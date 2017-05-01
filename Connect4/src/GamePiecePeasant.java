@@ -31,5 +31,6 @@ public class GamePiecePeasant extends GamePiece implements ActionListener{
 
         gameBoardController.gameBodyController.goldController.UpdateGoldValue(5, ownerOfPiece);
         gameBoardController.gameBodyController.hitPointsController.HitpointsPercentage(-5, ownerOfPiece);
+        gameBoardController.gameBodyController.unitButtonController.checkMagicAffordability(gameBoardController.gameBoardModel.getCurrentPlayer(), false);
     }
 }

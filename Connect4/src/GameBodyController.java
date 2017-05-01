@@ -47,6 +47,7 @@ public class GameBodyController {
 
 
         gameBodyFrame.setVisible(true);
+        startMenuController.View.setVisible(false);
 
 
         // SETS AI TO TRUE OR FALSE

@@ -45,8 +45,9 @@ public class GameJMenuController implements ActionListener {
         switch (e.getActionCommand()) {
             case "mainMenu": {
                 System.out.println("Main menu...");
-
-
+                gameBodyController.gameBodyFrame.dispose();
+                gameBodyController.startMenuController.View.Back2Button.doClick();
+                gameBodyController.startMenuController.View.setVisible(true);
                 break;
             }
             case "highscore": {

@@ -49,7 +49,6 @@ public class GameTimerController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        System.out.println(minutes +":" + seconds);
 
         currentTime--;
         totalTime++;
