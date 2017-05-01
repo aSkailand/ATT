@@ -140,8 +140,11 @@ public class StartMenuController implements ActionListener{
 
             case "Numbers of Columns": {
 
-                String ColumnNumer = JOptionPane.showInputDialog(null, "Add how many Columns:");
-                JOptionPane.showMessageDialog(null, "You chose " +ColumnNumer +" columns");
+                String ColumnNumber = JOptionPane.showInputDialog(null, "Add how many Columns:");
+                int Column = Integer.parseInt(ColumnNumber);
+                JOptionPane.showMessageDialog(null, "You chose " +Column +" columns");
+
+
                 System.out.println("Trakk på Numbers of Columns");
                 break;
 
@@ -150,7 +153,10 @@ public class StartMenuController implements ActionListener{
             case "Numbers of rows": {
 
                 String RowNumber = JOptionPane.showInputDialog(null, "Add how many Rows:");
-                JOptionPane.showMessageDialog(null,"You chose "+RowNumber +" rows");
+                int Row = Integer.parseInt(RowNumber);
+                JOptionPane.showMessageDialog(null,"You chose "+Row +" rows");
+
+
                 System.out.println("Trakk på Numbers of rows");
                 break;
             }
