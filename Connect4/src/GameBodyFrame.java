@@ -107,10 +107,10 @@ public class GameBodyFrame extends JFrame {
 
         // Left player gold panel
         leftPlayerGoldPanel.setLayout(new GridBagLayout());
-        leftPlayerGoldPanel.setBackground(Color.RED);
+        leftPlayerGoldPanel.setBackground(Color.RED.darker());
         gbcLeftPlayerGoldPanel();
         mainPanel.add(leftPlayerGoldPanel, gbc);
-        leftPlayerGoldGrid.setBackground(Color.RED);
+        leftPlayerGoldGrid.setBackground(Color.RED.darker());
         leftPlayerGoldGrid.setLayout(new GridLayout(1,2));
         leftPlayerGoldPanel.add(leftPlayerGoldGrid);
 
@@ -123,7 +123,7 @@ public class GameBodyFrame extends JFrame {
 
         // Left player top panel
         leftPlayerPanel.setLayout(new GridBagLayout());
-        leftPlayerPanel.setBackground(Color.RED);
+        leftPlayerPanel.setBackground(Color.RED.darker());
         gbcLeftPlayerPanel();
         mainPanel.add(leftPlayerPanel, gbc);
 
@@ -145,7 +145,7 @@ public class GameBodyFrame extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
 
 
-        leftPlayerHPPanel.setBackground(Color.RED);
+        leftPlayerHPPanel.setBackground(Color.RED.darker());
         leftPlayerHPPanel.setLayout(new FlowLayout());
         leftPlayerPanel.add(leftPlayerHPPanel, gbc);
 
@@ -159,7 +159,7 @@ public class GameBodyFrame extends JFrame {
         // Right player avatar panel
         rightPlayerAvatarPanel.setLayout(new BorderLayout());
         rightPlayerAvatarPanel.setPreferredSize(new Dimension(100,100));
-        rightPlayerAvatarPanel.setBackground(Color.BLUE);
+        rightPlayerAvatarPanel.setBackground(Color.BLUE.darker());
         gbcRightPlayerAvatarPanel();
         mainPanel.add(rightPlayerAvatarPanel, gbc);
         rightPlayerAvatarPanel.add(gameBodyModel.playerTwoAvatarButton);
@@ -167,22 +167,22 @@ public class GameBodyFrame extends JFrame {
 
         // Right player gold panel
         rightPlayerGoldPanel.setLayout(new GridBagLayout());
-        rightPlayerGoldPanel.setBackground(Color.BLUE);
+        rightPlayerGoldPanel.setBackground(Color.BLUE.darker());
         gbcRightPlayerGoldPanel();
         mainPanel.add(rightPlayerGoldPanel, gbc);
         rightPlayerGoldGrid.setLayout(new GridLayout(1,2));
-        rightPlayerGoldGrid.setBackground(Color.BLUE);
+        rightPlayerGoldGrid.setBackground(Color.BLUE.darker());
         rightPlayerGoldPanel.add(rightPlayerGoldGrid);
 
         // Right player unit panel
         rightPlayerUnitPanel.setLayout(new BorderLayout());
-        rightPlayerUnitPanel.setBackground(Color.BLUE);
+        rightPlayerUnitPanel.setBackground(Color.BLUE.darker().darker());
         gbcRightPlayerUnitPanel();
         mainPanel.add(rightPlayerUnitPanel, gbc);
 
         // Right player top panel
         rightPlayerPanel.setLayout(new GridBagLayout());
-        rightPlayerPanel.setBackground(Color.BLUE);
+        rightPlayerPanel.setBackground(Color.BLUE.darker());
         gbcRightPlayerPanel();
         mainPanel.add(rightPlayerPanel, gbc);
 
@@ -190,6 +190,7 @@ public class GameBodyFrame extends JFrame {
         rightPlayerHP.setFont(gameBodyModel.loadFontHP());
         rightPlayerHP.setHorizontalAlignment(SwingConstants.CENTER);
         rightPlayerHP.setForeground(Color.white);
+
 
         gbc.gridx = 3;
         gbc.gridy = 0;
@@ -203,12 +204,12 @@ public class GameBodyFrame extends JFrame {
         gbc.gridwidth = 1;
         gbc.weighty=0;
 
-        rightPlayerHPPanel.setBackground(Color.BLUE);
+        rightPlayerHPPanel.setBackground(Color.BLUE.darker());
         rightPlayerHPPanel.setLayout(new FlowLayout());
         rightPlayerPanel.add(rightPlayerHPPanel,gbc);
 
         // Set visibility
-        this.setVisible(true);
+        this.setVisible(false);
     }
 
     // Center GBC's

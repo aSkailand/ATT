@@ -52,49 +52,6 @@ public class GameJMenuController implements ActionListener {
                 highscoreView = new HighscoreView();
                 break;
             }
-            case "saveGame": {
-                System.out.println("Saved game...");
-                String saveName = JOptionPane.showInputDialog(null, "New highscore, enter name: ");
-                gameBodyModel.setHighScore(saveName + ": Time: " + gameTimerController.minutes + ":" + gameTimerController.seconds + "\n");
-                break;
-            }
-            case "openGame": {
-                System.out.println("Open game...");
-
-                break;
-
-            }
-            case "pauseGame": {
-                System.out.println("Paused game...");
-                if (pauseBoolean) {
-                    gameTimerController.playerTurnTimer.stop();
-                    pauseBoolean = false;
-                } else {
-                    gameTimerController.playerTurnTimer.start();
-                    pauseBoolean = true;
-                }
-                break;
-            }
-            case "startTimer": {
-                System.out.println("Started timer");
-                gameTimerController.playerTurnTimer.start();
-                pauseBoolean = true;
-                break;
-            }
-            case "resetTimer": {
-                System.out.println("Timer reset...");
-                gameTimerController.playerTurnTimer.stop();
-                gameTimerController.currentTime = 29;
-                gameTimerController.seconds = 0;
-                gameTimerController.minutes = 0;
-                gameTimerController.timer.setText("30");
-                pauseBoolean = true;
-                break;
-            }
-            case "restartGame": {
-                System.out.println("Restarted game...");
-                break;
-            }
         }
     }
 }

@@ -48,16 +48,16 @@ public class UnitButtonController implements ActionListener {
                 this,
                 unitButtonModel.unitButtonsPlayer1,
                 unitButtonModel.unitLabelPlayer1,
-                unitButtonModel.testImg,
-                Color.red,
+                unitButtonModel.unitImages,
+                Color.red.darker().darker(),
                 Color.GREEN));
 
         // adds buttons to the right player unit panel
         gameBodyFrame.rightPlayerUnitPanel.add(unitButtonView.CreateUnitButtonView(
                 this,
                 unitButtonModel.unitButtonsPlayer2,
-                unitButtonModel.unitLabelPlayer2, unitButtonModel.testImg,
-                Color.blue,
+                unitButtonModel.unitLabelPlayer2, unitButtonModel.unitImages,
+                Color.blue.darker().darker(),
                 Color.GREEN));
 
         gameBodyFrame.revalidate();

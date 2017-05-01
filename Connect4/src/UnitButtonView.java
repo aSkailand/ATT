@@ -26,7 +26,7 @@ class UnitButtonView {
      * @param colorbutton:          color for the buttons
      * @return: returns a JPanel
      */
-    JPanel CreateUnitButtonView(UnitButtonController unitButtonController, ArrayList<JButton> buttons, ArrayList<JLabel> labels, ImageIcon imageIcon, Color color, Color colorbutton) {
+    JPanel CreateUnitButtonView(UnitButtonController unitButtonController, ArrayList<JButton> buttons, ArrayList<JLabel> labels, ArrayList<ImageIcon> imageIcons, Color color, Color colorbutton) {
 
 
 
@@ -49,7 +49,7 @@ class UnitButtonView {
             buttons.get(i).setFocusPainted(true);
             // TODO: maybe remove after choosing pictures
             buttons.get(i).setBorder(BorderFactory.createEmptyBorder());
-            buttons.get(i).setIcon(imageIcon);
+            buttons.get(i).setIcon(imageIcons.get(i));
             buttons.get(i).setBackground(colorbutton);
             buttons.get(i).addActionListener(unitButtonController);
             buttons.get(i).setActionCommand("button" + i);
@@ -63,6 +63,8 @@ class UnitButtonView {
             labels.get(i).setForeground(Color.WHITE);
         }
 
+
+        ;
 
         // This is the how the JPanel will look like
         gbc.insets = new Insets(0, 0, 0, 0);

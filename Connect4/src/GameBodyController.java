@@ -38,7 +38,9 @@ public class GameBodyController {
         // This is preparing the game
         gameBoardController.roundInitialRun();
 
-      
+
+        gameBodyFrame.setVisible(true);
+
 
         // Window listener
         gameBodyFrame.addWindowListener(
@@ -74,3 +76,6 @@ public class GameBodyController {
                 });
     }
 }
+
+
+

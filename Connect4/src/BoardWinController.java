@@ -81,12 +81,18 @@ public class BoardWinController implements ActionListener {
             gameBoardModel.loadSlotListFromCombinedList(gameBoardPanel);
             gameBoardModel.printCombinedList();
 
+            gameBoardController.gameBodyController.gameTimerController.timer.setEnabled(true);
+
             gameBoardController.gameBodyController.unitButtonController.phaseDisableButtons(gameBoardModel.getCurrentPlayer(), false);
             gameBoardController.gameBodyController.unitButtonController.checkMagicAffordability(gameBoardModel.getCurrentPlayer(),gameBoardModel.phase_1);
 
             gameBoardModel.currentSelectedAction = null;
 
             gameBoardController.autoSwitchActionPanel();
+
+            if(gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())){
+                gameBoardController.gameBodyController.gameTimerController.timer.doClick();
+            }
 
         }
 

@@ -35,7 +35,9 @@ class BoardSummonController {
         }
         // IF AI
         else {
+            gameBoardModel.currentSelectedAction = GamePieceTypes.Peasant;
             summonPieceAI();
+            gameBoardModel.currentSelectedAction = null;
         }
     }
 
@@ -114,6 +116,7 @@ class BoardSummonController {
         switch (currentPieceType){
             case Peasant: return gameBoardController.gameBodyController.unitButtonController.unitButtonModel.getUnit1Cost();
             case Assassin: return gameBoardController.gameBodyController.unitButtonController.unitButtonModel.getUnit2Cost();
+            case Knight: return  gameBoardController.gameBodyController.unitButtonController.unitButtonModel.getUnit3Cost();
             default:{
                 System.out.println("COST ERROR!");
                 return 0;
