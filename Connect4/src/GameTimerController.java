@@ -19,6 +19,7 @@ public class GameTimerController implements ActionListener {
     int seconds = 0;
     int minutes = 0;
 
+
     public GameTimerController(GameBodyController gameBodyController) {
 
         // Declare MVC
@@ -32,7 +33,7 @@ public class GameTimerController implements ActionListener {
         timer.setFocusPainted(false);
         timer.setBorder(BorderFactory.createEmptyBorder());
         timer.setBackground(Color.DARK_GRAY.darker());
-        timer.setForeground(new Color(124, 255, 0, 255));
+        timer.setForeground(Color.WHITE);
         timer.setFont(gameBodyController.gameBodyModel.loadFont());
 
         //todo: DELETE? Temporary Function by Trong:

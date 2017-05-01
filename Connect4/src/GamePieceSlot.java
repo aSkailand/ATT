@@ -96,7 +96,7 @@ public class GamePieceSlot extends JPanel {
         empty.setPreferredSize(new Dimension(50,50));
         empty.setMargin(new Insets(0,0,0,0)); // Make text fit button better
         empty.setBorderPainted(false);
-        empty.setForeground(Color.WHITE);
+        empty.setBackground(Color.white);
 
         empty.setText("( " + this.x + " , " + this.y + " )");
 

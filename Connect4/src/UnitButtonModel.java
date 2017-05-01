@@ -17,6 +17,8 @@ public class UnitButtonModel {
     ArrayList<JLabel> unitLabelPlayer1 = new ArrayList<>();
     ArrayList<JLabel> unitLabelPlayer2 = new ArrayList<>();
 
+    ArrayList<ImageIcon> unitImages = new ArrayList<>();
+
     private int unit1Cost = 1;
     private int unit2Cost = 5;
     private int unit3Cost = 10;
@@ -28,18 +30,37 @@ public class UnitButtonModel {
 
     ImageIcon testImg;
 
+    ImageIcon peasant;
+    ImageIcon assassin;
+    ImageIcon knight;
+
+    ImageIcon swap;
+    ImageIcon mute;
+    ImageIcon bomb;
 
     public UnitButtonModel() {
 
         testImg = loadImageIcon(new File("boxing.png"), 30, 30);
+
+        // Pesant
+        unitImages.add(loadImageIcon(new File("Images/Peasant/pesant1.png"),50,50));
+        // Swap
+        unitImages.add(loadImageIcon(new File("Images/Swap/swap.png"),50,50));
+        // Assasin
+        unitImages.add(loadImageIcon(new File("Images/Assassin/assassin1.png"),50,50));
+        //Mute
+        unitImages.add(loadImageIcon(new File("Images/Mute/mute.png"),50,50));
+        // Knight
+        unitImages.add(loadImageIcon(new File("Images/Knight/knight4.png"),50,50));
+        // Bomb
+        unitImages.add(loadImageIcon(new File("Images/Bomb/bomb2.png"),50,50));
+
 
         addButtonsToList(unitButtonsPlayer1);
         addLabelsToList(unitLabelPlayer1);
 
         addButtonsToList(unitButtonsPlayer2);
         addLabelsToList(unitLabelPlayer2);
-
-
     }
 
 

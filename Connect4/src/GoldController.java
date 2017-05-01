@@ -19,7 +19,7 @@ public class GoldController {
         goldModel = new GoldModel();
         goldView = new GoldView(this);
 
-        Image goldImage = goldModel.loadGoldIcon(new File("gold.png"), 30, 30);
+        Image goldImage = goldModel.loadGoldIcon(new File("Images/Gold/gold.png"), 30, 30);
 
         JPanel goldIconPanelPlayer1 = goldView.makeGoldIcon(goldImage);
         JPanel goldIconPanelPlayer2 = goldView.makeGoldIcon(goldImage);

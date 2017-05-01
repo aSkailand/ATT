@@ -16,10 +16,13 @@ import java.util.ArrayList;
  */
 public class GameBoardPanel extends JPanel {
 
+
     // JPanel list holding all the JPanels on the board in sorted fashion.
     private ArrayList<ArrayList<GamePieceSlot>> listJPanelGameBoardSlots = new ArrayList<>();
 
     GameBoardPanel(GameBoardController gameBoardController) {
+
+        this.setBackground(Color.darkGray);
 
         // JPanel Setup
         this.setLayout(new GridLayout(GameBoardModel.numRow, GameBoardModel.numCol));

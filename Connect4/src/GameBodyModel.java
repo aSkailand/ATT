@@ -26,7 +26,7 @@ public class GameBodyModel {
         playerOneAvatarButton.setBorder(BorderFactory.createEmptyBorder());
         playerOneAvatarButton.setContentAreaFilled(false);
 
-        ImageIcon p1_avatar = loadImageIcon(new File("man.png"), 150, 150);
+        ImageIcon p1_avatar = loadImageIcon(new File("Images/Avatar/avatar1.jpg"), 235, 170);
         playerOneAvatarButton.setIcon(p1_avatar);
 
         playerTwoAvatarButton.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -35,7 +35,7 @@ public class GameBodyModel {
         playerTwoAvatarButton.setBorder(BorderFactory.createEmptyBorder());
         playerTwoAvatarButton.setContentAreaFilled(false);
 
-        ImageIcon p2_avatar = loadImageIcon(new File("link.png"),150,150);
+        ImageIcon p2_avatar = loadImageIcon(new File("Images/Avatar/avatar2.png"),235,170);
         playerTwoAvatarButton.setIcon(p2_avatar);
 
 

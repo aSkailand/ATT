@@ -98,6 +98,8 @@ public class GameBoardController implements ActionListener {
     // Run ONCE
     void roundInitialRun() {
 
+        gameBodyController.gameTimerController.timer.setEnabled(false);
+
         gameBodyController.unitButtonController.disableButtons(gameBoardModel.getWaitingPlayer());
 
         disableAllColumns();
@@ -145,6 +147,8 @@ public class GameBoardController implements ActionListener {
         gameBodyController.unitButtonController.setPlayer2button1(false);
         gameBodyController.unitButtonController.setPlayer2button3(false);
         gameBodyController.unitButtonController.setPlayer2button5(false);
+
+        gameBodyController.gameTimerController.timer.setEnabled(false);
 
         // Swap player
         alternatePlayers();
