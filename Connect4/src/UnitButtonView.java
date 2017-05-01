@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -9,6 +10,7 @@ import java.util.ArrayList;
  */
 
 class UnitButtonView {
+
 
     private GridBagConstraints gbc = new GridBagConstraints();
 
@@ -24,6 +26,7 @@ class UnitButtonView {
      * @return: returns a JPanel
      */
     JPanel CreateUnitButtonView(UnitButtonController unitButtonController, ArrayList<JButton> buttons, ArrayList<JLabel> labels, ImageIcon imageIcon, Color color, Color colorbutton) {
+
 
         JPanel unitButtonView = new JPanel();
 
@@ -90,8 +93,10 @@ class UnitButtonView {
         gbc.gridx = 0;
 
         gbc.weighty = 0.0625;
+        labels.get(2).setText("Peasant: " + unitButtonController.unitButtonModel.getUnit1Cost() + " g");
         unitButtonView.add(labels.get(2), gbc);
         gbc.gridx = 2;
+        labels.get(3).setText("Swap unit:" + unitButtonController.unitButtonModel.getMagic1Cost() + " g");
         unitButtonView.add(labels.get(3), gbc);
 
         gbc.gridy = 3;
@@ -105,8 +110,12 @@ class UnitButtonView {
         gbc.gridx = 0;
 
         gbc.weighty = 0.0625;
+        labels.get(4).setText("Assasin: " + unitButtonController.unitButtonModel.getUnit2Cost() + " g");
         unitButtonView.add(labels.get(4), gbc);
         gbc.gridx = 2;
+
+        labels.get(5).setText("Mute: " + unitButtonController.unitButtonModel.getMagic2Cost() + " g");
+
         unitButtonView.add(labels.get(5), gbc);
 
         gbc.gridy = 5;
@@ -121,8 +130,10 @@ class UnitButtonView {
         gbc.gridx = 0;
 
         gbc.weighty = 0.0625;
+        labels.get(6).setText("Knight: " + unitButtonController.unitButtonModel.getUnit3Cost() + " g");
         unitButtonView.add(labels.get(6), gbc);
         gbc.gridx = 2;
+        labels.get(7).setText("Bomb: " + unitButtonController.unitButtonModel.getMagic3Cost() + " g");
         unitButtonView.add(labels.get(7), gbc);
 
         return unitButtonView;
