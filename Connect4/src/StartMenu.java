@@ -68,18 +68,22 @@ public class StartMenu extends JFrame{
         //Legger til panel over main, jobber ikke på main panel lenger
         //Jobber på leftPanel og rightPanel
         leftPanel.setLayout(new GridBagLayout());
-        leftPanel.setBackground(Color.LIGHT_GRAY);
+        leftPanel.setBackground(Color.DARK_GRAY.darker());
+        leftPanel.setForeground(Color.WHITE);
         GBCleftPanel();
         MainPanel.add(leftPanel, GBC);
 
         rightPanel.setLayout(new GridBagLayout());
-        rightPanel.setBackground(Color.GRAY);
+        rightPanel.setBackground(Color.DARK_GRAY);
+        rightPanel.setForeground(Color.WHITE);
         GBCrightPanel();
         MainPanel.add(rightPanel, GBC);
 
         PlayGameButton = new JButton("Play Game");
         PlayGameButton.setFont(JButtonFontSize);
         PlayGameButton.setBackground(ButtonColor);
+        PlayGameButton.setForeground(Color.WHITE);
+        PlayGameButton.setBorderPainted(false);
         PlayGameButton.addActionListener(c);
         GBCPlayGameButton();
         leftPanel.add(PlayGameButton, GBC);
@@ -87,6 +91,8 @@ public class StartMenu extends JFrame{
         HowToPlayButton = new JButton("How To Play");
         HowToPlayButton.setFont(JButtonFontSize);
         HowToPlayButton.setBackground(ButtonColor);
+        HowToPlayButton.setForeground(Color.WHITE);
+        HowToPlayButton.setBorderPainted(false);
         HowToPlayButton.addActionListener(c);
         GBCHowToPlayButton();
         leftPanel.add(HowToPlayButton,GBC);
@@ -94,6 +100,8 @@ public class StartMenu extends JFrame{
         ExitButton = new JButton("Exit Game");
         ExitButton.setFont(JButtonFontSize);
         ExitButton.setBackground(ButtonColor);
+        ExitButton.setForeground(Color.WHITE);
+        ExitButton.setBorderPainted(false);
         ExitButton.addActionListener(c);
         GBCExitButton();
         leftPanel.add(ExitButton, GBC);
@@ -101,11 +109,13 @@ public class StartMenu extends JFrame{
         CreditButton = new JButton("Credits");
         CreditButton.setFont(JButtonFontSize);
         CreditButton.addActionListener(c);
+        CreditButton.setBackground(Color.WHITE);
+        CreditButton.setBorderPainted(false);
         GBCCreditButton();
         rightPanel.add(CreditButton, GBC);
 
         TitleWelcome = new JLabel("WELCOME TO CONNECT4!");
-        TitleWelcome.setForeground(Color.BLACK);
+        TitleWelcome.setForeground(Color.WHITE);
         TitleWelcome.setFont(new Font("", Font.BOLD, 25));
         GBCTitleWelcome();
         rightPanel.add(TitleWelcome,GBC);
@@ -211,13 +221,16 @@ public class StartMenu extends JFrame{
 
         TextArea.setEditable(false);
 
-        String HowToPlayConnect4 = (" Connect4 is a two-player game in which the players\n" +
-                " choose a color and then take turns dropping colored\n" +
-                " boxes from the top into a seven-colum, six-row grid.\n\n" +
-                " The objectiv of the game is to be the first to form a\n" +
-                " horizontal, vertical, or diagonal line of four of one's\n" +
-                " own boxes.\n\n" +
-                " Try it out!\n");
+        String HowToPlayConnect4 = ("Connect4 is a two-player game in which the players\n" +
+                " take turns dropping pieces unto a board. \n\n" +
+                " In this version of Connect4, forming a consecutive row will\n" +
+                " make your opponent lose health points. First player to lose all\n" +
+                " his/her health points will lose the game.\n" +
+                " Each round is divided in two parts: Summoning Phase and Battle Phase. \n" +
+                " The Summoning Phase is where the player put a piece into play. This phase " +
+                " can't be skipped. After a piece has been played, Battle Phase begins.\n" +
+                " Here, the players can use Magic and Unit Actives to gain bigger advantages."+
+                " Good Luck!\n");
 
         TextArea.setText(HowToPlayConnect4);
 
@@ -226,6 +239,9 @@ public class StartMenu extends JFrame{
 
         Back1Button = new JButton("Back");
         Back1Button.setFont(JButtonFontSize);
+        Back1Button.setBackground(ButtonColor);
+        Back1Button.setForeground(Color.WHITE);
+        Back1Button.setBorderPainted(false);
         Back1Button.addActionListener(c);
         GBCBack1Button();
         leftPanel.add(Back1Button, GBC);
@@ -279,13 +295,15 @@ public class StartMenu extends JFrame{
 
     public void BackToMenu(StartMenuController c){
 
-        leftPanel.setBackground(Color.lightGray);
-        rightPanel.setBackground(Color.GRAY);
+        leftPanel.setBackground(Color.DARK_GRAY.darker().darker());
+        rightPanel.setBackground(Color.DARK_GRAY);
 
 
         PlayGameButton = new JButton("Play Game");
         PlayGameButton.setFont(JButtonFontSize);
         PlayGameButton.setBackground(ButtonColor);
+        PlayGameButton.setForeground(Color.WHITE);
+        PlayGameButton.setBorderPainted(false);
         PlayGameButton.addActionListener(c);
         GBCPlayGameButton();
         leftPanel.add(PlayGameButton, GBC);
@@ -293,6 +311,8 @@ public class StartMenu extends JFrame{
         HowToPlayButton = new JButton("How To Play");
         HowToPlayButton.setFont(JButtonFontSize);
         HowToPlayButton.setBackground(ButtonColor);
+        HowToPlayButton.setForeground(Color.WHITE);
+        HowToPlayButton.setBorderPainted(false);
         HowToPlayButton.addActionListener(c);
         GBCHowToPlayButton();
         leftPanel.add(HowToPlayButton,GBC);
@@ -300,18 +320,22 @@ public class StartMenu extends JFrame{
         ExitButton = new JButton("Exit Game");
         ExitButton.setFont(JButtonFontSize);
         ExitButton.setBackground(ButtonColor);
+        ExitButton.setForeground(Color.WHITE);
+        ExitButton.setBorderPainted(false);
         ExitButton.addActionListener(c);
         GBCExitButton();
         leftPanel.add(ExitButton, GBC);
 
         CreditButton = new JButton("Credits");
         CreditButton.setFont(JButtonFontSize);
+        CreditButton.setBackground(Color.WHITE);
         CreditButton.addActionListener(c);
+        CreditButton.setBorderPainted(false);
         GBCCreditButton();
         rightPanel.add(CreditButton, GBC);
 
         TitleWelcome = new JLabel("WELCOME TO CONNECT4!");
-        TitleWelcome.setForeground(Color.BLACK);
+        TitleWelcome.setForeground(Color.WHITE);
         TitleWelcome.setFont(new Font("", Font.BOLD, 25));
         GBCTitleWelcome();
         rightPanel.add(TitleWelcome,GBC);
