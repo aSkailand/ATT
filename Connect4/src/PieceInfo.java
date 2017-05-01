@@ -9,8 +9,9 @@ class PieceInfo {
     private boolean enabled;
 
     private boolean muted = false;
-
     private GameBoardModel.player backupOwner;
+
+    private boolean bomber = false;
 
     PieceInfo() {
         this.owner = GameBoardModel.player.PLAYER_NONE;
@@ -34,6 +35,7 @@ class PieceInfo {
         this.enabled = sourcePiece.isEnabled();
         this.backupOwner = sourcePiece.backupOwner;
         this.muted = sourcePiece.muted;
+        this.bomber = sourcePiece.bomber;
     }
 
     void setInfo(GameBoardModel.player player, GamePieceTypes unit, boolean isEnabled) {
@@ -48,6 +50,11 @@ class PieceInfo {
         this.enabled = false;
         this.backupOwner = null;
         this.muted = false;
+        this.bomber = false;
+    }
+
+    void setBombStatus(boolean turnOnBomb){
+        this.bomber = turnOnBomb;
     }
 
     void setMuteStatus(boolean muteTick){
@@ -98,6 +105,10 @@ class PieceInfo {
 
     public GameBoardModel.player getBackupOwner() {
         return backupOwner;
+    }
+
+    public boolean isBomber() {
+        return bomber;
     }
 }
 

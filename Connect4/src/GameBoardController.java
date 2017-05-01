@@ -201,6 +201,27 @@ public class GameBoardController implements ActionListener {
         gameBoardModel.loadOccupancyListFromCombinedList();
         boardWinController.runWinCheck();
 
+        // Bomb de-ticker
+        gameBoardModel.loadOccupancyListFromCombinedList();
+        System.out.println("Check for Bomb:");
+        for (int x = 0; x < GameBoardModel.numCol; x++) {
+            for (int y = 0; y < GameBoardModel.numRow; y++) {
+                if (gameBoardModel.getSlotOccupancy(x, y).equals(GameBoardModel.player.PLAYER_NEUTRAL)){
+                        if(gameBoardModel.getSlotCombined(x,y).getPieceType().equals(GamePieceTypes.Bomb)) {
+                            if (gameBoardModel.getSlotCombined(x, y).isBomber()) {
+                                gameBoardModel.getSlotCombined(x, y).setBombStatus(false);
+                            }
+                            else{
+                                bombExplode(x,y);
+                            }
+                        }
+                }
+            }
+        }
+
+        gameBoardModel.loadSlotListFromCombinedList(gameBoardPanel);
+        gameBoardModel.loadOccupancyListFromCombinedList();
+
         gameBoardModel.phase_1 = true;
 
 
@@ -227,6 +248,38 @@ public class GameBoardController implements ActionListener {
 
     void wakeupAI() {
         if (gameBoardModel.getStatusAI(gameBoardModel.getCurrentPlayer())) actionPerformed(gameBoardModel.Food4AI);
+    }
+
+    void bombExplode(int x, int y){
+        gameBoardModel.getSlotCombined(x, y).clearInfo();
+
+        if(x != 0) {
+            gameBoardModel.getSlotCombined(x-1, y).clearInfo();
+        }
+
+        if(x != 0 && y != 0) {
+            gameBoardModel.getSlotCombined(x-1,y-1).clearInfo();
+        }
+
+        if(x != 0 && y != GameBoardModel.numRow-1) {
+            gameBoardModel.getSlotCombined(x-1,y+1).clearInfo();
+        }
+
+        if(y != GameBoardModel.numRow-1) {
+            gameBoardModel.getSlotCombined(x, y+1).clearInfo();
+        }
+
+        if(x != GameBoardModel.numCol-1 && y != GameBoardModel.numRow-1) {
+            gameBoardModel.getSlotCombined(x+1,y+1).clearInfo();
+        }
+        if(x != GameBoardModel.numCol-1)
+            gameBoardModel.getSlotCombined(x+1, y).clearInfo();
+
+        if(y != 0)
+            gameBoardModel.getSlotCombined(x, y-1).clearInfo();
+
+        if(x != GameBoardModel.numCol-1 && y != 0)
+            gameBoardModel.getSlotCombined(x+1,y-1).clearInfo();
     }
 
 
