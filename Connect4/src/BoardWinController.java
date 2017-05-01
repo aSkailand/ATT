@@ -82,7 +82,7 @@ public class BoardWinController implements ActionListener {
             gameBoardModel.printCombinedList();
 
             gameBoardController.gameBodyController.unitButtonController.phaseDisableButtons(gameBoardModel.getCurrentPlayer(), false);
-            gameBoardController.gameBodyController.unitButtonController.checkMagicAffordability(gameBoardModel.getCurrentPlayer());
+            gameBoardController.gameBodyController.unitButtonController.checkMagicAffordability(gameBoardModel.getCurrentPlayer(),gameBoardModel.phase_1);
 
             gameBoardModel.currentSelectedAction = null;
 

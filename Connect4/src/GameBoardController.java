@@ -137,6 +137,12 @@ public class GameBoardController implements ActionListener {
 
         gameBoardModel.phase_1 = true;
 
+        gameBodyController.unitButtonController.setPlayer1button1(false);
+        gameBodyController.unitButtonController.setPlayer1button3(false);
+        gameBodyController.unitButtonController.setPlayer1button5(false);
+        gameBodyController.unitButtonController.setPlayer2button1(false);
+        gameBodyController.unitButtonController.setPlayer2button3(false);
+        gameBodyController.unitButtonController.setPlayer2button5(false);
 
         // Swap player
         alternatePlayers();
@@ -177,7 +183,7 @@ public class GameBoardController implements ActionListener {
         // Checks unit affordability
         gameBodyController.unitButtonController.checkUnitsAffordability(gameBoardModel.getCurrentPlayer());
         // Checks magic affordability
-        gameBodyController.unitButtonController.checkMagicAffordability(gameBoardModel.getCurrentPlayer());
+        gameBodyController.unitButtonController.checkMagicAffordability(gameBoardModel.getCurrentPlayer(), gameBoardModel.phase_1);
 
         gameBoardModel.currentSelectedAction = null;
 

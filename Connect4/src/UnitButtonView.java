@@ -110,6 +110,7 @@ class UnitButtonView {
         gbc.gridx = 0;
 
         gbc.weighty = 0.0625;
+
         labels.get(4).setText("Assasin: " + unitButtonController.unitButtonModel.getUnit2Cost() + " g");
         unitButtonView.add(labels.get(4), gbc);
         gbc.gridx = 2;
