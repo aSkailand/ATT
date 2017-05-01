@@ -12,7 +12,7 @@ public class StartMenuController implements ActionListener{
     StartMenu View;
 
     StartMenuModel startMenuModel;
-
+    GameBodyController gameBodyController;
 
 
     public StartMenuController(){
@@ -21,6 +21,7 @@ public class StartMenuController implements ActionListener{
         View = new StartMenu(this);
 
         startMenuModel = new StartMenuModel();
+        //this.gameBodyController = new GameBodyController(this);
 
     }
 
@@ -142,7 +143,7 @@ public class StartMenuController implements ActionListener{
                 View.VersusButton.setEnabled(true);
 
 
-                new GameBodyController(startMenuModel);
+                this.gameBodyController = new GameBodyController(this);
 
 
                 System.out.println("Trakk på Play");

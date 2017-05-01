@@ -45,6 +45,8 @@ public class GameJMenuController implements ActionListener {
         switch (e.getActionCommand()) {
             case "mainMenu": {
                 System.out.println("Main menu...");
+
+
                 break;
             }
             case "highscore": {

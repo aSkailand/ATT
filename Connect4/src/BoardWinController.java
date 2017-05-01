@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by Trong on 25/04/2017.
@@ -54,18 +58,45 @@ public class BoardWinController implements ActionListener {
                 if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_1Hitpoints() <= 0
                         && gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_2Hitpoints() <= 0){
                     System.out.println("DRAW against AI");
+                    JOptionPane.showMessageDialog(null,"It's a draw!");
+                    gameBoardController.gameBodyController.gameBodyFrame.dispose();
+                    gameBoardController.gameBodyController.startMenuController.View.setVisible(true);
                 }
                 else{
                     // WIN against AI
                     if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_2Hitpoints() <= 0){
                         System.out.println("AI lost against you");
-                        // todo: add winning screen then leave game.
+                        String winName = JOptionPane.showInputDialog(null,"You won! Enter you name: ");
+
+                        winName += "Total time: "+gameBoardController.gameBodyController.gameTimerController.totalTime;
+
+
+
+                        try {
+                            FileWriter fr = new FileWriter("highscore.txt");
+
+
+                            fr.write(winName);
+                            fr.flush();
+                            fr.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        gameBoardController.gameBodyController.gameBodyFrame.dispose();
+                        gameBoardController.gameBodyController.startMenuController.View.setVisible(true);
+                        gameBoardController.gameBodyController.gameTimerController.playerTurnTimer.stop();
                     }
 
 
                     // DEFEAT against AI
                     if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_1Hitpoints() <= 0){
                         System.out.println("You lost against AI");
+
+                        JOptionPane.showMessageDialog(null,"You lost agains AI!");
+
+                        gameBoardController.gameBodyController.gameBodyFrame.dispose();
+                        gameBoardController.gameBodyController.startMenuController.View.setVisible(true);
+                        gameBoardController.gameBodyController.gameTimerController.playerTurnTimer.stop();
                     }
 
 
@@ -78,11 +109,19 @@ public class BoardWinController implements ActionListener {
                 if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_1Hitpoints() <= 0
                         && gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_2Hitpoints() <= 0){
                     System.out.println("DRAW");
+                    JOptionPane.showMessageDialog(null,"It's a draw!");
+                    gameBoardController.gameBodyController.gameBodyFrame.dispose();
+                    gameBoardController.gameBodyController.startMenuController.View.setVisible(true);
                 }
                 else{
 
                     if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_2Hitpoints() <= 0){
                         System.out.println("Player 1 WON");
+
+                        JOptionPane.showMessageDialog(null,"Player 1 WON!");
+                        gameBoardController.gameBodyController.gameBodyFrame.dispose();
+                        gameBoardController.gameBodyController.startMenuController.View.setVisible(true);
+
                         // todo: add winning screen then leave game.
                     }
 
@@ -90,6 +129,11 @@ public class BoardWinController implements ActionListener {
 
                     if(gameBoardController.gameBodyController.hitPointsController.hitPointsModel.getPlayer_1Hitpoints() <= 0){
                         System.out.println("Player 2 WON");
+
+                        JOptionPane.showMessageDialog(null,"Player 2 WON!");
+                        gameBoardController.gameBodyController.gameBodyFrame.dispose();
+                        gameBoardController.gameBodyController.startMenuController.View.setVisible(true);
+
                     }
 
 
